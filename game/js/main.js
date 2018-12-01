@@ -12,6 +12,7 @@ function preload() {
     game.load.spritesheet('legs', 'assets/Legs.png', 32, 32);
     game.load.spritesheet('target', 'assets/target.jpg');
     loadWeapons();
+	loadEnemies();
 }
 
 var player = { head: null, legs: null };
@@ -32,13 +33,17 @@ function create() {
 
     //  This will check Group vs. Group collision (bullets vs. veggies!)
     humans = game.add.group();
-	var human = makeDefaultEnemy(0, 0);
+	var x, y;
     for (var i = 0; i < 10; i++) {
-        humans.add(makeHuman(0, 0));
+     	x = getRandomInt(0, 800);
+		y = getRandomInt(0, 600);
+        humans.add(makeHuman(x, y));
     }
 
-    player.legs = game.add.sprite(0, 0, 'legs');
-    player.head = game.add.sprite(0, 0, 'head');
+	x = getRandomInt(300, 500);
+	y = getRandomInt(200, 400);
+    player.legs = game.add.sprite(x, y, 'legs');
+    player.head = game.add.sprite(x, y, 'head');
     targeter = game.add.sprite(0, 0, 'target');
     gun = basicGun(player.head);
 
@@ -63,6 +68,12 @@ function create() {
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
 
+}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
 var angle = 0;

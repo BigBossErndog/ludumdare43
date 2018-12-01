@@ -12,8 +12,8 @@ function makeHuman(x, y) {
 	human.logic = function() {
 		this.angle = Math.atan2(player.head.body.y - this.body.y, player.head.body.x - this.body.x) * (180/Math.PI);
 
-		this.body.velocity.x = Math.sin(this.angle);
-		this.body.velocity.y = Math.cos(this.angle);
+		this.body.velocity.y = Math.sin(this.angle * (Math.PI/180)) * 100;
+		this.body.velocity.x = Math.cos(this.angle * (Math.PI/180)) * 100;
 	}
 
 	return human;
