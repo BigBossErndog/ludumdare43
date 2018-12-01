@@ -8,14 +8,15 @@ function makeLevel(mapdata, img) {
 
 	newmap.addTilesetImage("Sprite Map 2", "spritemap2");
 
-	//var floorLayer = newmap.createLayer("Floor");
+	var floorLayer = newmap.createLayer("Floor");
 	var wallLayer = newmap.createLayer("Walls");
-	game.physics.enable(wallLayer, Phaser.Physics.ARCADE);
 
-	//newmap.floorLayer = floorLayer;
+	newmap.setCollisionBetween(0, 11, true, wallLayer);
+
+	newmap.floorLayer = floorLayer;
 	newmap.wallLayer = wallLayer;
 
-	//floorLayer.resizeWorld();
+	floorLayer.resizeWorld();
 	wallLayer.resizeWorld();
 	//0 - 12
 
