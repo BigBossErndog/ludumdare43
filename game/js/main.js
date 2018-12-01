@@ -32,8 +32,9 @@ function create() {
 
     //  This will check Group vs. Group collision (bullets vs. veggies!)
     humans = game.add.group();
+	var human = makeDefaultEnemy(0, 0);
     for (var i = 0; i < 10; i++) {
-        humans.add(makeHuman());
+        humans.add(makeHuman(0, 0));
     }
 
     player.legs = game.add.sprite(0, 0, 'legs');
