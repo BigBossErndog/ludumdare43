@@ -1,7 +1,7 @@
 var game;
 
 window.onload = function() {
-	game = new Phaser.Game(400, 300, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+	game = new Phaser.Game(400, 300, Phaser.AUTO, '', { preload: preload, create: create, update: update }, false, false);
     console.log(game);
     // game.state.add("mainScene", mainScene);
 }
@@ -58,7 +58,7 @@ function create() {
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
-    gun = basicGun(player.head);
+    gun = sword(player.head);
 
 	player.legs.animations.add("walk", [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 20, true);
 	player.legs.animations.add("stand", [0], 1, false);
@@ -163,6 +163,7 @@ function update() {
     if (game.input.activePointer.isDown)
     {
 		if (clicked === false || gun.automatic) {
+			console.log(clicked);
 			gun.fire();
 			clicked = true;
 		}
