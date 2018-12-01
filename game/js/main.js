@@ -153,12 +153,8 @@ function update() {
 	game.physics.arcade.collide(humans);
 	game.physics.arcade.collide(humans, player.com);
 
-	game.physics.arcade.collide(humans, map.wallLayer, printCollision);
-	game.physics.arcade.collide(player.com, map.wallLayer, printCollision);
-}
-
-function printCollision() {
-	console.log("HELLO");
+	game.physics.arcade.collide(humans, map.wallLayer);
+	game.physics.arcade.collide(player.com, map.wallLayer);
 }
 
 function collisionHandler(bullet, human) {
