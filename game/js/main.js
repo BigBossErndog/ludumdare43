@@ -1,7 +1,7 @@
 var game;
 
 window.onload = function() {
-	game = new Phaser.Game(400, 300, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+	game = new Phaser.Game(400, 300, Phaser.AUTO, '', { preload: preload, create: create, update: update }, false, false);
     console.log(game);
     // game.state.add("mainScene", mainScene);
 }
