@@ -73,6 +73,8 @@ function create() {
     game.physics.enable(player.legs, Phaser.Physics.ARCADE);
 	game.physics.enable(player.com, Phaser.Physics.ARCADE);
 
+	player.com.body.setSize(24, 24, 4, 4);
+
 	// player.legs.body.immovable = true;
 	// player.com.body.immovable = true;
 
@@ -112,8 +114,8 @@ function update() {
         humans.getAt(i).logic();
     }
 
-    targeter.x = game.input.mousePointer.x;
-    targeter.y = game.input.mousePointer.y;
+    targeter.x = game.input.mousePointer.x + game.camera.x;
+    targeter.y = game.input.mousePointer.y + game.camera.y;
 
 
     //  As we don't need to exchange any velocities or motion we can the 'overlap' check instead of 'collide'
@@ -123,17 +125,17 @@ function update() {
 
     if (cursors.left.isDown || this.wasd.left.isDown)
     {
-        player.com.body.velocity.x += -300;
+        player.com.body.velocity.x += -240;
     }
      if (cursors.right.isDown || this.wasd.right.isDown)
     {
-        player.com.body.velocity.x += 300;
+        player.com.body.velocity.x += 240;
     }
     if (cursors.up.isDown || this.wasd.up.isDown) {
-        player.com.body.velocity.y += -300;
+        player.com.body.velocity.y += -240;
     }
-     if (cursors.down.isDown || this.wasd.down.isDown) {
-        player.com.body.velocity.y += 300;
+    if (cursors.down.isDown || this.wasd.down.isDown) {
+        player.com.body.velocity.y += 240;
     }
 
     if (player.com.body.velocity.y != player.com.body.velocity.x || player.com.body.velocity.x != 0) {
@@ -149,7 +151,7 @@ function update() {
     }
 
 	// player.head.rotation = game.physics.arcade.angleToPointer(player.head);
-	player.head.angle = Math.atan2(game.input.mousePointer.y - player.com.body.y, game.input.mousePointer.x - player.com.body.x) * (180/Math.PI);
+	player.head.angle = Math.atan2((game.input.mousePointer.y + game.camera.y) - player.com.body.y, (game.input.mousePointer.x + game.camera.x) - player.com.body.x) * (180/Math.PI);
 
 	game.physics.arcade.collide(humans);
 	game.physics.arcade.collide(humans, player.com);
