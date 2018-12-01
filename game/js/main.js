@@ -11,8 +11,10 @@ function preload() {
     game.load.spritesheet('head', 'assets/Head.png', 32, 32);
     game.load.spritesheet('legs', 'assets/Legs.png', 32, 32);
     game.load.spritesheet('target', 'assets/target.jpg');
+	game.load.image("playercom", "assets/playercom.png");
     loadWeapons();
 	loadEnemies();
+	loadLevels();
 }
 
 var player = { com: null, head: null, legs: null };
@@ -23,6 +25,8 @@ var gun;
 var bulletTime = 0;
 var bullets;
 
+var map;
+
 function create() {
 
     console.log("creating");
@@ -30,6 +34,8 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     game.stage.backgroundColor = '#dce2e2';
+
+	map = makeLevel("mapTest1", "spritemap2");
 
     //  This will check Group vs. Group collision (bullets vs. veggies!)
     humans = game.add.group();
@@ -42,12 +48,16 @@ function create() {
 
 	x = getRandomInt(300, 500);
 	y = getRandomInt(200, 400);
-	player.com = game.add.sprite(x, y);
+	player.com = game.add.sprite(x, y, "playercom");
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
+<<<<<<< HEAD
     gun = railgunLaserType(player.head);
 	player.head.gun = gun;
+=======
+    gun = basicGun(player.head);
+>>>>>>> 9e56dec8a9dcc1ab255d22f1ddd6278a99c1a7a0
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
@@ -63,6 +73,7 @@ function create() {
     game.physics.enable(player.head, Phaser.Physics.ARCADE);
     game.physics.enable(player.legs, Phaser.Physics.ARCADE);
 	game.physics.enable(player.com, Phaser.Physics.ARCADE);
+
 	// player.legs.body.immovable = true;
 	// player.com.body.immovable = true;
 
@@ -75,6 +86,7 @@ function create() {
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
 
+	//game.camera.follow(player.com);
 }
 
 function getRandomInt(min, max) {
@@ -138,6 +150,9 @@ function update() {
 
 	game.physics.arcade.collide(humans);
 	game.physics.arcade.collide(humans, player.com);
+
+	game.physics.arcade.collide(humans, map.wallLayer);
+	game.physics.arcade.collide(player.com, map.wallLayer);
 }
 
 function collisionHandler(bullet, human) {
