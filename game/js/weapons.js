@@ -5,11 +5,10 @@ function loadWeapons() {
 
 function basicGun(owner) {
 	var newgun = game.add.weapon(100, "bullet1");
-	newgun.trackSprite(owner, 0, 0, true);
-	newGun.fireRate = 50;
-	newGun.bulletSpeed = 400;
-	newGun.bullKill = Phaser.Weapon.KILL_WORLD_BOUNDS;
-
+	newgun.trackSprite(owner, 25, 5, true);
+	newgun.fireRate = 100;
+	newgun.bulletSpeed = 400;
+	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 
 	return newgun;
 }
