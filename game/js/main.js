@@ -47,9 +47,11 @@ function create() {
     aigroup = game.add.group();
 	var x, y;
     for (var i = 0; i < 5; i++) {
+		let newEnemy = makeDefaultEnemy(x, y);
      	x = getRandomInt(0, 800);
 		y = getRandomInt(0, 600);
-        aigroup.add(makeDefaultEnemy(x, y));
+		newEnemy.gun = basicGun(newEnemy);
+        aigroup.add(newEnemy);
     }
 
 	x = getRandomInt(300, 500);

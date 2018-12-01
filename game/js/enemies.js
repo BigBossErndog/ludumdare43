@@ -53,14 +53,40 @@ function makeDefaultEnemy(x, y) {
 
 	enemy.gun = null;
 
+	enemy.recPlayerSight = null;
+
 	enemy.logic = function() {
 		if (this.canSee(player.com, map.wallLayer)) {
-			if (this.gun != null) {
-				this.gun.fire();
+			if (this.recPlayerSight != null) {
+				this.recPlayerSight.x = player.com.body.x;
+				this.recPlayerSight.y = player.com.body.y;
 			}
-			this.angle = Math.atan2(player.head.body.y - this.body.y, player.head.body.x - this.body.x) * (180/Math.PI);
+			else {
+				this.recPlayerSight = {
+					x:player.com.body.x,
+					y:player.com.body.y
+				}
+			}
+
+			if (this.gun != null) {
+				this.gun.resetShots();
+				this.gun.fire();
+				game.physics.arcade.collide(this.gun.bullets, map.wallLayer, function(bullet) {
+					bullet.kill();
+				});
+			}
+			this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
 			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
 			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
+		}
+		else if (this.recPlayerSight != null) {
+			this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
+			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
+			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
+
+			if (Phaser.Math.distance(this.body.x, this.recPlayerSight.x, this.body.y, this.recPlayerSight.y) < 32) {
+				this.recPlayerSight = null;
+			}
 		}
 	}
 
