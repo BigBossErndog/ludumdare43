@@ -56,7 +56,12 @@ function create() {
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
+<<<<<<< HEAD
+    gun = railgunLaserType(player.head);
+	player.head.gun = gun;
+=======
     gun = basicGun(player.head);
+>>>>>>> 9e56dec8a9dcc1ab255d22f1ddd6278a99c1a7a0
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
@@ -101,6 +106,8 @@ var fireRate = 0;
 var nextFire = 0;
 
 function update() {
+
+	game.physics.arcade.overlap(gun.bullets, humans, collisionHandler, null, this);
 
     for (var i = 0; i < humans.length; i++) {
         humans.getAt(i).logic();
@@ -154,4 +161,9 @@ function update() {
 
 function printCollision() {
 	console.log("HELLO");
+}
+
+function collisionHandler(bullet, human) {
+	bullet.kill();
+	human.kill();
 }
