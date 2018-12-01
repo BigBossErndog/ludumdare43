@@ -15,7 +15,7 @@ function preload() {
 	loadEnemies();
 }
 
-var player = { head: null, legs: null };
+var player = { com: null, head: null, legs: null };
 var targeter;
 var cursors;
 
@@ -42,8 +42,9 @@ function create() {
 
 	x = getRandomInt(300, 500);
 	y = getRandomInt(200, 400);
-    player.legs = game.add.sprite(x, y, 'legs');
-    player.head = game.add.sprite(x, y, 'head');
+	player.com = game.add.sprite(x, y);
+    player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
+    player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
     gun = basicGun(player.head);
 
@@ -53,11 +54,16 @@ function create() {
     player.legs.anchor.y = 0.5;
     player.head.anchor.x = 0.5;
     player.head.anchor.y = 0.5;
+	player.com.anchor.x = 0.5;
+	player.com.anchor.y = 0.5;
     targeter.scale.x = 0.05;
     targeter.scale.y = 0.05;
 
     game.physics.enable(player.head, Phaser.Physics.ARCADE);
     game.physics.enable(player.legs, Phaser.Physics.ARCADE);
+	game.physics.enable(player.com, Phaser.Physics.ARCADE);
+	// player.legs.body.immovable = true;
+	// player.com.body.immovable = true;
 
     cursors = game.input.keyboard.createCursorKeys();
     this.wasd = {
@@ -91,36 +97,29 @@ function update() {
     targeter.x = game.input.mousePointer.x;
     targeter.y = game.input.mousePointer.y;
 
-    player.head.rotation = game.physics.arcade.angleToPointer(player.head);
 
     //  As we don't need to exchange any velocities or motion we can the 'overlap' check instead of 'collide'
 
-    player.head.body.velocity.x = 0;
-    player.head.body.velocity.y = 0;
-    player.legs.body.velocity.x = 0;
-    player.legs.body.velocity.y = 0;
+    player.com.body.velocity.x = 0;
+    player.com.body.velocity.y = 0;
 
     if (cursors.left.isDown || this.wasd.left.isDown)
     {
-        player.head.body.velocity.x += -300;
-        player.legs.body.velocity.x += -300;
+        player.com.body.velocity.x += -300;
     }
      if (cursors.right.isDown || this.wasd.right.isDown)
     {
-        player.head.body.velocity.x += 300;
-        player.legs.body.velocity.x += 300;
+        player.com.body.velocity.x += 300;
     }
     if (cursors.up.isDown || this.wasd.up.isDown) {
-        player.head.body.velocity.y += -300;
-        player.legs.body.velocity.y += -300;
+        player.com.body.velocity.y += -300;
     }
      if (cursors.down.isDown || this.wasd.down.isDown) {
-        player.head.body.velocity.y += 300;
-        player.legs.body.velocity.y += 300;
+        player.com.body.velocity.y += 300;
     }
 
-    if (player.legs.body.velocity.y != player.legs.body.velocity.x || player.legs.body.velocity.x != 0) {
-        angle = Math.atan2(player.legs.body.velocity.y, player.legs.body.velocity.x) * (180/Math.PI);
+    if (player.com.body.velocity.y != player.com.body.velocity.x || player.com.body.velocity.x != 0) {
+        angle = Math.atan2(player.com.body.velocity.y, player.com.body.velocity.x) * (180/Math.PI);
         player.legs.angle = (angle + previousAngle + previousPreviousAngle) / 3;
     }
     previousAngle = angle;
@@ -131,7 +130,11 @@ function update() {
         gun.fire();
     }
 
+	// player.head.rotation = game.physics.arcade.angleToPointer(player.head);
+	player.head.angle = Math.atan2(game.input.mousePointer.y - player.com.body.y, game.input.mousePointer.x - player.com.body.x) * (180/Math.PI);
+
 	game.physics.arcade.collide(humans);
+	game.physics.arcade.collide(humans, player.com);
 }
 
 function fire() {
