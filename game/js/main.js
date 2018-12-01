@@ -9,7 +9,7 @@ window.onload = function() {
 function preload() {
     console.log("preload");
     game.load.spritesheet('head', 'assets/Head.png', 32, 32);
-    game.load.spritesheet('legs', 'assets/Legs.png', 32, 32);
+    game.load.spritesheet('legs', 'assets/WalkSprite.png', 32, 32);
     game.load.spritesheet('target', 'assets/target.jpg');
 	game.load.image("playercom", "assets/playercom.png");
     loadWeapons();
@@ -42,12 +42,12 @@ function create() {
 	map = makeLevel("mapTest1", "spritemap2");
 
     //  This will check Group vs. Group collision (bullets vs. veggies!)
-    humans = game.add.group();
+    aigroup = game.add.group();
 	var x, y;
     for (var i = 0; i < 5; i++) {
      	x = getRandomInt(0, 800);
 		y = getRandomInt(0, 600);
-        humans.add(makeHuman(x, y));
+        aigroup.add(makeDefaultEnemy(x, y));
     }
 
 	x = getRandomInt(300, 500);
@@ -56,7 +56,11 @@ function create() {
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
-    gun = smg(player.head);
+    gun = basicGun(player.head);
+
+	player.legs.animations.add("walk", [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 20, true);
+	player.legs.animations.add("stand", [0], 1, false);
+	player.legs.animations.play("stand");
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
@@ -72,6 +76,8 @@ function create() {
     game.physics.enable(player.head, Phaser.Physics.ARCADE);
     game.physics.enable(player.legs, Phaser.Physics.ARCADE);
 	game.physics.enable(player.com, Phaser.Physics.ARCADE);
+
+	player.com.body.setSize(24, 24, 4, 4);
 
 	// player.legs.body.immovable = true;
 	// player.com.body.immovable = true;
@@ -100,20 +106,21 @@ var previousAngle = 0;
 var previousPreviousAngle = 0;
 var fireRate = 0;
 var nextFire = 0;
+var clicked = false;
 
 function update() {
 
-	game.physics.arcade.overlap(gun.bullets, humans, collisionHandler, null, this);
+	game.physics.arcade.overlap(gun.bullets, aigroup, collisionHandler, null, this);
 	game.physics.arcade.collide(gun.bullets, map.wallLayer, function(bullet) {
 		bullet.kill();
 	});
 
-    for (var i = 0; i < humans.length; i++) {
-        humans.getAt(i).logic();
+    for (var i = 0; i < aigroup.length; i++) {
+        aigroup.getAt(i).logic();
     }
 
-    targeter.x = game.input.mousePointer.x;
-    targeter.y = game.input.mousePointer.y;
+    targeter.x = game.input.mousePointer.x + game.camera.x;
+    targeter.y = game.input.mousePointer.y + game.camera.y;
 
 
     //  As we don't need to exchange any velocities or motion we can the 'overlap' check instead of 'collide'
@@ -123,46 +130,59 @@ function update() {
 
     if (cursors.left.isDown || this.wasd.left.isDown)
     {
-        player.com.body.velocity.x += -300;
+        player.com.body.velocity.x += -240;
+		player.legs.animations.play("walk");
     }
      if (cursors.right.isDown || this.wasd.right.isDown)
     {
-        player.com.body.velocity.x += 300;
+        player.com.body.velocity.x += 240;
+		player.legs.animations.play("walk");
     }
     if (cursors.up.isDown || this.wasd.up.isDown) {
-        player.com.body.velocity.y += -300;
+        player.com.body.velocity.y += -240;
+		player.legs.animations.play("walk");
     }
-     if (cursors.down.isDown || this.wasd.down.isDown) {
-        player.com.body.velocity.y += 300;
+    if (cursors.down.isDown || this.wasd.down.isDown) {
+        player.com.body.velocity.y += 240;
+		player.legs.animations.play("walk");
     }
 
     if (player.com.body.velocity.y != player.com.body.velocity.x || player.com.body.velocity.x != 0) {
         angle = Math.atan2(player.com.body.velocity.y, player.com.body.velocity.x) * (180/Math.PI);
         player.legs.angle = (angle + previousAngle + previousPreviousAngle) / 3;
     }
+	else {
+		player.legs.animations.play("stand");
+	}
+
     previousAngle = angle;
     previousPreviousAngle = previousAngle;
 
     if (game.input.activePointer.isDown)
     {
-        gun.fire();
+		if (clicked === false || gun.automatic) {
+			gun.fire();
+			clicked = true;
+		}
     }
+	if (game.input.activePointer.isUp) {
+		if (clicked === true) clicked = false;
+	}
+	if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
+		gun.shots = 0;
+	}
 
 	// player.head.rotation = game.physics.arcade.angleToPointer(player.head);
-	player.head.angle = Math.atan2(game.input.mousePointer.y - player.com.body.y, game.input.mousePointer.x - player.com.body.x) * (180/Math.PI);
+	player.head.angle = Math.atan2((game.input.mousePointer.y + game.camera.y) - player.com.body.y, (game.input.mousePointer.x + game.camera.x) - player.com.body.x) * (180/Math.PI);
 
-	game.physics.arcade.collide(humans);
-	game.physics.arcade.collide(humans, player.com);
+	game.physics.arcade.collide(aigroup);
+	game.physics.arcade.collide(aigroup, player.com);
 
-	game.physics.arcade.collide(humans, map.wallLayer, printCollision);
-	game.physics.arcade.collide(player.com, map.wallLayer, printCollision);
+	game.physics.arcade.collide(aigroup, map.wallLayer);
+	game.physics.arcade.collide(player.com, map.wallLayer);
 }
 
-function printCollision() {
-	console.log("HELLO");
-}
-
-function collisionHandler(bullet, human) {
+function collisionHandler(bullet, ai) {
 	bullet.kill();
-	human.kill();
+	ai.kill();
 }
