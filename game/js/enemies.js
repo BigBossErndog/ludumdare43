@@ -42,8 +42,8 @@ function makeDefaultEnemy(x, y) {
 		this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
 		this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
 
-		if (gun != null) {
-			gun.fire();
+		if (this.gun != null) {
+			this.gun.fire();
 		}
 	}
 
