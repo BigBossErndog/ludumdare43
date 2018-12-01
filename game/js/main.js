@@ -29,6 +29,8 @@ var map;
 
 function create() {
 
+	sightLine = new Phaser.Line();
+
     console.log("creating");
 
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
