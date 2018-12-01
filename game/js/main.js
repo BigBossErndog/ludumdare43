@@ -52,12 +52,7 @@ function create() {
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
-<<<<<<< HEAD
-    gun = railgunLaserType(player.head);
-	player.head.gun = gun;
-=======
     gun = basicGun(player.head);
->>>>>>> 9e56dec8a9dcc1ab255d22f1ddd6278a99c1a7a0
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
