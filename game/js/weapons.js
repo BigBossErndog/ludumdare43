@@ -25,13 +25,10 @@ function railgunLaserType(owner) {
 	newgun.bullets.setAll('scale.y', 0.25);
 	newgun.fireRate = 0.5;
 	// newgun.fireRateVariance = 1;
-	newgun.bulletSpeed = 1000;
+	newgun.bulletSpeed = 3000;
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 	newgun.fireLimit = 20;
-	newgun.onFire.add(function() {
-		if (this.fireRate < 3000) this.fireRate += 200;
-		else fireRate = 1000;
-	});
+	newgun.automatic = true;
 
 	return newgun;
 }
