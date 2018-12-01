@@ -53,11 +53,6 @@ function create() {
 
     game.physics.enable(player.head, Phaser.Physics.ARCADE);
     game.physics.enable(player.legs, Phaser.Physics.ARCADE);
-    bullets.physicsBodyType = Phaser.Physics.ARCADE;
-
-    bullets.createMultiple(50, 'bullet1');
-    bullets.setAll('checkWorldBounds', true);
-    bullets.setAll('outOfBoundsKill', true);
 
     cursors = game.input.keyboard.createCursorKeys();
     this.wasd = {
