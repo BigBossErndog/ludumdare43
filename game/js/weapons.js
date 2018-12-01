@@ -9,7 +9,11 @@ function basicGun(owner) {
 	newgun.trackSprite(owner, 25, 5, true);
 	newgun.fireRate = 100;
 	newgun.bulletSpeed = 400;
+	newgun.bulletAngleVariance = 5;
+	newgun.bulletSpeedVariance = 50;
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+	newgun.automatic = true;
+	newgun.fireLimit = 60;
 
 	return newgun;
 }
@@ -24,6 +28,9 @@ function railgunLaserType(owner) {
 	newgun.bulletSpeed = 3000;
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 	newgun.fireLimit = 20;
+	newgun.onFire.add(function(this) {
+
+	})
 
 	return newgun;
 }
@@ -38,11 +45,25 @@ function smg(owner) {
 	newgun.fireRate = 25;
 	newgun.bulletSpeed = 750;
 	newgun.bulletSpeedVariance = 150;
-	newgun.bulletAngleVariance = 25;
+	newgun.bulletAngleVariance = 35;
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 	newgun.fireLimit = 30;
+	newgun.automatic = true;
 
 	return newgun;
+}
+
+function sword(owner) {
+	var sword = game.add.weapon(1, "bullet1");
+	sword.trackSprite(owner, 25, 5, true);
+	sword.bullets.setAll('scale.y', 5);
+	sword.fireRate = 480;
+	sword.bulletSpeed = 75;
+	// sword.bulletAngleVariance = 10;
+	sword.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+	sword.bulletLifespan = 10;
+
+	return sword;
 }
 
 function shield(owner) {

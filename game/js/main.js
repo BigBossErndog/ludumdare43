@@ -56,7 +56,7 @@ function create() {
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
-    gun = smg(player.head);
+    gun = basicGun(player.head);
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
@@ -102,6 +102,7 @@ var previousAngle = 0;
 var previousPreviousAngle = 0;
 var fireRate = 0;
 var nextFire = 0;
+var clicked = false;
 
 function update() {
 
@@ -147,8 +148,17 @@ function update() {
 
     if (game.input.activePointer.isDown)
     {
-        gun.fire();
+		if (clicked === false || gun.automatic) {
+			gun.fire();
+			clicked = true;
+		}
     }
+	if (game.input.activePointer.isUp) {
+		if (clicked === true) clicked = false;
+	}
+	if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
+		gun.shots = 0;
+	}
 
 	// player.head.rotation = game.physics.arcade.angleToPointer(player.head);
 	player.head.angle = Math.atan2((game.input.mousePointer.y + game.camera.y) - player.com.body.y, (game.input.mousePointer.x + game.camera.x) - player.com.body.x) * (180/Math.PI);
