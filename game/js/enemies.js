@@ -13,6 +13,8 @@ function makeHuman(x, y) {
 		this.body.velocity.x = Math.sin(this.angle);
 		this.body.velocity.y = Math.cos(this.angle);
 	}
+
+	return human;
 }
 
 function makeDefaultEnemy(x, y) {

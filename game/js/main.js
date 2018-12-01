@@ -31,8 +31,10 @@ function create() {
     game.stage.backgroundColor = '#dce2e2';
 
     //  This will check Group vs. Group collision (bullets vs. veggies!)
-    bullets = game.add.group();
-    bullets.enableBody = true;
+    humans = game.add.group();
+    for (var i = 0; i < 10; i++) {
+        humans.add(makeHuman());
+    }
 
     player.legs = game.add.sprite(0, 0, 'legs');
     player.head = game.add.sprite(0, 0, 'head');
@@ -74,6 +76,10 @@ var fireRate = 0;
 var nextFire = 0;
 
 function update() {
+
+    for (var i = 0; i < 10; i++) {
+        humans.getAt(i).logic();
+    }
 
     targeter.x = game.input.mousePointer.x;
     targeter.y = game.input.mousePointer.y;
@@ -132,5 +138,4 @@ function fire() {
 
         game.physics.arcade.moveToPointer(bullet, 300);
     }
-
 }
