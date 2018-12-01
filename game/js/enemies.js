@@ -9,6 +9,9 @@ function makeHuman(x, y) {
 
 	game.physics.enable(human, Phaser.Physics.ARCADE);
 
+	human.body.immovable = true;
+	human.body.bounce.set(0);
+
 	human.logic = function() {
 		this.angle = Math.atan2(player.head.body.y - this.body.y, player.head.body.x - this.body.x) * (180/Math.PI);
 
