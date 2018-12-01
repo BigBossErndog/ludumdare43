@@ -25,7 +25,6 @@ Phaser.TilemapLayer.prototype.getRayCastTiles_custom =function(line, stepRate, c
             if (tile.containsPoint(coord[0], coord[1]))
             {
                 results.push(tile);
-              console.log(coord);
                 break;
             }
         }

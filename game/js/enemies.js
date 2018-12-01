@@ -16,18 +16,19 @@ function makeHuman(x, y) {
 	human.body.maxVelocity.set(100);
 
 	human.logic = function() {
-		if (this.canSee(player.com)) {
+		if (this.canSee(player.com, map.wallLayer)) {
+			console.log("hello");
 			this.angle = Math.atan2(player.head.body.y - this.body.y, player.head.body.x - this.body.x) * (180/Math.PI);
 			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
-			this.body.velocity.x += Math.cos(this.angle * (Math.P+-I/180)) * 20;
+			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
 		}
 	}
 
-	human.canSee = function(other) {
+	human.canSee = function(other, layer) {
 		sightLine.start.set(this.body.x, this.body.y);
 	    sightLine.end.set(other.body.x, other.body.y);
 
-		var tileHits = layer.getRayCastTiles_custom(line, 4, false, true);
+		var tileHits = layer.getRayCastTiles_custom(sightLine, 4, false, true);
 	    if (tileHits.length > 0){
 	        return false;
 	    }
@@ -53,14 +54,27 @@ function makeDefaultEnemy(x, y) {
 	enemy.gun = null;
 
 	enemy.logic = function() {
-		this.angle = Math.atan2(player.head.body.y - this.body.y, player.head.body.x - this.body.x) * (180/Math.PI);
-
-		this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
-		this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
-
-		if (this.gun != null) {
-			this.gun.fire();
+		if (this.canSee(player.com, map.wallLayer)) {
+			if (this.gun != null) {
+				this.gun.fire();
+			}
+			this.angle = Math.atan2(player.head.body.y - this.body.y, player.head.body.x - this.body.x) * (180/Math.PI);
+			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
+			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
 		}
+	}
+
+	enemy.canSee = function(other, layer) {
+		sightLine.start.set(this.body.x, this.body.y);
+	    sightLine.end.set(other.body.x, other.body.y);
+
+		var tileHits = layer.getRayCastTiles_custom(sightLine, 4, false, true);
+	    if (tileHits.length > 0){
+	        return false;
+	    }
+		else{
+	        return true;
+	    }
 	}
 
 	return enemy;
