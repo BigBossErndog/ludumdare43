@@ -13,6 +13,7 @@ function preload() {
     game.load.spritesheet('target', 'assets/target.jpg');
     loadWeapons();
 	loadEnemies();
+	loadLevels();
 }
 
 var player = { head: null, legs: null };
@@ -23,6 +24,8 @@ var gun;
 var bulletTime = 0;
 var bullets;
 
+var map;
+
 function create() {
 
     console.log("creating");
@@ -30,6 +33,8 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     game.stage.backgroundColor = '#dce2e2';
+
+	map = makeLevel("mapTest1", "spritemap2");
 
     //  This will check Group vs. Group collision (bullets vs. veggies!)
     humans = game.add.group();
@@ -67,7 +72,6 @@ function create() {
       right: game.input.keyboard.addKey(Phaser.Keyboard.D),
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
-
 }
 
 function getRandomInt(min, max) {
