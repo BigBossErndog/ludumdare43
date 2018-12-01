@@ -46,7 +46,8 @@ function create() {
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
-    gun = railgun(player.head);
+    gun = railgunLaserType(player.head);
+	player.head.gun = gun;
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
@@ -89,6 +90,8 @@ var fireRate = 0;
 var nextFire = 0;
 
 function update() {
+
+	game.physics.arcade.overlap(gun.bullets, humans, collisionHandler, null, this);
 
     for (var i = 0; i < humans.length; i++) {
         humans.getAt(i).logic();
@@ -135,4 +138,9 @@ function update() {
 
 	game.physics.arcade.collide(humans);
 	game.physics.arcade.collide(humans, player.com);
+}
+
+function collisionHandler(bullet, human) {
+	bullet.kill();
+	human.kill();
 }
