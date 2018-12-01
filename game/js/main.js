@@ -56,12 +56,8 @@ function create() {
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
-<<<<<<< HEAD
     gun = railgunLaserType(player.head);
 	player.head.gun = gun;
-=======
-    gun = basicGun(player.head);
->>>>>>> 9e56dec8a9dcc1ab255d22f1ddd6278a99c1a7a0
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
@@ -113,8 +109,8 @@ function update() {
         humans.getAt(i).logic();
     }
 
-    targeter.x = game.input.mousePointer.x;
-    targeter.y = game.input.mousePointer.y;
+    targeter.x = game.input.mousePointer.x + game.camera.x;
+    targeter.y = game.input.mousePointer.y + game.camera.y;
 
 
     //  As we don't need to exchange any velocities or motion we can the 'overlap' check instead of 'collide'
@@ -150,7 +146,7 @@ function update() {
     }
 
 	// player.head.rotation = game.physics.arcade.angleToPointer(player.head);
-	player.head.angle = Math.atan2(game.input.mousePointer.y - player.com.body.y, game.input.mousePointer.x - player.com.body.x) * (180/Math.PI);
+	player.head.angle = Math.atan2((game.input.mousePointer.y + game.camera.y) - player.com.body.y, (game.input.mousePointer.x + game.camera.x) - player.com.body.x) * (180/Math.PI);
 
 	game.physics.arcade.collide(humans);
 	game.physics.arcade.collide(humans, player.com);
