@@ -60,7 +60,7 @@ function create() {
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
-    gun = railgunLaserType(player.head);
+    player.head.gun = (gun = shotgun(player.head));
 
 	player.legs.animations.add("walk", [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 20, true);
 	player.legs.animations.add("stand", [0], 1, false);
@@ -115,12 +115,23 @@ var clicked = false;
 function update() {
 
 	game.physics.arcade.overlap(gun.bullets, aigroup, collisionHandler, null, this);
-	game.physics.arcade.collide(gun.bullets, map.wallLayer, function(bullet) {
-		bullet.kill();
-	});
+	if (gun.type === 'shotgun') {
+		game.physics.arcade.collide(gun.bullets, map.wallLayer, function(bullet) {
+			bullet.kill();
+		});
+		for (var i = 0; i < 9; i++) {
+			game.physics.arcade.collide(gun.barrels[i].bullets, map.wallLayer, function(bullet) {
+				bullet.kill();
+			});
+		}
+	} else {
+		game.physics.arcade.collide(gun.bullets, map.wallLayer, function(bullet) {
+			bullet.kill();
+		});
+	}
 
     for (var i = 0; i < aigroup.length; i++) {
-        aigroup.getAt(i).logic();
+        if(aigroup.getAt(i).exists) aigroup.getAt(i).logic();
     }
 
     targeter.x = game.input.mousePointer.x + game.camera.x;
