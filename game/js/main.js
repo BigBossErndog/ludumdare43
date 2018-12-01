@@ -46,7 +46,7 @@ function create() {
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
-    gun = basicGun(player.head);
+    gun = railgun(player.head);
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
@@ -135,18 +135,4 @@ function update() {
 
 	game.physics.arcade.collide(humans);
 	game.physics.arcade.collide(humans, player.com);
-}
-
-function fire() {
-
-    if (game.time.now > nextFire && bullets.countDead() > 0)
-    {
-        nextFire = game.time.now + fireRate;
-
-        var bullet = bullets.getFirstDead();
-
-        bullet.reset(player.head.x - 8, player.head.y - 8);
-
-        game.physics.arcade.moveToPointer(bullet, 300);
-    }
 }
