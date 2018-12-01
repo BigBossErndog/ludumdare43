@@ -74,6 +74,8 @@ function create() {
     game.physics.enable(player.legs, Phaser.Physics.ARCADE);
 	game.physics.enable(player.com, Phaser.Physics.ARCADE);
 
+	player.com.body.setSize(24, 24, 4, 4);
+
 	// player.legs.body.immovable = true;
 	// player.com.body.immovable = true;
 
@@ -120,17 +122,17 @@ function update() {
 
     if (cursors.left.isDown || this.wasd.left.isDown)
     {
-        player.com.body.velocity.x += -300;
+        player.com.body.velocity.x += -240;
     }
      if (cursors.right.isDown || this.wasd.right.isDown)
     {
-        player.com.body.velocity.x += 300;
+        player.com.body.velocity.x += 240;
     }
     if (cursors.up.isDown || this.wasd.up.isDown) {
-        player.com.body.velocity.y += -300;
+        player.com.body.velocity.y += -240;
     }
-     if (cursors.down.isDown || this.wasd.down.isDown) {
-        player.com.body.velocity.y += 300;
+    if (cursors.down.isDown || this.wasd.down.isDown) {
+        player.com.body.velocity.y += 240;
     }
 
     if (player.com.body.velocity.y != player.com.body.velocity.x || player.com.body.velocity.x != 0) {
