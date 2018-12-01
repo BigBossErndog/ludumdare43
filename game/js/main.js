@@ -56,7 +56,7 @@ function create() {
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
-    gun = basicGun(player.head);
+    gun = smg(player.head);
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
@@ -84,6 +84,7 @@ function create() {
       right: game.input.keyboard.addKey(Phaser.Keyboard.D),
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
+	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.R ]);
 
 	game.camera.follow(player.com);
 }
@@ -103,6 +104,9 @@ var nextFire = 0;
 function update() {
 
 	game.physics.arcade.overlap(gun.bullets, humans, collisionHandler, null, this);
+	game.physics.arcade.collide(gun.bullets, map.wallLayer, function(bullet) {
+		bullet.kill();
+	});
 
     for (var i = 0; i < humans.length; i++) {
         humans.getAt(i).logic();
