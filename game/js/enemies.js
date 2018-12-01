@@ -2,6 +2,8 @@ function loadEnemies() {
 	game.load.spritesheet("human", "assets/Head.png", 32, 32);
 }
 
+var sightLine;
+
 function makeHuman(x, y) {
 	var human = game.add.sprite(x, y, "human");
 	human.anchor.x = 0.5;
@@ -14,10 +16,25 @@ function makeHuman(x, y) {
 	human.body.maxVelocity.set(100);
 
 	human.logic = function() {
-		this.angle = Math.atan2(player.head.body.y - this.body.y, player.head.body.x - this.body.x) * (180/Math.PI);
+		if (this.canSee(player.com, map.wallLayer)) {
+			console.log("hello");
+			this.angle = Math.atan2(player.head.body.y - this.body.y, player.head.body.x - this.body.x) * (180/Math.PI);
+			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
+			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
+		}
+	}
 
-		this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
-		this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
+	human.canSee = function(other, layer) {
+		sightLine.start.set(this.body.x, this.body.y);
+	    sightLine.end.set(other.body.x, other.body.y);
+
+		var tileHits = layer.getRayCastTiles_custom(sightLine, 4, false, true);
+	    if (tileHits.length > 0){
+	        return false;
+	    }
+		else{
+	        return true;
+	    }
 	}
 
 	return human;
@@ -36,15 +53,54 @@ function makeDefaultEnemy(x, y) {
 
 	enemy.gun = null;
 
+	enemy.recPlayerSight = null;
+
 	enemy.logic = function() {
-		this.angle = Math.atan2(player.head.body.y - this.body.y, player.head.body.x - this.body.x) * (180/Math.PI);
+		if (this.canSee(player.com, map.wallLayer)) {
+			if (this.recPlayerSight != null) {
+				this.recPlayerSight.x = player.com.body.x;
+				this.recPlayerSight.y = player.com.body.y;
+			}
+			else {
+				this.recPlayerSight = {
+					x:player.com.body.x,
+					y:player.com.body.y
+				}
+			}
 
-		this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
-		this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
-
-		if (this.gun != null) {
-			this.gun.fire();
+			if (this.gun != null) {
+				this.gun.resetShots();
+				this.gun.fire();
+				game.physics.arcade.collide(this.gun.bullets, map.wallLayer, function(bullet) {
+					bullet.kill();
+				});
+			}
+			this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
+			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
+			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
 		}
+		else if (this.recPlayerSight != null) {
+			this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
+			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
+			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
+
+			if (Phaser.Math.distance(this.body.x, this.recPlayerSight.x, this.body.y, this.recPlayerSight.y) < 32) {
+				this.recPlayerSight = null;
+			}
+		}
+	}
+
+	enemy.canSee = function(other, layer) {
+		sightLine.start.set(this.body.x, this.body.y);
+	    sightLine.end.set(other.body.x, other.body.y);
+
+		var tileHits = layer.getRayCastTiles_custom(sightLine, 4, false, true);
+	    if (tileHits.length > 0){
+	        return false;
+	    }
+		else{
+	        return true;
+	    }
 	}
 
 	return enemy;
