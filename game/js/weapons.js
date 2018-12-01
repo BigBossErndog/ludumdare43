@@ -4,7 +4,7 @@ function loadWeapons() {
 }
 
 function basicGun(owner) {
-	var newgun = game.add.weapon(20, "bullet1");
+	var newgun = game.add.weapon(100, "bullet1");
 	newgun.trackSprite(owner, 0, 0, true);
 	newGun.fireRate = 50;
 	newGun.bulletSpeed = 400;
