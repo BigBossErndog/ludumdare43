@@ -22,7 +22,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"..\/SpriteMaps\/Sprite Map 2.tsx"
+         "source":"..\/tilesets\/TileSet1.tsx"
         }],
  "tilewidth":32,
  "type":"map",
