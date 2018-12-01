@@ -11,6 +11,7 @@ function preload() {
     game.load.spritesheet('head', 'assets/Head.png', 32, 32);
     game.load.spritesheet('legs', 'assets/Legs.png', 32, 32);
     game.load.spritesheet('target', 'assets/target.jpg');
+	game.load.image("playercom", "assets/playercom.png");
     loadWeapons();
 	loadEnemies();
 	loadLevels();
@@ -47,11 +48,11 @@ function create() {
 
 	x = getRandomInt(300, 500);
 	y = getRandomInt(200, 400);
-	player.com = game.add.sprite(x, y);
+	player.com = game.add.sprite(x, y, "playercom");
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
-    gun = railgun(player.head);
+    gun = basicGun(player.head);
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
@@ -67,6 +68,7 @@ function create() {
     game.physics.enable(player.head, Phaser.Physics.ARCADE);
     game.physics.enable(player.legs, Phaser.Physics.ARCADE);
 	game.physics.enable(player.com, Phaser.Physics.ARCADE);
+
 	// player.legs.body.immovable = true;
 	// player.com.body.immovable = true;
 
@@ -78,6 +80,8 @@ function create() {
       right: game.input.keyboard.addKey(Phaser.Keyboard.D),
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
+
+	//game.camera.follow(player.com);
 }
 
 function getRandomInt(min, max) {
@@ -139,4 +143,7 @@ function update() {
 
 	game.physics.arcade.collide(humans);
 	game.physics.arcade.collide(humans, player.com);
+
+	game.physics.arcade.collide(humans, map.wallLayer);
+	game.physics.arcade.collide(player.com, map.wallLayer);
 }

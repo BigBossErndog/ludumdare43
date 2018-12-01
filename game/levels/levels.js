@@ -4,16 +4,19 @@ function loadLevels() {
 }
 
 function makeLevel(mapdata, img) {
-	console.log("HI");
 	var newmap = game.add.tilemap("maptest1");
 
 	newmap.addTilesetImage("Sprite Map 2", "spritemap2");
 
-	newmap.setCollisionBetween(1, 5);
+	//var floorLayer = newmap.createLayer("Floor");
+	var wallLayer = newmap.createLayer("Walls");
+	game.physics.enable(wallLayer, Phaser.Physics.ARCADE);
 
-	var layer = newmap.createLayer("Tile Layer 1");
+	//newmap.floorLayer = floorLayer;
+	newmap.wallLayer = wallLayer;
 
-	layer.resizeWorld();
+	//floorLayer.resizeWorld();
+	wallLayer.resizeWorld();
 	//0 - 12
 
 	return newmap;
