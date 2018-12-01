@@ -21,5 +21,3 @@ function shield(owner) {
 
 	return shield;
 }
-
-class LaserGun() 

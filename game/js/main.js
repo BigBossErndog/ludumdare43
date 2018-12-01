@@ -8,30 +8,37 @@ window.onload = function() {
 
 function preload() {
     console.log("preload");
-    game.load.image('head', 'assets/Head.png');
-    game.load.image('legs', 'assets/Legs.png');
-    game.load.image('target', 'assets/target.jpg')
-
+    game.load.spritesheet('head', 'assets/Head.png', 32, 32);
+    game.load.spritesheet('legs', 'assets/Legs.png', 32, 32);
+    game.load.spritesheet('target', 'assets/target.jpg');
+    loadWeapons();
 }
 
 var player = { head: null, legs: null };
 var targeter;
 var cursors;
 
+var gun;
 var bulletTime = 0;
-var bullet;
+var bullets;
 
 function create() {
 
     console.log("creating");
+
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
     game.stage.backgroundColor = '#dce2e2';
 
     //  This will check Group vs. Group collision (bullets vs. veggies!)
-
+    bullets = game.add.group();
+    bullets.enableBody = true;
 
     player.legs = game.add.sprite(0, 0, 'legs');
     player.head = game.add.sprite(0, 0, 'head');
     targeter = game.add.sprite(0, 0, 'target');
+    gun = basicGun(player.head);
+
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
     player.legs.anchor.x = 0.5;
@@ -40,8 +47,14 @@ function create() {
     player.head.anchor.y = 0.5;
     targeter.scale.x = 0.05;
     targeter.scale.y = 0.05;
+
     game.physics.enable(player.head, Phaser.Physics.ARCADE);
     game.physics.enable(player.legs, Phaser.Physics.ARCADE);
+    bullets.physicsBodyType = Phaser.Physics.ARCADE;
+
+    bullets.createMultiple(50, 'bullet1');
+    bullets.setAll('checkWorldBounds', true);
+    bullets.setAll('outOfBoundsKill', true);
 
     cursors = game.input.keyboard.createCursorKeys();
     this.wasd = {
@@ -57,6 +70,8 @@ function create() {
 var angle = 0;
 var previousAngle = 0;
 var previousPreviousAngle = 0;
+var fireRate = 0;
+var nextFire = 0;
 
 function update() {
 
@@ -97,4 +112,25 @@ function update() {
     }
     previousAngle = angle;
     previousPreviousAngle = previousAngle;
+
+    if (game.input.activePointer.isDown)
+    {
+        gun.fire();
+    }
+
+}
+
+function fire() {
+
+    if (game.time.now > nextFire && bullets.countDead() > 0)
+    {
+        nextFire = game.time.now + fireRate;
+
+        var bullet = bullets.getFirstDead();
+
+        bullet.reset(player.head.x - 8, player.head.y - 8);
+
+        game.physics.arcade.moveToPointer(bullet, 300);
+    }
+
 }
