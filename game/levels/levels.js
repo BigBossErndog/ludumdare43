@@ -10,11 +10,13 @@ function makeLevel(mapdata, img) {
 
 	var floorLayer = newmap.createLayer("Floor");
 	var wallLayer = newmap.createLayer("Walls");
+	var decalsLayer = newmap.createLayer("Decals");
 
 	newmap.setCollisionBetween(0, 11, true, wallLayer);
 
 	newmap.floorLayer = floorLayer;
 	newmap.wallLayer = wallLayer;
+	newmap.decalsLayer = decalsLayer;
 
 	floorLayer.resizeWorld();
 	wallLayer.resizeWorld();
