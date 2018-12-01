@@ -9,14 +9,15 @@ function makeHuman(x, y) {
 
 	game.physics.enable(human, Phaser.Physics.ARCADE);
 
-	human.body.immovable = true;
-	human.body.bounce.set(0);
+	human.body.drag.x = 500;
+	human.body.drag.y = 500;
+	human.body.maxVelocity.set(100);
 
 	human.logic = function() {
 		this.angle = Math.atan2(player.head.body.y - this.body.y, player.head.body.x - this.body.x) * (180/Math.PI);
 
-		this.body.velocity.y = Math.sin(this.angle * (Math.PI/180)) * 100;
-		this.body.velocity.x = Math.cos(this.angle * (Math.PI/180)) * 100;
+		this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
+		this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
 	}
 
 	return human;

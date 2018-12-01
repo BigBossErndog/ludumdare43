@@ -34,7 +34,7 @@ function create() {
     //  This will check Group vs. Group collision (bullets vs. veggies!)
     humans = game.add.group();
 	var x, y;
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 5; i++) {
      	x = getRandomInt(0, 800);
 		y = getRandomInt(0, 600);
         humans.add(makeHuman(x, y));
@@ -84,7 +84,7 @@ var nextFire = 0;
 
 function update() {
 
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < humans.length; i++) {
         humans.getAt(i).logic();
     }
 
@@ -131,6 +131,7 @@ function update() {
         gun.fire();
     }
 
+	game.physics.arcade.collide(humans);
 }
 
 function fire() {
