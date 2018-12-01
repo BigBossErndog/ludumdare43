@@ -21,8 +21,17 @@
  "tileheight":32,
  "tilesets":[
         {
+         "columns":4,
          "firstgid":1,
-         "source":"..\/SpriteMaps\/Sprite Map 2.tsx"
+         "image":"..\/..\/Sprite Map 2.png",
+         "imageheight":128,
+         "imagewidth":128,
+         "margin":0,
+         "name":"Sprite Map 2",
+         "spacing":0,
+         "tilecount":16,
+         "tileheight":32,
+         "tilewidth":32
         }],
  "tilewidth":32,
  "type":"map",
