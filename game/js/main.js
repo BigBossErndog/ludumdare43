@@ -1,7 +1,7 @@
 var game;
 
 window.onload = function() {
-	game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+	game = new Phaser.Game(400, 300, Phaser.AUTO, '', { preload: preload, create: create, update: update });
     console.log(game);
     // game.state.add("mainScene", mainScene);
 }
@@ -30,6 +30,10 @@ var map;
 function create() {
 
     console.log("creating");
+
+	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+	game.renderer.renderSession.roundPixels = true;
+	Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -81,7 +85,7 @@ function create() {
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
 
-	//game.camera.follow(player.com);
+	game.camera.follow(player.com);
 }
 
 function getRandomInt(min, max) {
@@ -146,8 +150,12 @@ function update() {
 	game.physics.arcade.collide(humans);
 	game.physics.arcade.collide(humans, player.com);
 
-	game.physics.arcade.collide(humans, map.wallLayer);
-	game.physics.arcade.collide(player.com, map.wallLayer);
+	game.physics.arcade.collide(humans, map.wallLayer, printCollision);
+	game.physics.arcade.collide(player.com, map.wallLayer, printCollision);
+}
+
+function printCollision() {
+	console.log("HELLO");
 }
 
 function collisionHandler(bullet, human) {
