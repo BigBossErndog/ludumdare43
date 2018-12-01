@@ -51,6 +51,36 @@ function smg(owner) {
 	return newgun;
 }
 
+function shotgun(owner) {
+	var shotgun = game.add.weapon(25, "bullet1");
+	shotgun.type = 'shotgun';
+	shotgun.barrels = [];
+	for (var i = 0; i < 9; i++) {
+		shotgun.barrels[i] = game.add.weapon(25, "bullet1");
+	}
+	shotgun.trackSprite(owner, 15, 5, true);
+	shotgun.fireRate = 25;
+	shotgun.bulletSpeed = 450;
+	shotgun.bulletSpeedVariance = 100;
+	shotgun.bulletAngleVariance = 40;
+	shotgun.fireLimit = 6;
+	for (var i = 0; i < 5; i++) {
+		shotgun.barrels[i].trackSprite(owner, 15, 5, true);
+		shotgun.barrels[i].fireRate = 25;
+		shotgun.barrels[i].bulletSpeed = 450;
+		shotgun.barrels[i].bulletSpeedVariance = 100;
+		shotgun.barrels[i].bulletAngleVariance = 40;
+		shotgun.barrels[i].fireLimit = 6;
+	}
+	shotgun.onFire.add(function() {
+		shotgun.barrels.forEach(function(barrel) {
+			barrel.fire();
+		});
+	});
+
+	return shotgun;
+}
+
 function sword(owner) {
 	var sword = game.add.weapon(1, "bullet1");
 	sword.trackSprite(owner, 25, 5, true);
