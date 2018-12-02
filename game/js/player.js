@@ -148,6 +148,7 @@ class Player {
         this.head.animations.add("walk", [0,1,0,2], 5, true);
 
 		this.head.animations.add("shotGunShoot", [31,32,33,30], 7, false);
+		this.head.animations.add("smgShoot", [41,40], 20, false);
 
         this.head.animations.play("stand");
     }
@@ -174,6 +175,10 @@ class Player {
 				case "Shot Gun":
 					this.recoil(700, this.head.angle * (Math.PI/180) + Math.PI);
 					this.head.play("shotGunShoot");
+					break;
+				case "Submachine Gun":
+					this.recoil(10, this.head.angle * (Math.PI/180) + Math.PI);
+					this.head.play("smgShoot");
 					break;
 			}
 		}
