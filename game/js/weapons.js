@@ -181,6 +181,7 @@ function typhoon(owner) {
 	typhoon.autoExpandBulletsGroup  = true;
 	typhoon.shoot = function () {
 		if (typhoon.shots >= 1) return;
+		typhoon.specialFiring = true;
 		game.time.slowMotion = 5.0;
 		game.time.desiredFps = 300;
 		var success = false;
