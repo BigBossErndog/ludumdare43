@@ -1,3 +1,4 @@
+var nextLevel;
 
 var mainScene = {	
 	preload: function() {
@@ -67,7 +68,8 @@ var mainScene = {
 				}
 				else {
 					blackScreen = null;
-					game.state.start("Level1", true, false);
+					nextLevel = "Level1";
+					game.state.start("UpgradeScene", true, false);
 				}
 			}
 		}
@@ -143,7 +145,8 @@ var Level1 = {
 				}
 				else {
 					blackScreen = null;
-					game.state.start("Level1", true, false);
+					nextLevel = "mainScene";
+					game.state.start("UpgradeScene", true, false);
 				}
 			}
 		}

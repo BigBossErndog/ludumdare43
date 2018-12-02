@@ -43,7 +43,7 @@ class Player {
         game.physics.enable(this.legs, Phaser.Physics.ARCADE);
     	game.physics.enable(this.com, Phaser.Physics.ARCADE);
 
-        this.com.body.setSize(24, 24, 4, 4);
+        this.com.body.setSize(20, 20, 6, 6);
 
         this.makeWeaponAnimations();
 
