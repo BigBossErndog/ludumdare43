@@ -45,11 +45,12 @@ class Player {
         game.physics.enable(this.legs, Phaser.Physics.ARCADE);
     	game.physics.enable(this.com, Phaser.Physics.ARCADE);
 
-        this.com.body.setSize(24, 24, 4, 4);
+        this.com.body.setSize(20, 20, 6, 6);
 
         this.makeWeaponAnimations();
 
 		this.weaponPickUpButton = false;
+		this.shooting = false;
     }
 
     logic() {
@@ -123,11 +124,13 @@ class Player {
 				if (this.gun.type === 'special') {
 					if (this.gun.shoot(player)) {
 						this.playShootAnimation();
+						this.shooting = true;
 					}
 				}
 				else {
 					if (this.gun.fire()) {
 						this.playShootAnimation();
+						this.shooting = true;
 					}
 				}
 				clicked = true;
@@ -162,6 +165,11 @@ class Player {
 							newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
 							newPickable.ammo = this.gun.shots;
 							break;
+						case "Sword":
+							newPickable = swordPickable(this.com.x, this.com.y);
+							newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+							newPickable.ammo = this.gun.shots;
+							break;
 					}
 					if (newPickable != undefined) {
 						newPickable.dropped = true;
@@ -188,17 +196,34 @@ class Player {
     }
 
 	makeWeaponAnimations() {
-        this.head.animations.add("stand", [0], 1, false);
-        this.head.animations.add("walk", [0,1,0,2], 5, true);
+		var anim;
+		
+        anim = this.head.animations.add("stand", [0], 1, false);
+        anim = this.head.animations.add("walk", [0,1,0,2], 5, true);
 
-		this.head.animations.add("shotGunShoot", [31,32,33,30], 7, false);
-		this.head.animations.add("shotGunStand", [30], 1, false);
+		anim = this.head.animations.add("shotGunShoot", [31,32,33,30], 7, false);
+		anim.onComplete.add(function() {
+			player.shooting = false;
+		}, this);
+		anim = this.head.animations.add("shotGunStand", [30], 1, false);
 
-		this.head.animations.add("smgShoot", [41,40], 20, false);
-		this.head.animations.add("smgStand", [40], 1, false);
+		anim = this.head.animations.add("smgShoot", [41,40], 20, false);
+		anim.onComplete.add(function() {
+			player.shooting = false;
+		}, this);
+		anim = this.head.animations.add("smgStand", [40], 1, false);
 
-		this.head.animations.add("swordSwing", [52,53,54,51,50], 15, false);
-		this.head.animations.add("swordStand", [50], 1, false);
+		anim = this.head.animations.add("swordSwing", [52,53,54,51,50], 15, false);
+		anim.onComplete.add(function() {
+			player.shooting = false;
+		}, this);
+		anim = this.head.animations.add("swordStand", [50], 1, false);
+		
+		anim = this.head.animations.add("pistolStand", [10], 1, false);
+		anim = this.head.animations.add("pistolShoot", [11, 10], 10, false);
+		anim.onComplete.add(function() {
+			player.shooting = false;
+		}, this);
 
         this.head.animations.play("stand");
     }
@@ -209,17 +234,19 @@ class Player {
 		if (this.gun == null) {
 			this.head.animations.play("stand");
 		}
-		else {
+		else if (!this.shooting) {
 			switch (this.gun.weaponName) {
 				case "Shot Gun":
-					this.head.play("shotGunStand");
+					this.head.animations.play("shotGunStand");
 					break;
 				case "Submachine Gun":
-					this.head.play("smgStand");
+					this.head.animations.play("smgStand");
 					break;
 				case "Sword":
-					this.head.play("swordStand");
+					this.head.animations.play("swordStand");
 					break;
+				case "Pistol":
+					this.head.animations.play("pistolStand");
 			}
 		}
 	}
@@ -246,6 +273,9 @@ class Player {
 				case "Sword":
 					this.recoil(100, this.head.angle * (Math.PI/180));
 					this.head.play("swordSwing");
+					break;
+				case "Pistol":
+					this.head.play("pistolShoot");
 					break;
 			}
 		}

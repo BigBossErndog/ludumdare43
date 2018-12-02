@@ -1,3 +1,4 @@
+var nextLevel;
 
 var mainScene = {
 	preload: function() {
@@ -26,8 +27,17 @@ var mainScene = {
 			aigroup.add(newEnemy);
 		}
 
-		for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < 5; i++) {
 			let newPickable = shotgunPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
+		}
+		for (var i = 0; i < 5; i++) {
+			let newPickable = pistolPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
+		}
+		for (var i = 0; i < 5; i++) {
+			let newPickable = swordPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
+		}
+		for (var i = 0; i < 5; i++) {
+			let newPickable = smgPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
 		}
 	},
 
@@ -63,13 +73,9 @@ var mainScene = {
 					blackScreen.fixedToCamera = true;
 				}
 				else {
-					if (blackScreen.alpha < 1) {
-						blackScreen.alpha += 0.02;
-					}
-					else {
-						blackScreen = null;
-						game.state.start("Level1", true, false);
-					}
+					blackScreen = null;
+					nextLevel = "Level1";
+					game.state.start("UpgradeScene", true, false);
 				}
 			}
 		}
@@ -145,7 +151,8 @@ var Level1 = {
 				}
 				else {
 					blackScreen = null;
-					game.state.start("Level1", true, false);
+					nextLevel = "mainScene";
+					game.state.start("UpgradeScene", true, false);
 				}
 			}
 		}

@@ -15,7 +15,7 @@ function makeHuman(x, y, angle) {
 	human.body.drag.y = 500;
 	human.body.maxVelocity.set(100);
 
-	human.body.setSize(24, 24, 4, 4);
+	human.body.setSize(20, 20, 6, 6);
 
 	if (angle != undefined && angle != null) {
 		human.angle = angle;
@@ -76,7 +76,7 @@ function makeDefaultEnemy(x, y, angle) {
 	enemy.body.drag.y = 500;
 	enemy.body.maxVelocity.set(100);
 
-	enemy.body.setSize(24, 24, 4, 4);
+	enemy.body.setSize(20, 20, 6, 6);
 
 	if (angle != undefined && angle != null) {
 		enemy.angle = angle;
@@ -142,12 +142,13 @@ function makeDefaultEnemy(x, y, angle) {
 	    }
 
 		if (success) {
-			toOtherAngle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x);
+			toOtherAngle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x) * (180/Math.PI);
 
-			var phi = Math.abs(toOtherAngle - this.angle) % (Math.PI * 2);       // This is either the distance or 360 - distance
-			var distance = phi > Math.PI ? (Math.PI * 2) - phi : phi;
-
-			if (distance > Math.PI/2) {
+			var phi = Math.abs(toOtherAngle - this.angle) % 360;       // This is either the distance or 360 - distance
+			var distance = phi > 180 ? 360 - phi : phi;
+			
+			console.log(distance);
+			if (distance > 180) {
 				success = false;
 			}
 		}

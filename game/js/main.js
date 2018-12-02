@@ -3,6 +3,8 @@ var game;
 window.onload = function() {
 	game = new Phaser.Game(400, 300, Phaser.AUTO, '', null, false, false);
 
+	game.state.add("UpgradeScene", UpgradeScene);
+	
 	game.state.add("main", mainScene);
 	game.state.add("Level1", Level1);
 

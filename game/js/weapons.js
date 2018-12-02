@@ -17,7 +17,7 @@ function pistol(owner) {
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 	newgun.fireLimit = 8;
 	newgun.bullets.setAll('damage', 8);
-	newgun.weaponName = "Basic Gun";
+	newgun.weaponName = "Pistol";
 
 	return newgun;
 }
