@@ -23,6 +23,8 @@ class Player {
         this.com.addChild(this.cape = game.add.sprite(0, 0, "cape"));
         this.com.addChild(this.head = game.add.sprite(0, 0, 'head'));
 
+        this.gun = defaultMelee(this);
+
     	this.legs.animations.add("walk", [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 20, true);
     	this.legs.animations.add("stand", [0], 1, false);
     	this.legs.animations.play("stand");
@@ -262,7 +264,7 @@ class Player {
     		entityBounds = arguments[0].getBounds();
     		if (Phaser.Rectangle.intersects(targeterBounds, entityBounds)) {
                 closest = arguments[0];
-                tag.text = /*Add random percentage*/"AI  ";
+                tag.text = /*Add random percentage*/(Math.random() * 100).toFixed(2) + "% AI  ";
             }
     	}, this, [ null ]);
         pickables.forEachExists(function () {
