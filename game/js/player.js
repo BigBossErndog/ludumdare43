@@ -168,9 +168,11 @@ class Player {
 					}
 				}
 				
+				var canPickUp = true;
 				pickables.forEachExists(function(item) {
-					if (item.overlap(player.com)) {
+					if (canPickUp && item.overlap(player.com)) {
 						item.pickUp();
+						canPickUp = false;
 					}
 				});
 			}
