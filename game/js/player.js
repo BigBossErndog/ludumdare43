@@ -13,6 +13,7 @@ class Player {
         this.head = null;
         this.cape = null;
         this.legs = null;
+        this.gun = null;
 
     	this.com = game.add.sprite(spawnX, spawnY, "playercom");
         this.com.addChild(this.legs = game.add.sprite(0, 0, 'legs'));
