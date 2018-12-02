@@ -19,6 +19,19 @@ function createControls() {
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.R ]);
+
+	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.E ]);
+	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.Control ]);
+}
+
+function loadDefaults() {
+	game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
+	game.load.image("parallax", "assets/Parallax.png");
+	game.load.spritesheet("pickables", "assets/pickables.png", 32, 32);
+	loadWeapons();
+	loadEnemies();
+	loadLevels();
+	loadPlayer();
 }
 
 var parallaxSprite;
@@ -27,11 +40,14 @@ function createDefaults() {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 	game.renderer.renderSession.roundPixels = true;
 	Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
-	game.stage.backgroundColor = '#dce2e2';
+	game.stage.backgroundColor = '#000000';
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
 	sightLine = new Phaser.Line();
+
+	pickables = game.add.group();
+	aigroup = game.add.group();
 
 	var x, y;
 	x = getRandomInt(300, 500);
@@ -39,15 +55,6 @@ function createDefaults() {
 
 	player = new Player(game, x, y);
 	targeter = game.add.sprite(100, 100, 'reticle');
-    player.gun = shotgun(player.head);
-
-	aigroup = game.add.group();
-	var spawnPoints = [ [30,40], [60,70], [100, 50], [550, 370], [190, 500] ];
-    for (var i = 0; i < 5; i++) {
-		let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
-		newEnemy.gun = autorifle(newEnemy);
-        aigroup.add(newEnemy);
-    }
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
@@ -59,14 +66,16 @@ function createDefaults() {
 }
 
 function updateDefaults() {
-	parallaxSprite.cameraOffset.x = game.camera.x / 2;
-	parallaxSprite.cameraOffset.y = game.camera.y / 2;
+	parallaxSprite.cameraOffset.x = game.width*0.5 - game.camera.x/15;
+	parallaxSprite.cameraOffset.y = game.height*0.5 - game.camera.y/15;
 
-	game.physics.arcade.collide(player.gun.bullets, aigroup, collisionHandler, null, this);
+	if (player.gun != null) {
+		game.physics.arcade.overlap(player.gun.bullets, aigroup, collisionHandler, null, this);
 
-	game.physics.arcade.collide(player.gun.bullets, map.wallLayer, function(bullet) {
-		bullet.kill();
-	});
+		game.physics.arcade.collide(player.gun.bullets, map.wallLayer, function(bullet) {
+			bullet.kill();
+		});
+	}
 
     for (var i = 0; i < aigroup.length; i++) {
         if(aigroup.getAt(i).exists) aigroup.getAt(i).logic();
@@ -75,6 +84,10 @@ function updateDefaults() {
                 bullet.kill();
             });
         }
+    }
+
+	for (var i = 0; i < pickables.length; i++) {
+        if(pickables.getAt(i).exists) pickables.getAt(i).logic();
     }
 
     targeter.cameraOffset.x = game.input.activePointer.x;
@@ -87,13 +100,15 @@ function updateDefaults() {
 
 	game.physics.arcade.collide(aigroup);
 	game.physics.arcade.collide(aigroup, player.com);
-
 	game.physics.arcade.collide(aigroup, map.wallLayer);
+
+	game.physics.arcade.collide(pickables);
+	game.physics.arcade.collide(pickables, map.wallLayer);
 
     let mouseDistanceToCenter = Phaser.Math.distance(game.input.activePointer.x, game.width/2, game.input.activePointer.y, game.height/2);
     let newcam = {
-        x: player.com.x + Math.cos(player.head.rotation) * mouseDistanceToCenter * 0.4,
-        y: player.com.y + Math.sin(player.head.rotation) * mouseDistanceToCenter * 0.4
+        x: player.com.x + Math.cos(player.head.rotation) * mouseDistanceToCenter * 0.45,
+        y: player.com.y + Math.sin(player.head.rotation) * mouseDistanceToCenter * 0.45
     }
 
     let oldcam = {
@@ -106,7 +121,7 @@ function updateDefaults() {
 
     game.camera.focusOnXY(recCam.x, recCam.y);
 
-	ammoCount.setText("Ammo:" + (player.gun.fireLimit > 0 ? (player.gun.fireLimit - player.gun.shots) + "  " : "∞  "));
+	if (player.gun != null) ammoCount.setText("Ammo:" + (player.gun.fireLimit > 0 ? (player.gun.fireLimit - player.gun.shots) + "  " : "∞  "));
 	ammoCount.x = player.com.x - 10;
 	ammoCount.y = player.com.y + 15;
 	player.scanner(aigroup, targeter, tag);
@@ -116,6 +131,7 @@ var player;
 var targeter;
 var cursors;
 var wasd;
+var keys;
 
 var gun;
 var bulletTime = 0;

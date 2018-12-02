@@ -1,8 +1,6 @@
 function loadLevels() {
 	game.load.tilemap("maptest1", "assets/tilemaps/mapTest1.json", null, Phaser.Tilemap.TILED_JSON);
 	game.load.image("spritemap2", "assets/spritemaps/Sprite Map 2.png", 32, 32);
-	
-	game.load.tilemap("Level1", "assets/tilemaps/Level1.json", null, Phaser.Tilemap.TILED_JSON);
 }
 
 function makeLevel(mapdata, imgdata, img) {

@@ -4,7 +4,7 @@ function loadEnemies() {
 
 var sightLine;
 
-function makeHuman(x, y) {
+function makeHuman(x, y, angle) {
 	var human = game.add.sprite(x, y, "human");
 	human.anchor.x = 0.5;
 	human.anchor.y = 0.5;
@@ -14,6 +14,15 @@ function makeHuman(x, y) {
 	human.body.drag.x = 500;
 	human.body.drag.y = 500;
 	human.body.maxVelocity.set(100);
+
+	human.body.setSize(24, 24, 4, 4);
+
+	if (angle != undefined && angle != null) {
+		human.angle = angle;
+	}
+	else {
+		human.angle = Math.random() * 2 * Math.PI;
+	}
 
 	human.logic = function() {
 		if (this.canSee(player.com, map.wallLayer)) {
@@ -25,22 +34,36 @@ function makeHuman(x, y) {
 	}
 
 	human.canSee = function(other, layer) {
+		var success = false;
 		sightLine.start.set(this.body.x, this.body.y);
 	    sightLine.end.set(other.body.x, other.body.y);
 
 		var tileHits = layer.getRayCastTiles_custom(sightLine, 4, false, true);
 	    if (tileHits.length > 0){
-	        return false;
+	        success = false;
 	    }
 		else{
-	        return true;
+	        success = true;
 	    }
+
+		if (success) {
+			toOtherAngle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x);
+
+			var phi = Math.abs(toOtherAngle - this.angle) % (Math.PI * 2);       // This is either the distance or 360 - distance
+			var distance = phi > Math.PI ? (Math.PI * 2) - phi : phi;
+
+			if (distance > Math.PI/2) {
+				success = false;
+			}
+		}
+
+		return success;
 	}
 
 	return human;
 }
 
-function makeDefaultEnemy(x, y) {
+function makeDefaultEnemy(x, y, angle) {
 	var enemy = game.add.sprite(x, y, "human");
 	enemy.health = 100;
 
@@ -52,6 +75,15 @@ function makeDefaultEnemy(x, y) {
 	enemy.body.drag.x = 500;
 	enemy.body.drag.y = 500;
 	enemy.body.maxVelocity.set(100);
+
+	enemy.body.setSize(24, 24, 4, 4);
+
+	if (angle != undefined && angle != null) {
+		enemy.angle = angle;
+	}
+	else {
+		enemy.angle = Math.random() * 2 * Math.PI;
+	}
 
 	enemy.gun = null;
 
@@ -115,7 +147,7 @@ function makeDefaultEnemy(x, y) {
 			var phi = Math.abs(toOtherAngle - this.angle) % (Math.PI * 2);       // This is either the distance or 360 - distance
 			var distance = phi > Math.PI ? (Math.PI * 2) - phi : phi;
 
-			if (distance > Math.PI/3) {
+			if (distance > Math.PI/2) {
 				success = false;
 			}
 		}
