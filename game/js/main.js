@@ -54,7 +54,7 @@ function create() {
 	y = getRandomInt(200, 400);
 	player = new Player(game, x, y);
 	targeter = game.add.sprite(100, 100, 'reticle');
-    gun = shotgun(player.head);
+    player.gun = shotgun(player.head);
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
@@ -93,9 +93,9 @@ var recCam = {
 
 function update() {
 
-	game.physics.arcade.overlap(gun.bullets, aigroup, collisionHandler, null, this);
+	game.physics.arcade.overlap(player.gun.bullets, aigroup, collisionHandler, null, this);
 
-	game.physics.arcade.collide(gun.bullets, map.wallLayer, function(bullet) {
+	game.physics.arcade.collide(player.gun.bullets, map.wallLayer, function(bullet) {
 		bullet.kill();
 	});
 
@@ -159,10 +159,10 @@ function update() {
 
     if (game.input.activePointer.isDown)
     {
-		if (clicked === false || gun.automatic) {
+		if (clicked === false || player.gun.automatic) {
 			console.log(clicked);
-			if (gun.type === 'special') gun.shoot();
-			else gun.fire();
+			if (player.gun.type === 'special') player.gun.shoot(player);
+			else player.gun.fire();
 			clicked = true;
 		}
     }
