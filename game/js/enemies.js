@@ -71,9 +71,6 @@ function makeDefaultEnemy(x, y) {
 			if (this.gun != null) {
 				this.gun.resetShots();
 				this.gun.fire();
-				game.physics.arcade.collide(this.gun.bullets, map.wallLayer, function(bullet) {
-					bullet.kill();
-				});
 			}
 			this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
 			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
