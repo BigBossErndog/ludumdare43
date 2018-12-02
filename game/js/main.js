@@ -121,10 +121,11 @@ function updateDefaults() {
 
     game.camera.focusOnXY(recCam.x, recCam.y);
 
-	if (player.gun != null) ammoCount.setText("Ammo:" + (player.gun.fireLimit > 0 ? (player.gun.fireLimit - player.gun.shots) + "  " : "∞  "));
+	if (player.gun !== null) ammoCount.setText("Ammo:" + (player.gun.fireLimit > 0 ? (player.gun.fireLimit - player.gun.shots) + "  " : "∞  "));
+	else ammoCount.setText("");
 	ammoCount.x = player.com.x - 10;
 	ammoCount.y = player.com.y + 15;
-	player.scanner(aigroup, targeter, tag);
+	player.scanner(aigroup, pickables, targeter, tag);
 }
 
 var player;
