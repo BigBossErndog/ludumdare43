@@ -121,7 +121,7 @@ function shotgun(owner) {
 		var success = false;
 
 		//insert check for enough bullets to fire full spread
-		for (var i = 0; i < 3; i++) {
+		for (var i = 0; i < 4; i++) {
 			if (shotgun.fire()) {
 				success = true;
 			}

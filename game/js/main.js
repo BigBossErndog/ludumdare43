@@ -5,7 +5,7 @@ window.onload = function() {
 
 	game.state.add("main", mainScene);
 	game.state.add("Level1", Level1);
-	
+
 	game.state.start("main");
 
     // game.state.add("mainScene", mainScene);
