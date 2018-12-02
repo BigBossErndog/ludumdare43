@@ -11,7 +11,7 @@ function preload() {
     game.load.spritesheet('head', 'assets/Head.png', 32, 32);
     game.load.spritesheet("cape", "assets/cape.png", 32, 32);
     game.load.spritesheet('legs', 'assets/WalkSprite.png', 32, 32);
-    game.load.spritesheet('target', 'assets/target.jpg');
+    game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
 	game.load.image("playercom", "assets/playercom.png");
     loadWeapons();
 	loadEnemies();
@@ -61,7 +61,7 @@ function create() {
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
     player.com.addChild(player.cape = game.add.sprite(0, 0, "cape"));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
-    targeter = game.add.sprite(0, 0, 'target');
+    targeter = game.add.sprite(100, 100, 'reticle');
     gun = shotgun(player.head);
 
 	player.legs.animations.add("walk", [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 20, true);
@@ -78,8 +78,6 @@ function create() {
     player.head.anchor.y = 0.5;
 	player.com.anchor.x = 0.5;
 	player.com.anchor.y = 0.5;
-    targeter.scale.x = 0.05;
-    targeter.scale.y = 0.05;
 
     player.legs.recAngle = player.legs.angle;
     player.cape.recHeadAngle = player.head.angle;
@@ -135,10 +133,9 @@ function update() {
             });
         }
     }
-
-    targeter.x = game.input.mousePointer.x + game.camera.x;
-    targeter.y = game.input.mousePointer.y + game.camera.y;
-
+    console.log(targeter.x + " : " + targeter.y)
+    targeter.x = game.input.activePointer.x;
+    targeter.y = game.input.activePointer.y;
 
     //  As we don't need to exchange any velocities or motion we can the 'overlap' check instead of 'collide'
 
@@ -236,8 +233,6 @@ function update() {
     
     recCam.x = (oldcam.x - newcam.x) * 0.9 + newcam.x;
     recCam.y = (oldcam.y - newcam.y) * 0.9 + newcam.y;
-    
-    console.log(recCam.x, recCam.y)
 
     game.camera.focusOnXY(recCam.x, recCam.y);
 }
