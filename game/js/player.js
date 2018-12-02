@@ -1,5 +1,3 @@
-console.log("hello")
-
 function loadPlayer() {
     game.load.spritesheet('head', 'assets/Head.png', 64, 32);
     game.load.spritesheet("cape", "assets/cape.png", 32, 32);
@@ -59,7 +57,6 @@ class Player {
         this.com.body.velocity.x = this.addedVelocity.x;
         this.com.body.velocity.y = this.addedVelocity.y;
 
-        // console.log(this.gun.specialFiring);
         if (this.gun == null || (this.gun !== 'special' && !this.gun.specialFiring)) {
             if (cursors.left.isDown || wasd.left.isDown)
             {
@@ -152,7 +149,6 @@ class Player {
 							newPickable = shotgunPickable(this.com.x, this.com.y);
 							newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
 							newPickable.ammo = this.gun.shots;
-							console.log("HELLO");
 							break;
 						case "Pistol":
 							newPickable = pistolPickable(this.com.x, this.com.y);
@@ -172,10 +168,11 @@ class Player {
 					}
 				}
 
+				var canPickUp = true;
 				pickables.forEachExists(function(item) {
-					if (item.overlap(player.com)) {
-						console.log(item.dropped);
+					if (canPickUp && item.overlap(player.com)) {
 						item.pickUp();
+						canPickUp = false;
 					}
 				});
 			}
@@ -185,6 +182,7 @@ class Player {
 		}
 
         game.physics.arcade.collide(this.com, map.wallLayer);
+		game.physics.arcade.collide(this.com, map.coverLayer);
     }
 
 	makeWeaponAnimations() {

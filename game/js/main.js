@@ -4,6 +4,8 @@ window.onload = function() {
 	game = new Phaser.Game(400, 300, Phaser.AUTO, '', null, false, false);
 
 	game.state.add("main", mainScene);
+	game.state.add("Level1", Level1);
+	
 	game.state.start("main");
 
     // game.state.add("mainScene", mainScene);
@@ -28,6 +30,7 @@ function loadDefaults() {
 	game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
 	game.load.image("parallax", "assets/Parallax.png");
 	game.load.spritesheet("pickables", "assets/pickables.png", 32, 32);
+	game.load.image("blackScreen", "assets/blackScreen.png");
 	loadWeapons();
 	loadEnemies();
 	loadLevels();
@@ -101,9 +104,11 @@ function updateDefaults() {
 	game.physics.arcade.collide(aigroup);
 	game.physics.arcade.collide(aigroup, player.com);
 	game.physics.arcade.collide(aigroup, map.wallLayer);
+	game.physics.arcade.collide(aigroup, map.coverLayer);
 
 	game.physics.arcade.collide(pickables);
 	game.physics.arcade.collide(pickables, map.wallLayer);
+	game.physics.arcade.collide(pickables, map.coverLayer);
 
     let mouseDistanceToCenter = Phaser.Math.distance(game.input.activePointer.x, game.width/2, game.input.activePointer.y, game.height/2);
     let newcam = {
@@ -142,6 +147,9 @@ var map;
 
 var ammoCount;
 var tag;
+
+var test;
+var blackScreen;
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);

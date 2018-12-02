@@ -10,19 +10,19 @@ function pistolPickable(x, y) {
 
 	game.physics.enable(sprite, Phaser.Physics.ARCADE);
 
-	sprite.body.drag.x = 1000;
-	sprite.body.drag.y = 1000;
+	sprite.body.drag.x = 400;
+	sprite.body.drag.y = 400;
 
 	sprite.logic = function() {
 		game.physics.arcade.collide(this, map.wallLayer);
 		this.dropped = false;
+
+		this.angle += Math.abs(this.body.velocity.x + this.body.velocity.y)/10;
 	}
 
 	sprite.setVelocity = function(x, y) {
 		this.body.velocity.x += x;
 		this.body.velocity.y += y;
-
-		this.angle += (this.body.velocity.x + this.body.velocity.y)/1000;
 	}
 
 	sprite.pickUp = function() {
@@ -55,19 +55,19 @@ function smgPickable(x, y) {
 
 	game.physics.enable(sprite, Phaser.Physics.ARCADE);
 
-	sprite.body.drag.x = 1000;
-	sprite.body.drag.y = 1000;
+	sprite.body.drag.x = 400;
+	sprite.body.drag.y = 400;
 
 	sprite.logic = function() {
 		game.physics.arcade.collide(this, map.wallLayer);
 		this.dropped = false;
+
+		this.angle += Math.abs(this.body.velocity.x + this.body.velocity.y)/10;
 	}
 
 	sprite.setVelocity = function(x, y) {
 		this.body.velocity.x += x;
 		this.body.velocity.y += y;
-
-		this.angle += (this.body.velocity.x + this.body.velocity.y)/1000;
 	}
 
 	sprite.pickUp = function() {
@@ -111,8 +111,8 @@ function shotgunPickable(x, y) {
 	}
 
 	sprite.setVelocity = function(x, y) {
-		this.body.velocity.x = x;
-		this.body.velocity.y = y;
+		this.body.velocity.x += x;
+		this.body.velocity.y += y;
 	}
 
 	sprite.pickUp = function() {
