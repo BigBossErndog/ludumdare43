@@ -48,7 +48,7 @@ class Player {
         this.com.body.setSize(24, 24, 4, 4);
 
         this.makeWeaponAnimations();
-		
+
 		this.weaponPickUpButton = false;
     }
 
@@ -104,7 +104,7 @@ class Player {
 
             // this.head.rotation = game.physics.arcade.angleToPointer(this.head);
             this.head.angle = Math.atan2((game.input.mousePointer.y + game.camera.y) - this.com.body.y, (game.input.mousePointer.x + game.camera.x) - this.com.body.x) * (180/Math.PI);
-			
+
             var headAngle = {
                 sin:Math.sin(this.head.angle * (Math.PI/180)),
                 cos:Math.cos(this.head.angle * (Math.PI/180))
@@ -138,13 +138,13 @@ class Player {
 			if (clicked === true) clicked = false;
 		}
 		if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
-			this.gun.resetShots();
+			if (this.gun !== null) this.gun.resetShots();
 		}
-		
+
 		if (game.input.keyboard.isDown(Phaser.Keyboard.E) || game.input.keyboard.isDown(Phaser.Keyboard.Control)) {
 			if (!this.weaponPickUpButton) {
 				this.weaponPickUpButton = true;
-				
+
 				if (this.gun != null) {
 					var newPickable;
 					switch (this.gun.weaponName) {
@@ -171,7 +171,7 @@ class Player {
 						this.gun = null;
 					}
 				}
-				
+
 				pickables.forEachExists(function(item) {
 					if (item.overlap(player.com)) {
 						console.log(item.dropped);
@@ -193,10 +193,10 @@ class Player {
 
 		this.head.animations.add("shotGunShoot", [31,32,33,30], 7, false);
 		this.head.animations.add("shotGunStand", [30], 1, false);
-		
+
 		this.head.animations.add("smgShoot", [41,40], 20, false);
 		this.head.animations.add("smgStand", [40], 1, false);
-		
+
 		this.head.animations.add("swordSwing", [52,53,54,51,50], 15, false);
 		this.head.animations.add("swordStand", [50], 1, false);
 
@@ -256,14 +256,26 @@ class Player {
 		this.addedVelocity.y += Math.sin(direction) * force;
 	}
 
-    scanner(aigroup, targeter, tag) {
+    scanner(aigroup, pickables, targeter, tag) {
     	var closest = null;
     	var targeterBounds = targeter.getBounds();
     	var entityBounds;
     	aigroup.forEachAlive(function () {
     		entityBounds = arguments[0].getBounds();
-    		if (Phaser.Rectangle.intersects(targeterBounds, entityBounds)) closest = arguments[0];
+    		if (Phaser.Rectangle.intersects(targeterBounds, entityBounds)) {
+                closest = arguments[0];
+                tag.text = /*Add random percentage*/"AI  ";
+            }
     	}, this, [ null ]);
+        pickables.forEachExists(function () {
+            entityBounds = arguments[0].getBounds();
+            if (Phaser.Rectangle.intersects(targeterBounds, entityBounds)) {
+                closest = arguments[0];
+                tag.text = "[E] " + closest.pickableName + "  ";
+            }
+        }, this, [ null ]);
+        // if (closest !== null && tag.isPickable)
+        // else
     	if (closest !== null) {
     		tag.x = closest.x;
     		tag.y = closest.y;
