@@ -26,7 +26,10 @@ function createControls() {
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.R ]);
 }
 
+var parallaxSprite;
 function createDefaults() {
+	parallax
+	
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 	game.renderer.renderSession.roundPixels = true;
 	Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
@@ -42,7 +45,7 @@ function createDefaults() {
 	
 	player = new Player(game, x, y);
 	targeter = game.add.sprite(100, 100, 'reticle');
-    player.gun = smg(player.head);
+    player.gun = sword(player.head);
 	
 	aigroup = game.add.group();
 	var spawnPoints = [ [30,40], [60,70], [100, 50], [550, 370], [190, 500] ];

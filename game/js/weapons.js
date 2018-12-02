@@ -85,8 +85,8 @@ function shotgun(owner) {
 
 function sword(owner) {
 	var sword = game.add.weapon(1, "bullet1");
-	sword.trackSprite(owner, 25, 5, true);
-	sword.bullets.setAll('scale.y', 5);
+	sword.trackSprite(owner, 15, 5, true);
+	sword.bullets.setAll('scale.y', 3);
 	sword.fireRate = 480;
 	sword.bulletSpeed = 75;
 	// sword.bulletAngleVariance = 10;
