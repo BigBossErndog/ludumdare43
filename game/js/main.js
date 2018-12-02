@@ -58,7 +58,7 @@ function create() {
 	y = getRandomInt(200, 400);
 	player = new Player(game, x, y);
 	targeter = game.add.sprite(100, 100, 'reticle');
-    player.gun = sword(player.head);
+    player.gun = shotgun(player.head);
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
@@ -144,37 +144,14 @@ function update() {
     recCam.y = (oldcam.y - newcam.y) * 0.9 + newcam.y;
 
     game.camera.focusOnXY(recCam.x, recCam.y);
-	scanner(aigroup, targeter, tag);
+
+	ammoCount.setText("Ammo:" + (player.gun.fireLimit > 0 ? (player.gun.fireLimit - player.gun.shots) + "  " : "∞  "));
+	ammoCount.x = player.com.x - 10;
+	ammoCount.y = player.com.y + 15;
+	player.scanner(aigroup, targeter, tag);
 }
 
 function collisionHandler(bullet, ai) {
 	bullet.kill();
 	ai.kill();
-}
-
-function scanner(aigroup, targeter, tag) {
-	// var closest = { body: { x: 10000, y: 10000 }};
-	// var total = aigroup.iterate('alive', true, 1, function() {
-	// 	if ((Math.pow((mouse.x - arguments[0].body.x), 2) + Math.pow((mouse.y - arguments[0].body.y), 2)) < (Math.pow((mouse.x - closest.body.x), 2) + Math.pow((mouse.y - closest.body.y), 2))) {
-	// 		closest = arguments[0];
-	// 	}
-	// }, this, [ null, mouse, closest ]);
-	var closest = null;
-	var targeterBounds = targeter.getBounds();
-	var entityBounds;
-	aigroup.forEachAlive(function () {
-		entityBounds = arguments[0].getBounds();
-		if (Phaser.Rectangle.intersects(targeterBounds, entityBounds)) closest = arguments[0];
-	}, this, [ null ]);
-	if (closest !== null) {
-		tag.x = closest.x;
-		tag.y = closest.y;
-		tag.visible = true;
-		tag.tagged = closest;
-	} else if (tag.tagged !== undefined) {
-		tag.x = tag.tagged.x;
-		tag.y = tag.tagged.y;
-	} else {
-		tag.visible = false;
-	}
 }
