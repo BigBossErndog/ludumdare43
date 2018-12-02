@@ -19,7 +19,7 @@ function createControls() {
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.R ]);
-	
+
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.E ]);
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.Control ]);
 }
@@ -41,11 +41,11 @@ function createDefaults() {
 	game.renderer.renderSession.roundPixels = true;
 	Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
 	game.stage.backgroundColor = '#000000';
-	
+
     game.physics.startSystem(Phaser.Physics.ARCADE);
-	
+
 	sightLine = new Phaser.Line();
-	
+
 	pickables = game.add.group();
 	aigroup = game.add.group();
 
@@ -68,10 +68,10 @@ function createDefaults() {
 function updateDefaults() {
 	parallaxSprite.cameraOffset.x = game.width*0.5 - game.camera.x/15;
 	parallaxSprite.cameraOffset.y = game.height*0.5 - game.camera.y/15;
-	
+
 	if (player.gun != null) {
 		game.physics.arcade.overlap(player.gun.bullets, aigroup, collisionHandler, null, this);
-		
+
 		game.physics.arcade.collide(player.gun.bullets, map.wallLayer, function(bullet) {
 			bullet.kill();
 		});
@@ -85,11 +85,11 @@ function updateDefaults() {
             });
         }
     }
-	
+
 	for (var i = 0; i < pickables.length; i++) {
         if(pickables.getAt(i).exists) pickables.getAt(i).logic();
     }
-	
+
     targeter.cameraOffset.x = game.input.activePointer.x;
     targeter.cameraOffset.y = game.input.activePointer.y;
     targeter.angle += 10;
@@ -102,7 +102,7 @@ function updateDefaults() {
 	game.physics.arcade.collide(aigroup, player.com);
 	game.physics.arcade.collide(aigroup, map.wallLayer);
 	game.physics.arcade.collide(aigroup, map.coverLayer);
-	
+
 	game.physics.arcade.collide(pickables);
 	game.physics.arcade.collide(pickables, map.wallLayer);
 	game.physics.arcade.collide(pickables, map.coverLayer);
@@ -161,5 +161,7 @@ var recCam = {
 
 function collisionHandler(bullet, ai) {
 	bullet.kill();
-	ai.kill();
+	ai.health -= bullet.damage;
+	console.log(ai.health);
+	if (ai.health <= 0) ai.kill();
 }

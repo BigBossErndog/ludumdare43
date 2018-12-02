@@ -14,9 +14,9 @@ function makeHuman(x, y, angle) {
 	human.body.drag.x = 500;
 	human.body.drag.y = 500;
 	human.body.maxVelocity.set(100);
-	
+
 	human.body.setSize(24, 24, 4, 4);
-	
+
 	if (angle != undefined && angle != null) {
 		human.angle = angle;
 	}
@@ -45,18 +45,18 @@ function makeHuman(x, y, angle) {
 		else{
 	        success = true;
 	    }
-		
+
 		if (success) {
 			toOtherAngle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x);
-			
+
 			var phi = Math.abs(toOtherAngle - this.angle) % (Math.PI * 2);       // This is either the distance or 360 - distance
 			var distance = phi > Math.PI ? (Math.PI * 2) - phi : phi;
-			
+
 			if (distance > Math.PI/2) {
 				success = false;
 			}
 		}
-		
+
 		return success;
 	}
 
@@ -65,6 +65,8 @@ function makeHuman(x, y, angle) {
 
 function makeDefaultEnemy(x, y, angle) {
 	var enemy = game.add.sprite(x, y, "human");
+	enemy.health = 100;
+
 	enemy.anchor.x = 0.5;
 	enemy.anchor.y = 0.5;
 
@@ -73,9 +75,9 @@ function makeDefaultEnemy(x, y, angle) {
 	enemy.body.drag.x = 500;
 	enemy.body.drag.y = 500;
 	enemy.body.maxVelocity.set(100);
-	
+
 	enemy.body.setSize(24, 24, 4, 4);
-	
+
 	if (angle != undefined && angle != null) {
 		enemy.angle = angle;
 	}
@@ -99,7 +101,7 @@ function makeDefaultEnemy(x, y, angle) {
 					y:player.com.body.y
 				}
 			}
-			
+
 			if (this.gun != null) {
 				this.gun.resetShots();
 				this.gun.fire();
@@ -113,11 +115,11 @@ function makeDefaultEnemy(x, y, angle) {
 				this.gun.resetShots();
 				this.gun.fire();
 			}
-			
+
 			this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
 			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
 			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
-			
+
 			let xdiff = Math.abs(this.body.x - this.recPlayerSight.x);
 			let ydiff = Math.abs(this.body.y - this.recPlayerSight.y);
 			if (xdiff + ydiff < 32) {
@@ -138,18 +140,18 @@ function makeDefaultEnemy(x, y, angle) {
 		else{
 	        success = true;
 	    }
-		
+
 		if (success) {
 			toOtherAngle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x);
-			
+
 			var phi = Math.abs(toOtherAngle - this.angle) % (Math.PI * 2);       // This is either the distance or 360 - distance
 			var distance = phi > Math.PI ? (Math.PI * 2) - phi : phi;
-			
+
 			if (distance > Math.PI/2) {
 				success = false;
 			}
 		}
-		
+
 		return success;
 	}
 

@@ -16,6 +16,7 @@ function pistol(owner) {
 	newgun.bulletAngleVariance = 1;
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 	newgun.fireLimit = 8;
+	newgun.bullets.setAll('damage', 8);
 	newgun.weaponName = "Basic Gun";
 
 	return newgun;
@@ -32,6 +33,8 @@ function autorifle(owner) {
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 	newgun.automatic = true;
 	newgun.fireLimit = 60;
+	newgun.damage = 10;
+	newgun.bullets.setAll('damage', 10);
 	newgun.weaponName = "Autorifle";
 
 	return newgun;
@@ -75,14 +78,11 @@ function megaParticleCannon(owner) {
 		}
 		// unlock - reregister inputs?
 	}
+	newgun.bullets.setAll('damage', 1000);
 	newgun.type = "special";
 	newgun.weaponName = "Railgun";
 
 	return newgun;
-}
-
-function fireCooldown() {
-	console.log("cooldown");
 }
 
 function smg(owner) {
@@ -95,6 +95,7 @@ function smg(owner) {
 	newgun.bulletAngleVariance = 35;
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 	newgun.fireLimit = 30;
+	newgun.bullets.setAll('damage', 15);
 	newgun.automatic = true;
 	newgun.weaponName = "Submachine Gun";
 
@@ -120,7 +121,7 @@ function shotgun(owner) {
 		var success = false;
 
 		//insert check for enough bullets to fire full spread
-		for (var i = 0; i < 6; i++) {
+		for (var i = 0; i < 3; i++) {
 			if (shotgun.fire()) {
 				success = true;
 			}
@@ -129,6 +130,7 @@ function shotgun(owner) {
 
 		return success;
 	}
+	shotgun.bullets.setAll('damage', 35);
 
 	return shotgun;
 }
@@ -142,6 +144,7 @@ function sword(owner) {
 	// sword.bulletAngleVariance = 10;
 	sword.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
 	sword.bulletLifespan = 10;
+	sword.bullets.setAll('damage', 50);
 	sword.weaponName = "Sword";
 	sword.type = "melee";
 
@@ -159,6 +162,7 @@ function defaultMelee(owner) {
 	// punch.bulletAngleVariance = 10;
 	punch.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
 	punch.bulletLifespan = 5;
+	punch.bullets.setAll('damage', 3);
 	punch.type = "melee";
 	punch.weaponName = /*FALCON*/"Punch";
 
@@ -204,6 +208,7 @@ function typhoon(owner) {
 
 		return success;
 	}
+	punch.bullets.setAll('damage', 75);
 
 	return typhoon;
 }
