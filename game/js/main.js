@@ -62,7 +62,7 @@ function updateDefaults() {
 	parallaxSprite.cameraOffset.x = game.camera.x / 2;
 	parallaxSprite.cameraOffset.y = game.camera.y / 2;
 
-	game.physics.arcade.overlap(player.gun.bullets, aigroup, collisionHandler, null, this);
+	game.physics.arcade.collide(player.gun.bullets, aigroup, collisionHandler, null, this);
 
 	game.physics.arcade.collide(player.gun.bullets, map.wallLayer, function(bullet) {
 		bullet.kill();
@@ -143,5 +143,7 @@ var recCam = {
 
 function collisionHandler(bullet, ai) {
 	bullet.kill();
-	ai.kill();
+	ai.health -= bullet.damage;
+	console.log(ai.health);
+	if (ai.health <= 0) ai.kill();
 }
