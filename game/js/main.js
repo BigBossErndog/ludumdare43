@@ -101,9 +101,11 @@ function updateDefaults() {
 	game.physics.arcade.collide(aigroup);
 	game.physics.arcade.collide(aigroup, player.com);
 	game.physics.arcade.collide(aigroup, map.wallLayer);
+	game.physics.arcade.collide(aigroup, map.coverLayer);
 	
 	game.physics.arcade.collide(pickables);
 	game.physics.arcade.collide(pickables, map.wallLayer);
+	game.physics.arcade.collide(pickables, map.coverLayer);
 
     let mouseDistanceToCenter = Phaser.Math.distance(game.input.activePointer.x, game.width/2, game.input.activePointer.y, game.height/2);
     let newcam = {

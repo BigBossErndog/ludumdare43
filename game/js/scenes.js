@@ -12,7 +12,7 @@ var mainScene = {
 		parallaxSprite.fixedToCamera = true;
 		parallaxSprite.anchor.x = 0.5;
 		parallaxSprite.anchor.y = 0.5;
-	
+		
 		map = makeLevel("Level1", "Sprite Map 2", "spritemap2");
 		
 		createDefaults();
