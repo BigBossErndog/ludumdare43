@@ -12,7 +12,7 @@ function makeLevel(mapdata, img) {
 	var wallLayer = newmap.createLayer("Walls");
 	var decalsLayer = newmap.createLayer("Decals");
 
-	newmap.setCollision([0,1,2,16,17,18,19,32,33,34,35,50,51], true, wallLayer);
+	newmap.setCollisionBetween(0, 255, true, wallLayer);
 
 	newmap.floorLayer = floorLayer;
 	newmap.wallLayer = wallLayer;

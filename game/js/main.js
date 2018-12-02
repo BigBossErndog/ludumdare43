@@ -18,6 +18,7 @@ function preload() {
 var player;
 var targeter;
 var cursors;
+var wasd;
 
 var gun;
 var bulletTime = 0;
@@ -61,15 +62,13 @@ function create() {
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
-    targeter.scale.x = 0.05;
-    targeter.scale.y = 0.05;
 	targeter.fixedToCamera = true;
 
 	// player.legs.body.immovable = true;
 	// player.com.body.immovable = true;
 
     cursors = game.input.keyboard.createCursorKeys();
-    this.wasd = {
+    wasd = {
       up: game.input.keyboard.addKey(Phaser.Keyboard.W),
       down: game.input.keyboard.addKey(Phaser.Keyboard.S),
       left: game.input.keyboard.addKey(Phaser.Keyboard.A),
@@ -116,95 +115,19 @@ function update() {
             });
         }
     }
-    console.log(targeter.x + " : " + targeter.y)
+
     targeter.cameraOffset.x = game.input.activePointer.x;
     targeter.cameraOffset.y = game.input.activePointer.y;
+    targeter.angle += 10;
 
     //  As we don't need to exchange any velocities or motion we can the 'overlap' check instead of 'collide'
 
-    player.com.body.velocity.x = 0;
-    player.com.body.velocity.y = 0;
-
-    if (cursors.left.isDown || this.wasd.left.isDown)
-    {
-        player.com.body.velocity.x += -240;
-		player.legs.animations.play("walk");
-    }
-     if (cursors.right.isDown || this.wasd.right.isDown)
-    {
-        player.com.body.velocity.x += 240;
-		player.legs.animations.play("walk");
-    }
-    if (cursors.up.isDown || this.wasd.up.isDown) {
-        player.com.body.velocity.y += -240;
-		player.legs.animations.play("walk");
-    }
-    if (cursors.down.isDown || this.wasd.down.isDown) {
-        player.com.body.velocity.y += 240;
-		player.legs.animations.play("walk");
-    }
-
-    if (player.com.body.velocity.y != player.com.body.velocity.x || player.com.body.velocity.x != 0) {
-        angle = Math.atan2(player.com.body.velocity.y, player.com.body.velocity.x) * (180/Math.PI);
-    }
-	else {
-        angle = player.legs.angle;
-		player.legs.animations.play("stand");
-    }
-
-    var prevAngle = {
-        sin:Math.sin(player.legs.angle * (Math.PI/180)),
-        cos:Math.cos(player.legs.angle * (Math.PI/180))
-    }
-    var newAngle = {
-        sin:Math.sin(angle * (Math.PI/180)),
-        cos:Math.cos(angle * (Math.PI/180))
-    }
-
-    prevAngle.sin = (prevAngle.sin - newAngle.sin) * 0.8 + newAngle.sin;
-    prevAngle.cos = (prevAngle.cos - newAngle.cos) * 0.8 + newAngle.cos;
-
-    player.legs.angle = Math.atan2(prevAngle.sin, prevAngle.cos) * (180/Math.PI);
-
-    if (game.input.activePointer.isDown)
-    {
-		if (clicked === false || player.gun.automatic) {
-			console.log(clicked);
-			if (player.gun.type === 'special') player.gun.shoot(player);
-			else player.gun.fire();
-			clicked = true;
-		}
-    }
-	if (game.input.activePointer.isUp) {
-		if (clicked === true) clicked = false;
-	}
-	if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
-		player.gun.shots = 0;
-	}
-	ammoCount.setText("Ammo:" + (player.gun.fireLimit > 0 ? (player.gun.fireLimit - player.gun.shots) : "∞  "));
-	ammoCount.x = player.com.x - 10;
-	ammoCount.y = player.com.y + 15;
-
-	// player.head.rotation = game.physics.arcade.angleToPointer(player.head);
-    player.head.angle = Math.atan2((game.input.mousePointer.y + game.camera.y) - player.com.body.y, (game.input.mousePointer.x + game.camera.x) - player.com.body.x) * (180/Math.PI);
-
-    var headAngle = {
-        sin:Math.sin(player.head.angle * (Math.PI/180)),
-        cos:Math.cos(player.head.angle * (Math.PI/180))
-    }
-    var capeAngle = {
-        sin:Math.sin(player.cape.angle * (Math.PI/180)),
-        cos:Math.cos(player.cape.angle * (Math.PI/180))
-    }
-    capeAngle.sin = (capeAngle.sin - headAngle.sin) * 0.8 + headAngle.sin;
-    capeAngle.cos = (capeAngle.cos - headAngle.cos) * 0.8 + headAngle.cos;
-    player.cape.angle = Math.atan2(capeAngle.sin, capeAngle.cos) * (180/Math.PI);
+	player.logic();
 
 	game.physics.arcade.collide(aigroup);
 	game.physics.arcade.collide(aigroup, player.com);
 
 	game.physics.arcade.collide(aigroup, map.wallLayer);
-    game.physics.arcade.collide(player.com, map.wallLayer);
 
     let mouseDistanceToCenter = Phaser.Math.distance(game.input.activePointer.x, game.width/2, game.input.activePointer.y, game.height/2);
     let newcam = {
