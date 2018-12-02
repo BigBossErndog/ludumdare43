@@ -35,6 +35,7 @@ function loadDefaults() {
 }
 
 var parallaxSprite;
+var style = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10 };
 function createDefaults() {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 	game.renderer.renderSession.roundPixels = true;
@@ -59,9 +60,9 @@ function createDefaults() {
     targeter.anchor.y = 0.5;
 	targeter.fixedToCamera = true;
 
-	var style = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10 };
-	ammoCount = game.add.text(100, 64, "Ammo:\t", style);
-	tag = game.add.text(100, 64, "AI  ", style);
+	ammoCount = game.add.text(0, 0, "Ammo:\t", style);
+	tag = game.add.text(0, 0, "AI  ", style);
+	// triggerDialogue(intro);
 }
 
 function updateDefaults() {
@@ -72,8 +73,8 @@ function updateDefaults() {
 		game.physics.arcade.overlap(player.gun.bullets, aigroup, collisionHandler, null, this);
 		
 		game.physics.arcade.collide(player.gun.bullets, map.wallLayer, function(bullet) {
-		bullet.kill();
-	});
+			bullet.kill();
+		});
 	}
 
     for (var i = 0; i < aigroup.length; i++) {
