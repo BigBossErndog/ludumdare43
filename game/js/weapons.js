@@ -62,10 +62,10 @@ function megaParticleCannon(owner) {
 			//lock in place - deregister inputs?
 			console.log(game);
 			//start timer
-			var scale = 1;
+			var scale = 2;
 			var fireLoop = game.time.events.loop(50, function() {
 				newgun.fire();
-				newgun.bullets.setAll('scale.y', scale += 0.15);
+				newgun.bullets.setAll('scale.y', scale++, true, true, 0);
 			}, this, newgun, scale);
 			game.time.events.add(Phaser.Timer.SECOND * 2, function() {
 				newgun.specialFiring = false;
