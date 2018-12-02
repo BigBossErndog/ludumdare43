@@ -26,8 +26,17 @@ var mainScene = {
 			aigroup.add(newEnemy);
 		}
 		
-		for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < 5; i++) {
 			let newPickable = shotgunPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
+		}
+		for (var i = 0; i < 5; i++) {
+			let newPickable = pistolPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
+		}
+		for (var i = 0; i < 5; i++) {
+			let newPickable = swordPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
+		}
+		for (var i = 0; i < 5; i++) {
+			let newPickable = smgPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
 		}
 	},
 	
