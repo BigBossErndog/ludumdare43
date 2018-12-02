@@ -1,73 +1,21 @@
 var game;
 
 window.onload = function() {
-	game = new Phaser.Game(400, 300, Phaser.AUTO, '', { preload: preload, create: create, update: update }, false, false);
-    console.log(game);
+	game = new Phaser.Game(400, 300, Phaser.AUTO, '', null, false, false);
+    
+	game.state.add("main", mainScene);
+	game.state.start("main");
+	
     // game.state.add("mainScene", mainScene);
 }
 
 function preload() {
     console.log("preload");
-	game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
-    loadWeapons();
-	loadEnemies();
-	loadLevels();
-	loadPlayer();
+	
 }
 
-var player;
-var targeter;
-var cursors;
-var wasd;
-
-var gun;
-var bulletTime = 0;
-var bullets;
-
-var map;
-
-var ammoCount;
-var tag;
-
-function create() {
-
-	sightLine = new Phaser.Line();
-
-    console.log("creating");
-
-	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-	game.renderer.renderSession.roundPixels = true;
-	Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
-
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-
-    game.stage.backgroundColor = '#dce2e2';
-
-	map = makeLevel("mapTest1", "spritemap2");
-
-    aigroup = game.add.group();
-	var spawnPoints = [ [30,40], [60,70], [100, 50], [550, 370], [190, 500] ];
-    for (var i = 0; i < 5; i++) {
-		let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
-		newEnemy.gun = basicGun(newEnemy);
-        aigroup.add(newEnemy);
-    }
-
-	var x, y;
-	x = getRandomInt(300, 500);
-	y = getRandomInt(200, 400);
-	player = new Player(game, x, y);
-	targeter = game.add.sprite(100, 100, 'reticle');
-    player.gun = smg(player.head);
-
-    targeter.anchor.x = 0.5;
-    targeter.anchor.y = 0.5;
-	targeter.fixedToCamera = true;
-
-	// player.legs.body.immovable = true;
-	// player.com.body.immovable = true;
-
-    cursors = game.input.keyboard.createCursorKeys();
+function createControls() {
+	cursors = game.input.keyboard.createCursorKeys();
     wasd = {
       up: game.input.keyboard.addKey(Phaser.Keyboard.W),
       down: game.input.keyboard.addKey(Phaser.Keyboard.S),
@@ -76,31 +24,44 @@ function create() {
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.R ]);
+}
 
-	// game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+function createDefaults() {
+	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+	game.renderer.renderSession.roundPixels = true;
+	Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
+	game.stage.backgroundColor = '#dce2e2';
+
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+	
+	sightLine = new Phaser.Line();
+	
+	var x, y;
+	x = getRandomInt(300, 500);
+	y = getRandomInt(200, 400);
+	
+	player = new Player(game, x, y);
+	targeter = game.add.sprite(100, 100, 'reticle');
+    player.gun = smg(player.head);
+	
+	aigroup = game.add.group();
+	var spawnPoints = [ [30,40], [60,70], [100, 50], [550, 370], [190, 500] ];
+    for (var i = 0; i < 5; i++) {
+		let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+		newEnemy.gun = basicGun(newEnemy);
+        aigroup.add(newEnemy);
+    }
+
+    targeter.anchor.x = 0.5;
+    targeter.anchor.y = 0.5;
+	targeter.fixedToCamera = true;
+	
 	var style = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10 };
 	ammoCount = game.add.text(100, 64, "Ammo:\t", style);
 	tag = game.add.text(100, 64, "AI  ", style);
 }
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-}
-
-var angle = 0;
-var fireRate = 0;
-var nextFire = 0;
-var clicked = false;
-var recCam = {
-    x:0,
-    y:0
-}
-
-
-function update() {
-
+function updateDefaults() {
 	game.physics.arcade.overlap(player.gun.bullets, aigroup, collisionHandler, null, this);
 
 	game.physics.arcade.collide(player.gun.bullets, map.wallLayer, function(bullet) {
@@ -149,6 +110,35 @@ function update() {
 	ammoCount.x = player.com.x - 10;
 	ammoCount.y = player.com.y + 15;
 	player.scanner(aigroup, targeter, tag);
+}
+
+var player;
+var targeter;
+var cursors;
+var wasd;
+
+var gun;
+var bulletTime = 0;
+var bullets;
+
+var map;
+
+var ammoCount;
+var tag;
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
+
+var angle = 0;
+var fireRate = 0;
+var nextFire = 0;
+var clicked = false;
+var recCam = {
+    x:0,
+    y:0
 }
 
 function collisionHandler(bullet, ai) {
