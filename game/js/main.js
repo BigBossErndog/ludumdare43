@@ -8,17 +8,14 @@ window.onload = function() {
 
 function preload() {
     console.log("preload");
-    game.load.spritesheet('head', 'assets/Head.png', 32, 32);
-    game.load.spritesheet("cape", "assets/cape.png", 32, 32);
-    game.load.spritesheet('legs', 'assets/WalkSprite.png', 32, 32);
-    game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
-	game.load.image("playercom", "assets/playercom.png");
+	game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
     loadWeapons();
 	loadEnemies();
 	loadLevels();
+	loadPlayer();
 }
 
-var player = { com: null, head: null, cape: null, legs: null };
+var player;
 var targeter;
 var cursors;
 
@@ -55,37 +52,15 @@ function create() {
 	var x, y;
 	x = getRandomInt(300, 500);
 	y = getRandomInt(200, 400);
-	player.com = game.add.sprite(x, y, "playercom");
-    player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
-    player.com.addChild(player.cape = game.add.sprite(0, 0, "cape"));
-    player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
-    targeter = game.add.sprite(100, 100, 'reticle');
+	player = new Player(game, x, y);
+	targeter = game.add.sprite(100, 100, 'reticle');
     gun = shotgun(player.head);
-
-	player.legs.animations.add("walk", [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 20, true);
-	player.legs.animations.add("stand", [0], 1, false);
-	player.legs.animations.play("stand");
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
-    targeter.fixedToCamera = true;
-    player.legs.anchor.x = 0.5;
-    player.legs.anchor.y = 0.5;
-    player.cape.anchor.x = 0.5;
-    player.cape.anchor.y = 0.5;
-    player.head.anchor.x = 0.5;
-    player.head.anchor.y = 0.5;
-	player.com.anchor.x = 0.5;
-	player.com.anchor.y = 0.5;
-
-    player.legs.recAngle = player.legs.angle;
-    player.cape.recHeadAngle = player.head.angle;
-
-    game.physics.enable(player.head, Phaser.Physics.ARCADE);
-    game.physics.enable(player.legs, Phaser.Physics.ARCADE);
-	game.physics.enable(player.com, Phaser.Physics.ARCADE);
-
-	player.com.body.setSize(24, 24, 4, 4);
+    targeter.scale.x = 0.05;
+    targeter.scale.y = 0.05;
+	targeter.fixedToCamera = true;
 
 	// player.legs.body.immovable = true;
 	// player.com.body.immovable = true;
@@ -218,18 +193,18 @@ function update() {
 
 	game.physics.arcade.collide(aigroup, map.wallLayer);
     game.physics.arcade.collide(player.com, map.wallLayer);
-    
+
     let mouseDistanceToCenter = Phaser.Math.distance(game.input.activePointer.x, game.width/2, game.input.activePointer.y, game.height/2);
     let newcam = {
         x: player.com.x + Math.cos(player.head.rotation) * mouseDistanceToCenter * 0.4,
         y: player.com.y + Math.sin(player.head.rotation) * mouseDistanceToCenter * 0.4
     }
-    
+
     let oldcam = {
         x:recCam.x,
         y:recCam.y
     }
-    
+
     recCam.x = (oldcam.x - newcam.x) * 0.9 + newcam.x;
     recCam.y = (oldcam.y - newcam.y) * 0.9 + newcam.y;
 
