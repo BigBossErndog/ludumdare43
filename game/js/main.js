@@ -102,8 +102,6 @@ function create() {
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.R ]);
-
-	game.camera.follow(player.com);
 }
 
 function getRandomInt(min, max) {
@@ -116,6 +114,10 @@ var angle = 0;
 var fireRate = 0;
 var nextFire = 0;
 var clicked = false;
+var recCam = {
+    x:0,
+    y:0
+}
 
 function update() {
 
@@ -228,7 +230,25 @@ function update() {
 	game.physics.arcade.collide(aigroup, player.com);
 
 	game.physics.arcade.collide(aigroup, map.wallLayer);
-	game.physics.arcade.collide(player.com, map.wallLayer);
+    game.physics.arcade.collide(player.com, map.wallLayer);
+    
+    let mouseDistanceToCenter = Phaser.Math.distance(game.input.activePointer.x, game.width/2, game.input.activePointer.y, game.height/2);
+    let newcam = {
+        x: player.com.x + Math.cos(player.head.rotation) * mouseDistanceToCenter * 0.4,
+        y: player.com.y + Math.sin(player.head.rotation) * mouseDistanceToCenter * 0.4
+    }
+    
+    let oldcam = {
+        x:recCam.x,
+        y:recCam.y
+    }
+    
+    recCam.x = (oldcam.x - newcam.x) * 0.9 + newcam.x;
+    recCam.y = (oldcam.y - newcam.y) * 0.9 + newcam.y;
+    
+    console.log(recCam.x, recCam.y)
+
+    game.camera.focusOnXY(recCam.x, recCam.y);
 }
 
 function collisionHandler(bullet, ai) {
