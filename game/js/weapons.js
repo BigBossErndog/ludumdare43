@@ -14,6 +14,7 @@ function basicGun(owner) {
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 	newgun.automatic = true;
 	newgun.fireLimit = 60;
+	newgun.weaponName = "Basic Gun";
 
 	return newgun;
 }
@@ -29,6 +30,7 @@ function railgunLaserType(owner) {
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 	newgun.fireLimit = 20;
 	newgun.automatic = true;
+	newgun.weaponName = "Railgun";
 
 	return newgun;
 }
@@ -47,6 +49,7 @@ function smg(owner) {
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 	newgun.fireLimit = 30;
 	newgun.automatic = true;
+	newgun.weaponName = "SMG";
 
 	return newgun;
 }
@@ -63,6 +66,7 @@ function shotgun(owner) {
 	shotgun.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
 	shotgun.bulletKillDistance = 64;
 	shotgun.multiFire = true;
+	shotgun.weaponName = "Shot Gun";
 	shotgun.shoot = function () {
 		var success = false;
 
@@ -88,6 +92,7 @@ function sword(owner) {
 	// sword.bulletAngleVariance = 10;
 	sword.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
 	sword.bulletLifespan = 10;
+	sword.weaponName = "Sword";
 
 	return sword;
 }

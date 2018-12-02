@@ -115,22 +115,6 @@ function update() {
 
 	player.logic();
 
-    if (game.input.activePointer.isDown)
-    {
-		if (clicked === false || player.gun.automatic) {
-			console.log(clicked);
-			if (player.gun.type === 'special') player.gun.shoot(player);
-			else player.gun.fire();
-			clicked = true;
-		}
-    }
-	if (game.input.activePointer.isUp) {
-		if (clicked === true) clicked = false;
-	}
-	if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
-		gun.shots = 0;
-	}
-
 	game.physics.arcade.collide(aigroup);
 	game.physics.arcade.collide(aigroup, player.com);
 
