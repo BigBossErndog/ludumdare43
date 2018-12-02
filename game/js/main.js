@@ -132,7 +132,7 @@ function update() {
             });
         }
     }
-    console.log(targeter.x + " : " + targeter.y)
+    
     targeter.cameraOffset.x = game.input.activePointer.x;
     targeter.cameraOffset.y = game.input.activePointer.y;
 
