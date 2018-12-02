@@ -58,8 +58,6 @@ function create() {
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
-    targeter.scale.x = 0.05;
-    targeter.scale.y = 0.05;
 	targeter.fixedToCamera = true;
 
 	// player.legs.body.immovable = true;
@@ -110,6 +108,7 @@ function update() {
     
     targeter.cameraOffset.x = game.input.activePointer.x;
     targeter.cameraOffset.y = game.input.activePointer.y;
+    targeter.angle += 10;
 
     //  As we don't need to exchange any velocities or motion we can the 'overlap' check instead of 'collide'
 
