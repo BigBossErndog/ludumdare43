@@ -2,16 +2,16 @@ var game;
 
 window.onload = function() {
 	game = new Phaser.Game(400, 300, Phaser.AUTO, '', null, false, false);
-    
+
 	game.state.add("main", mainScene);
 	game.state.start("main");
-	
+
     // game.state.add("mainScene", mainScene);
 }
 
 function preload() {
     console.log("preload");
-	
+
 }
 
 function createControls() {
@@ -36,13 +36,13 @@ function createDefaults() {
 	game.stage.backgroundColor = '#dce2e2';
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
-	
+
 	sightLine = new Phaser.Line();
-	
+
 	var x, y;
 	x = getRandomInt(300, 500);
 	y = getRandomInt(200, 400);
-	
+
 	player = new Player(game, x, y);
 	targeter = game.add.sprite(100, 100, 'reticle');
     player.gun = sword(player.head);
@@ -51,14 +51,14 @@ function createDefaults() {
 	var spawnPoints = [ [30,40], [60,70], [100, 50], [550, 370], [190, 500] ];
     for (var i = 0; i < 5; i++) {
 		let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
-		newEnemy.gun = basicGun(newEnemy);
+		newEnemy.gun = autorifle(newEnemy);
         aigroup.add(newEnemy);
     }
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
 	targeter.fixedToCamera = true;
-	
+
 	var style = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10 };
 	ammoCount = game.add.text(100, 64, "Ammo:\t", style);
 	tag = game.add.text(100, 64, "AI  ", style);
