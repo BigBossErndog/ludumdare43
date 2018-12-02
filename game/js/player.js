@@ -115,20 +115,6 @@ class Player {
             capeAngle.cos = (capeAngle.cos - headAngle.cos) * 0.8 + headAngle.cos;
             this.cape.angle = Math.atan2(capeAngle.sin, capeAngle.cos) * (180/Math.PI);
         }
-		
-         if (cursors.right.isDown || wasd.right.isDown)
-        {
-            this.com.body.velocity.x += 240;
-            this.playWalkAnimation();
-        }
-        if (cursors.up.isDown || wasd.up.isDown) {
-            this.com.body.velocity.y += -240;
-            this.playWalkAnimation();
-        }
-        if (cursors.down.isDown || wasd.down.isDown) {
-            this.com.body.velocity.y += 240;
-            this.playWalkAnimation();
-        }
 
         if (Math.abs(this.com.body.velocity.x) + Math.abs(this.com.body.velocity.y) > 10) {
             angle = Math.atan2(this.com.body.velocity.y, this.com.body.velocity.x) * (180/Math.PI);
