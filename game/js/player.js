@@ -116,6 +116,43 @@ class Player {
             this.cape.angle = Math.atan2(capeAngle.sin, capeAngle.cos) * (180/Math.PI);
         }
 
+        if (Math.abs(this.com.body.velocity.x) + Math.abs(this.com.body.velocity.y) > 10) {
+            angle = Math.atan2(this.com.body.velocity.y, this.com.body.velocity.x) * (180/Math.PI);
+        }
+        else {
+            angle = this.legs.angle;
+			this.playStandAnimation();
+        }
+
+        var prevAngle = {
+            sin:Math.sin(this.legs.angle * (Math.PI/180)),
+            cos:Math.cos(this.legs.angle * (Math.PI/180))
+        }
+        var newAngle = {
+            sin:Math.sin(angle * (Math.PI/180)),
+            cos:Math.cos(angle * (Math.PI/180))
+        }
+
+        prevAngle.sin = (prevAngle.sin - newAngle.sin) * 0.9 + newAngle.sin;
+        prevAngle.cos = (prevAngle.cos - newAngle.cos) * 0.9 + newAngle.cos;
+
+        this.legs.angle = Math.atan2(prevAngle.sin, prevAngle.cos) * (180/Math.PI);
+
+		// this.head.rotation = game.physics.arcade.angleToPointer(this.head);
+		this.head.angle = Math.atan2((game.input.mousePointer.y + game.camera.y) - this.com.body.y, (game.input.mousePointer.x + game.camera.x) - this.com.body.x) * (180/Math.PI);
+
+		var headAngle = {
+			sin:Math.sin(this.head.angle * (Math.PI/180)),
+			cos:Math.cos(this.head.angle * (Math.PI/180))
+		}
+		var capeAngle = {
+			sin:Math.sin(this.cape.angle * (Math.PI/180)),
+			cos:Math.cos(this.cape.angle * (Math.PI/180))
+		}
+		capeAngle.sin = (capeAngle.sin - headAngle.sin) * 0.9 + headAngle.sin;
+		capeAngle.cos = (capeAngle.cos - headAngle.cos) * 0.9 + headAngle.cos;
+		this.cape.angle = Math.atan2(capeAngle.sin, capeAngle.cos) * (180/Math.PI);
+
 		if (game.input.activePointer.isDown)
 		{
 			if (clicked === false || this.gun.automatic) {
@@ -149,6 +186,7 @@ class Player {
 
 		this.head.animations.add("shotGunShoot", [31,32,33,30], 7, false);
 		this.head.animations.add("smgShoot", [41,40], 20, false);
+		this.head.animations.add("swordSwing", [52,53,54,51,50], 15, false);
 
         this.head.animations.play("stand");
     }
@@ -179,6 +217,10 @@ class Player {
 				case "Submachine Gun":
 					this.recoil(10, this.head.angle * (Math.PI/180) + Math.PI);
 					this.head.play("smgShoot");
+					break;
+				case "Sword":
+					this.recoil(100, this.head.angle * (Math.PI/180));
+					this.head.play("swordSwing");
 					break;
 			}
 		}

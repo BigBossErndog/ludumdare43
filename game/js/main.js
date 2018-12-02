@@ -9,11 +9,6 @@ window.onload = function() {
     // game.state.add("mainScene", mainScene);
 }
 
-function preload() {
-    console.log("preload");
-
-}
-
 function createControls() {
 	cursors = game.input.keyboard.createCursorKeys();
     wasd = {
@@ -26,6 +21,7 @@ function createControls() {
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.R ]);
 }
 
+var parallaxSprite;
 function createDefaults() {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 	game.renderer.renderSession.roundPixels = true;
@@ -42,8 +38,8 @@ function createDefaults() {
 
 	player = new Player(game, x, y);
 	targeter = game.add.sprite(100, 100, 'reticle');
-    player.gun = typhoon(player);
-
+    player.gun = shotgun(player.head);
+	
 	aigroup = game.add.group();
 	var spawnPoints = [ [30,40], [60,70], [100, 50], [550, 370], [190, 500] ];
     for (var i = 0; i < 5; i++) {
@@ -62,8 +58,11 @@ function createDefaults() {
 }
 
 function updateDefaults() {
+	parallaxSprite.cameraOffset.x = game.camera.x / 2;
+	parallaxSprite.cameraOffset.y = game.camera.y / 2;
+	
 	game.physics.arcade.overlap(player.gun.bullets, aigroup, collisionHandler, null, this);
-
+	
 	game.physics.arcade.collide(player.gun.bullets, map.wallLayer, function(bullet) {
 		bullet.kill();
 	});
