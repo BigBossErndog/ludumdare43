@@ -9,6 +9,7 @@ window.onload = function() {
 function preload() {
     console.log("preload");
     game.load.spritesheet('head', 'assets/Head.png', 32, 32);
+    game.load.spritesheet("cape", "assets/cape.png", 32, 32);
     game.load.spritesheet('legs', 'assets/WalkSprite.png', 32, 32);
     game.load.spritesheet('target', 'assets/target.jpg');
 	game.load.image("playercom", "assets/playercom.png");
@@ -17,7 +18,7 @@ function preload() {
 	loadLevels();
 }
 
-var player = { com: null, head: null, legs: null };
+var player = { com: null, head: null, cape: null, legs: null };
 var targeter;
 var cursors;
 
@@ -58,6 +59,7 @@ function create() {
 	y = getRandomInt(200, 400);
 	player.com = game.add.sprite(x, y, "playercom");
     player.com.addChild(player.legs = game.add.sprite(0, 0, 'legs'));
+    player.com.addChild(player.cape = game.add.sprite(0, 0, "cape"));
     player.com.addChild(player.head = game.add.sprite(0, 0, 'head'));
     targeter = game.add.sprite(0, 0, 'target');
     gun = shotgun(player.head);
@@ -70,12 +72,17 @@ function create() {
     targeter.anchor.y = 0.5;
     player.legs.anchor.x = 0.5;
     player.legs.anchor.y = 0.5;
+    player.cape.anchor.x = 0.5;
+    player.cape.anchor.y = 0.5;
     player.head.anchor.x = 0.5;
     player.head.anchor.y = 0.5;
 	player.com.anchor.x = 0.5;
 	player.com.anchor.y = 0.5;
     targeter.scale.x = 0.05;
     targeter.scale.y = 0.05;
+
+    player.legs.recAngle = player.legs.angle;
+    player.cape.recHeadAngle = player.head.angle;
 
     game.physics.enable(player.head, Phaser.Physics.ARCADE);
     game.physics.enable(player.legs, Phaser.Physics.ARCADE);
@@ -106,8 +113,6 @@ function getRandomInt(min, max) {
 }
 
 var angle = 0;
-var previousAngle = 0;
-var previousPreviousAngle = 0;
 var fireRate = 0;
 var nextFire = 0;
 var clicked = false;
@@ -122,6 +127,11 @@ function update() {
 
     for (var i = 0; i < aigroup.length; i++) {
         if(aigroup.getAt(i).exists) aigroup.getAt(i).logic();
+        if (aigroup.getAt(i).gun != null) {
+            game.physics.arcade.collide(aigroup.getAt(i).gun.bullets, map.wallLayer, function(bullet) {
+                bullet.kill();
+            });
+        }
     }
 
     targeter.x = game.input.mousePointer.x + game.camera.x;
@@ -151,17 +161,28 @@ function update() {
         player.com.body.velocity.y += 240;
 		player.legs.animations.play("walk");
     }
-
+    
     if (player.com.body.velocity.y != player.com.body.velocity.x || player.com.body.velocity.x != 0) {
         angle = Math.atan2(player.com.body.velocity.y, player.com.body.velocity.x) * (180/Math.PI);
-        player.legs.angle = (angle + previousAngle + previousPreviousAngle) / 3;
     }
 	else {
+        angle = player.legs.angle;
 		player.legs.animations.play("stand");
-	}
+    }
 
-    previousAngle = angle;
-    previousPreviousAngle = previousAngle;
+    var prevAngle = {
+        sin:Math.sin(player.legs.angle * (Math.PI/180)),
+        cos:Math.cos(player.legs.angle * (Math.PI/180))
+    }
+    var newAngle = {
+        sin:Math.sin(angle * (Math.PI/180)),
+        cos:Math.cos(angle * (Math.PI/180))
+    }
+
+    prevAngle.sin = (prevAngle.sin - newAngle.sin) * 0.8 + newAngle.sin;
+    prevAngle.cos = (prevAngle.cos - newAngle.cos) * 0.8 + newAngle.cos;
+    
+    player.legs.angle = Math.atan2(prevAngle.sin, prevAngle.cos) * (180/Math.PI);
 
     if (game.input.activePointer.isDown)
     {
@@ -180,7 +201,19 @@ function update() {
 	}
 
 	// player.head.rotation = game.physics.arcade.angleToPointer(player.head);
-	player.head.angle = Math.atan2((game.input.mousePointer.y + game.camera.y) - player.com.body.y, (game.input.mousePointer.x + game.camera.x) - player.com.body.x) * (180/Math.PI);
+    player.head.angle = Math.atan2((game.input.mousePointer.y + game.camera.y) - player.com.body.y, (game.input.mousePointer.x + game.camera.x) - player.com.body.x) * (180/Math.PI);
+    
+    var headAngle = {
+        sin:Math.sin(player.head.angle * (Math.PI/180)),
+        cos:Math.cos(player.head.angle * (Math.PI/180))
+    }
+    var capeAngle = {
+        sin:Math.sin(player.cape.angle * (Math.PI/180)),
+        cos:Math.cos(player.cape.angle * (Math.PI/180))
+    }
+    capeAngle.sin = (capeAngle.sin - headAngle.sin) * 0.8 + headAngle.sin;
+    capeAngle.cos = (capeAngle.cos - headAngle.cos) * 0.8 + headAngle.cos;
+    player.cape.angle = Math.atan2(capeAngle.sin, capeAngle.cos) * (180/Math.PI);
 
 	game.physics.arcade.collide(aigroup);
 	game.physics.arcade.collide(aigroup, player.com);
