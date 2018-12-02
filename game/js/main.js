@@ -8,6 +8,7 @@ window.onload = function() {
 
 function preload() {
     console.log("preload");
+	game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
     loadWeapons();
 	loadEnemies();
 	loadLevels();
@@ -52,13 +53,14 @@ function create() {
 	x = getRandomInt(300, 500);
 	y = getRandomInt(200, 400);
 	player = new Player(game, x, y);
-    targeter = game.add.sprite(0, 0, 'target');
+	targeter = game.add.sprite(100, 100, 'reticle');
     gun = shotgun(player.head);
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;
     targeter.scale.x = 0.05;
     targeter.scale.y = 0.05;
+	targeter.fixedToCamera = true;
 
 	// player.legs.body.immovable = true;
 	// player.com.body.immovable = true;
@@ -105,10 +107,9 @@ function update() {
             });
         }
     }
-
-    targeter.x = game.input.mousePointer.x + game.camera.x;
-    targeter.y = game.input.mousePointer.y + game.camera.y;
-
+    console.log(targeter.x + " : " + targeter.y)
+    targeter.cameraOffset.x = game.input.activePointer.x;
+    targeter.cameraOffset.y = game.input.activePointer.y;
 
     //  As we don't need to exchange any velocities or motion we can the 'overlap' check instead of 'collide'
 
@@ -206,8 +207,6 @@ function update() {
 
     recCam.x = (oldcam.x - newcam.x) * 0.9 + newcam.x;
     recCam.y = (oldcam.y - newcam.y) * 0.9 + newcam.y;
-
-    console.log(recCam.x, recCam.y)
 
     game.camera.focusOnXY(recCam.x, recCam.y);
 }
