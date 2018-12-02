@@ -84,7 +84,9 @@ function makeDefaultEnemy(x, y) {
 			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
 			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
 
-			if (Phaser.Math.distance(this.body.x, this.recPlayerSight.x, this.body.y, this.recPlayerSight.y) < 32) {
+			let xdiff = Math.abs(this.body.x - this.recPlayerSight.x);
+			let ydiff = Math.abs(this.body.y - this.recPlayerSight.y);
+			if (xdiff + ydiff < 32) {
 				this.recPlayerSight = null;
 			}
 		}
