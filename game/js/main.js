@@ -26,6 +26,9 @@ var bullets;
 
 var map;
 
+var ammoCount;
+var tag;
+
 function create() {
 
 	sightLine = new Phaser.Line();
@@ -37,7 +40,7 @@ function create() {
 	Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
-	
+
     game.stage.backgroundColor = '#dce2e2';
 
 	map = makeLevel("mapTest1", "spritemap2");
@@ -73,6 +76,11 @@ function create() {
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.R ]);
+
+	// game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+	var style = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10 };
+	ammoCount = game.add.text(100, 64, "Ammo:\t", style);
+	tag = game.add.text(100, 64, "AI  ", style);
 }
 
 function getRandomInt(min, max) {
@@ -90,6 +98,7 @@ var recCam = {
     y:0
 }
 
+
 function update() {
 
 	game.physics.arcade.overlap(player.gun.bullets, aigroup, collisionHandler, null, this);
@@ -106,7 +115,7 @@ function update() {
             });
         }
     }
-    
+
     targeter.cameraOffset.x = game.input.activePointer.x;
     targeter.cameraOffset.y = game.input.activePointer.y;
     targeter.angle += 10;
@@ -135,6 +144,11 @@ function update() {
     recCam.y = (oldcam.y - newcam.y) * 0.9 + newcam.y;
 
     game.camera.focusOnXY(recCam.x, recCam.y);
+
+	ammoCount.setText("Ammo:" + (player.gun.fireLimit > 0 ? (player.gun.fireLimit - player.gun.shots) + "  " : "∞  "));
+	ammoCount.x = player.com.x - 10;
+	ammoCount.y = player.com.y + 15;
+	player.scanner(aigroup, targeter, tag);
 }
 
 function collisionHandler(bullet, ai) {
