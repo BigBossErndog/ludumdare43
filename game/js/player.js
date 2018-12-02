@@ -57,7 +57,7 @@ class Player {
         this.com.body.velocity.x = this.addedVelocity.x;
         this.com.body.velocity.y = this.addedVelocity.y;
 
-        console.log(this.gun.specialFiring);
+        // console.log(this.gun.specialFiring);
         if (this.gun !== 'special' && !this.gun.specialFiring) {
             if (cursors.left.isDown || wasd.left.isDown)
             {
@@ -137,7 +137,7 @@ class Player {
 			if (clicked === true) clicked = false;
 		}
 		if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
-			this.gun.shots = 0;
+			this.gun.resetShots();
 		}
 
         game.physics.arcade.collide(this.com, map.wallLayer);
