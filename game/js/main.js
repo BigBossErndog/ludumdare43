@@ -44,17 +44,15 @@ function create() {
 
 	map = makeLevel("mapTest1", "spritemap2");
 
-    //  This will check Group vs. Group collision (bullets vs. veggies!)
     aigroup = game.add.group();
-	var x, y;
+	var spawnPoints = [ [30,40], [60,70], [100, 50], [550, 370], [190, 500] ];
     for (var i = 0; i < 5; i++) {
-		let newEnemy = makeDefaultEnemy(x, y);
-     	x = getRandomInt(0, 800);
-		y = getRandomInt(0, 600);
+		let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
 		newEnemy.gun = basicGun(newEnemy);
         aigroup.add(newEnemy);
     }
 
+	var x, y;
 	x = getRandomInt(300, 500);
 	y = getRandomInt(200, 400);
 	player.com = game.add.sprite(x, y, "playercom");
@@ -160,7 +158,7 @@ function update() {
         player.com.body.velocity.y += 240;
 		player.legs.animations.play("walk");
     }
-    
+
     if (player.com.body.velocity.y != player.com.body.velocity.x || player.com.body.velocity.x != 0) {
         angle = Math.atan2(player.com.body.velocity.y, player.com.body.velocity.x) * (180/Math.PI);
     }
@@ -180,7 +178,7 @@ function update() {
 
     prevAngle.sin = (prevAngle.sin - newAngle.sin) * 0.8 + newAngle.sin;
     prevAngle.cos = (prevAngle.cos - newAngle.cos) * 0.8 + newAngle.cos;
-    
+
     player.legs.angle = Math.atan2(prevAngle.sin, prevAngle.cos) * (180/Math.PI);
 
     if (game.input.activePointer.isDown)
@@ -201,7 +199,7 @@ function update() {
 
 	// player.head.rotation = game.physics.arcade.angleToPointer(player.head);
     player.head.angle = Math.atan2((game.input.mousePointer.y + game.camera.y) - player.com.body.y, (game.input.mousePointer.x + game.camera.x) - player.com.body.x) * (180/Math.PI);
-    
+
     var headAngle = {
         sin:Math.sin(player.head.angle * (Math.PI/180)),
         cos:Math.cos(player.head.angle * (Math.PI/180))
