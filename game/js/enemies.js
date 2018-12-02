@@ -15,6 +15,8 @@ function makeHuman(x, y, angle) {
 	human.body.drag.y = 500;
 	human.body.maxVelocity.set(100);
 	
+	human.body.setSize(24, 24, 4, 4);
+	
 	if (angle != undefined && angle != null) {
 		human.angle = angle;
 	}
@@ -71,6 +73,8 @@ function makeDefaultEnemy(x, y, angle) {
 	enemy.body.drag.x = 500;
 	enemy.body.drag.y = 500;
 	enemy.body.maxVelocity.set(100);
+	
+	enemy.body.setSize(24, 24, 4, 4);
 	
 	if (angle != undefined && angle != null) {
 		enemy.angle = angle;
