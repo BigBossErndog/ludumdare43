@@ -55,12 +55,13 @@ function shotgun(owner) {
 	var shotgun = game.add.weapon(36, "bullet1");
 	shotgun.type = 'special';
 	shotgun.trackSprite(owner, 15, 5, true);
-	shotgun.fireRate = 25;
-	shotgun.bulletSpeed = 450;
-	shotgun.bulletSpeedVariance = 100;
+	shotgun.fireRate = 480;
+	shotgun.bulletSpeed = 500;
+	shotgun.bulletSpeedVariance = 50;
 	shotgun.bulletAngleVariance = 40;
 	shotgun.fireLimit = 6;
-	shotgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+	shotgun.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
+	shotgun.bulletKillDistance = 64;
 	shotgun.multiFire = true;
 	shotgun.shoot = function () {
 		//insert check for enough bullets to fire full spread
