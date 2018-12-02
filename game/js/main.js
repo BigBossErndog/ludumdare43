@@ -22,7 +22,7 @@ var cursors;
 var gun;
 var bulletTime = 0;
 var bullets;
-dw
+
 var map;
 
 function create() {

@@ -19,9 +19,9 @@ class Player {
         this.com.addChild(this.cape = game.add.sprite(0, 0, "cape"));
         this.com.addChild(this.head = game.add.sprite(0, 0, 'head'));
 
-    	player.legs.animations.add("walk", [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 20, true);
-    	player.legs.animations.add("stand", [0], 1, false);
-    	player.legs.animations.play("stand");
+    	this.legs.animations.add("walk", [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 20, true);
+    	this.legs.animations.add("stand", [0], 1, false);
+    	this.legs.animations.play("stand");
 
         this.legs.anchor.x = 0.5;
         this.legs.anchor.y = 0.5;
