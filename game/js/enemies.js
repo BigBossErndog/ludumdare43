@@ -42,6 +42,8 @@ function makeHuman(x, y) {
 
 function makeDefaultEnemy(x, y) {
 	var enemy = game.add.sprite(x, y, "human");
+	enemy.health = 100;
+
 	enemy.anchor.x = 0.5;
 	enemy.anchor.y = 0.5;
 
@@ -81,11 +83,11 @@ function makeDefaultEnemy(x, y) {
 				this.gun.resetShots();
 				this.gun.fire();
 			}
-			
+
 			this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
 			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
 			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
-			
+
 			let xdiff = Math.abs(this.body.x - this.recPlayerSight.x);
 			let ydiff = Math.abs(this.body.y - this.recPlayerSight.y);
 			if (xdiff + ydiff < 32) {
@@ -106,18 +108,18 @@ function makeDefaultEnemy(x, y) {
 		else{
 	        success = true;
 	    }
-		
+
 		if (success) {
 			toOtherAngle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x);
-			
+
 			var phi = Math.abs(toOtherAngle - this.angle) % (Math.PI * 2);       // This is either the distance or 360 - distance
 			var distance = phi > Math.PI ? (Math.PI * 2) - phi : phi;
-			
+
 			if (distance > Math.PI/3) {
 				success = false;
 			}
 		}
-		
+
 		return success;
 	}
 
