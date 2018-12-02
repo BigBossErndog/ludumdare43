@@ -1,7 +1,7 @@
 console.log("hello")
 
 function loadPlayer() {
-    game.load.spritesheet('head', 'assets/Head.png', 32, 32);
+    game.load.spritesheet('head', 'assets/Head.png', 64, 32);
     game.load.spritesheet("cape", "assets/cape.png", 32, 32);
     game.load.spritesheet('legs', 'assets/WalkSprite.png', 32, 32);
     game.load.image("playercom", "assets/playercom.png");
@@ -28,7 +28,7 @@ class Player {
         this.legs.anchor.y = 0.5;
         this.cape.anchor.x = 0.5;
         this.cape.anchor.y = 0.5;
-        this.head.anchor.x = 0.5;
+        this.head.anchor.x = 0.25;
         this.head.anchor.y = 0.5;
     	this.com.anchor.x = 0.5;
     	this.com.anchor.y = 0.5;
@@ -40,6 +40,15 @@ class Player {
         game.physics.enable(this.legs, Phaser.Physics.ARCADE);
     	game.physics.enable(this.com, Phaser.Physics.ARCADE);
 
-    	this.com.body.setSize(24, 24, 4, 4);
+        this.com.body.setSize(24, 24, 4, 4);
+        
+        this.makeWeaponAnimations();
+    }
+
+    makeWeaponAnimations() {
+        this.head.animations.add("stand", [0], 1, false);
+        this.head.animations.add("walk", [0,1,0,2], 5, true);
+
+        this.head.animations.play("walk");
     }
 }
