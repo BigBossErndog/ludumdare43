@@ -55,7 +55,7 @@ function create() {
 	y = getRandomInt(200, 400);
 	player = new Player(game, x, y);
 	targeter = game.add.sprite(100, 100, 'reticle');
-    player.gun = shotgun(player.head);
+    player.gun = smg(player.head);
 
     targeter.anchor.x = 0.5;
     targeter.anchor.y = 0.5;

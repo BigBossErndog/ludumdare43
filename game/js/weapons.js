@@ -49,7 +49,7 @@ function smg(owner) {
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 	newgun.fireLimit = 30;
 	newgun.automatic = true;
-	newgun.weaponName = "SMG";
+	newgun.weaponName = "Submachine Gun";
 
 	return newgun;
 }
