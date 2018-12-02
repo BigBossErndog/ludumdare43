@@ -64,10 +64,16 @@ function shotgun(owner) {
 	shotgun.bulletKillDistance = 64;
 	shotgun.multiFire = true;
 	shotgun.shoot = function () {
+		var success = false;
+
 		//insert check for enough bullets to fire full spread
 		for (var i = 0; i < 6; i++) {
-			shotgun.fire();
+			if (shotgun.fire()) {
+				success = true;
+			}
 		}
+
+		return success;
 	}
 
 	return shotgun;
