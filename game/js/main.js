@@ -1,5 +1,17 @@
 var game;
 
+WebFontConfig = {
+
+	active: function() { game.time.events.add(Phaser.Timer.SECOND, function () {
+		style = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 1, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 15 };
+	}, this); },
+
+    google: {
+      families: ['Press Start 2P']
+    }
+
+};
+
 window.onload = function() {
 	game = new Phaser.Game(400, 300, Phaser.AUTO, ''/*'phaser-canvas'*/, null, false, false);
 
@@ -40,6 +52,7 @@ function createControls() {
 }
 
 function loadDefaults() {
+	game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 	game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
 	game.load.image("parallax", "assets/Parallax.png");
 	game.load.spritesheet("pickables", "assets/pickables.png", 32, 32);
@@ -56,7 +69,7 @@ function loadDefaults() {
 }
 
 var parallaxSprite;
-var style = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 10 };
+var style;
 var curAI;
 function createDefaults() {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -85,6 +98,7 @@ function createDefaults() {
 	ammoCount = game.add.text(0, 0, "Ammo:\t", style);
 	ammoCount.visible = false;
 	tag = game.add.text(0, 0, "AI  ", style);
+	tag.visible = false;
 	// triggerQuest(null, intro);
 	player.ammoCountActive = true;
 
