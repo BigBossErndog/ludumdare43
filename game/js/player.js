@@ -296,8 +296,6 @@ class Player {
 	}
 
     scanner(aigroup, pickables, targeter, tag) {
-        var aigroup = arguments[0], pickables = arguments[1], targeter = arguments[2], tag = arguments[3];
-
     	var closest = null;
     	var targeterBounds = targeter.getBounds();
     	var entityBounds;
@@ -305,7 +303,7 @@ class Player {
     		entityBounds = arguments[0].getBounds();
     		if (Phaser.Rectangle.intersects(targeterBounds, entityBounds)) {
                 closest = arguments[0];
-                tag.text = /*Add random percentage*/(Math.random() * 100).toFixed(2) + "% AI  ";
+                if (game.input.activePointer.middleButton.isDown) tag.text = /*Add random percentage*/(Math.random() * 100).toFixed(2) + "% AI  ";
             }
     	}, this, [ null ]);
         pickables.forEachExists(function () {
