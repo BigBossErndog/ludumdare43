@@ -114,6 +114,7 @@ function createDefaults() {
 	player.com.addChild(player.healthBar);
 	player.gun = defaultMelee(player);
 	if (upgrades.bulletBombActive) upgrades.bulletBomb = bulletBomb(player);
+	shotsFired = false;
 }
 
 function updateDefaults() {
