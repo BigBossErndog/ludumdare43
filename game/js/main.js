@@ -3,7 +3,7 @@ var game;
 WebFontConfig = {
 
 	active: function() { game.time.events.add(Phaser.Timer.SECOND, function () {
-		style = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 1, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 15 };
+		style = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 15 };
 	}, this); },
 
     google: {
@@ -95,10 +95,12 @@ function createDefaults() {
     targeter.anchor.y = 0.5;
 	targeter.fixedToCamera = true;
 
-	ammoCount = game.add.text(0, 0, "Ammo:\t", style);
+	ammoCount = game.add.text(0, 0, "AMMO:", style);
 	ammoCount.visible = false;
+	ammoCount.padding.set(10, 16);
 	tag = game.add.text(0, 0, "AI  ", style);
 	tag.visible = false;
+	tag.padding.set(10, 16);
 	// triggerQuest(null, intro);
 	player.ammoCountActive = true;
 
