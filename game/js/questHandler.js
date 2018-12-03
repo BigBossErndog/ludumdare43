@@ -60,7 +60,7 @@ function triggerDialogue(trigger, talker, input) {
     x = talker.head === undefined ? talker.body.x : talker.com.x;
     y = talker.head === undefined ? talker.body.y : talker.com.y;
 
-    
+
 }
 
 function triggerSceneChange(trigger, player, game) {
@@ -71,7 +71,7 @@ var intro = [
     "You are a wage slave for a megacorp.",
     "Each day the corporation bleeds you of your humanity in the name of profit, and gives you a pittance in return.",
     "You've been given an opportunity however...",
-    "The corp needs someone to volunteer as a G.O.L.E.M. hunter.",
+    "The corp needs someone to volunteer as a G.O.L.E.M. hunter, an  individual  who  finds  and \"recalls\" these G.O.L.E.M.s, artifical intelligence built  for human convenience.",
     "You've heard rumours...",
     "But if the pay is a quarter as much as they say, then it's worth it.",
     "Because you've got nothing left to lose,",

@@ -144,11 +144,11 @@ var Level0 = {
 
 		map = makeLevel("Level0", "Sprite Map 2", "spritemap2");
 
-		createDefaults();
+		createDefaults(5*PXSIZE,7*PXSIZE);
 
 		var spawnPoints = [ [4*PXSIZE,19*PXSIZE, 90] ];
 		for (var i = 0; i < 1; i++) {
-			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1], spawnPoints[i][2]);
+			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1], spawnPoints[i][2]);
 			newEnemy.gun = defaultMelee(newEnemy);
 			aigroup.add(newEnemy);
 		}
@@ -217,12 +217,12 @@ var Level1 = {
 
 		map = makeLevel("Level1", "Sprite Map 2", "spritemap2");
 
-		createDefaults();
+		createDefaults(8*PXSIZE,2*PXSIZE);
 
 		var spawnPoints = [ [7*PXSIZE,48*PXSIZE, 0] ];
 		for (var i = 0; i < 1; i++) {
-			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
-			newEnemy.gun = null;
+			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+			newEnemy.gun = defaultMelee(newEnemy);
 			aigroup.add(newEnemy);
 		}
 
@@ -301,17 +301,28 @@ var Level2 = {
 
 		map = makeLevel("Level2", "Sprite Map 2", "spritemap2");
 
-		createDefaults();
+		createDefaults(14.5*PXSIZE,17.5*PXSIZE);
 
-		var spawnPoints = [ [30,40], [60,70], [100, 50], [550, 370], [190, 500] ];
-		for (var i = 0; i < 5; i++) {
+		var spawnPoints = [ [29*PXSIZE,25*PXSIZE,90], [32*PXSIZE,26*PXSIZE,180] ];
+		for (var i = 0; i < 2; i++) {
+			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+			newEnemy.gun = pistol(newEnemy);
+			aigroup.add(newEnemy);
+		}
+
+		var spawnPoints = [[38*PXSIZE,61*PXSIZE, -90], [42*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
+		[56*PXSIZE,27*PXSIZE, 180] ];
+		for (var i = 0; i < 6; i++) {
 			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
 			newEnemy.gun = autorifle(newEnemy);
 			aigroup.add(newEnemy);
 		}
 
+		var spawnPoints = [ [11*PXSIZE, 52*PXSIZE, 90], [5*PXSIZE, 51*PXSIZE, 0], [12*PXSIZE,59*PXSIZE,-90], [4*PXSIZE,50*PXSIZE, 90], [27*PXSIZE,43*PXSIZE,10],
+		[35*PXSIZE,40*PXSIZE,0], [30*PXSIZE,46*PXSIZE,90],[35*PXSIZE,46*PXSIZE,180],  [27*PXSIZE,27*PXSIZE,0], [24*PXSIZE,28*PXSIZE,0] ];
 		for (var i = 0; i < 10; i++) {
-			let newPickable = shotgunPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
+			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
+			aigroup.add(human);
 		}
 	},
 

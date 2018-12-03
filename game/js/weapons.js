@@ -12,7 +12,7 @@ function pistol(owner) {
 	newgun.bullets.setAll('scale.y', 0.25);
 	newgun.fireRate = 500;
 	newgun.fireRateVariance = 200;
-	newgun.bulletSpeed = 450;
+	newgun.bulletSpeed = 1000;
 	newgun.bulletSpeedVariance = 50;
 	newgun.bulletAngleVariance = 1;
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -20,7 +20,7 @@ function pistol(owner) {
 		shotsFired = true;
 	});
 	newgun.fireLimit = 8;
-	newgun.bullets.setAll('damage', 8);
+	newgun.bullets.setAll('damage', 40);
 	newgun.weaponName = "Pistol";
 
 	return newgun;
