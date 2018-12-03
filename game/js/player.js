@@ -147,6 +147,7 @@ class Player {
 			if (this.gun != null && (clicked === false || this.gun.automatic) && !upgrades.blinkRunning) {
 				if (this.gun.type === 'special') {
 					if (this.gun.shoot(player)) {
+						console.log(this.gun.weaponName)
 						this.playShootAnimation();
 						this.shooting = true;
 						if (this.gun.weaponName != "Sword" && this.gun.weaponName != "Punch") {
@@ -158,9 +159,10 @@ class Player {
 				}
 				else {
 					if (this.gun.fire()) {
+						console.log(this.gun.weaponName)
 						this.playShootAnimation();
 						this.shooting = true;
-						if (this.gun.weaponName != "Sword") {
+						if (this.gun.weaponName != "Sword" && this.gun.weaponName != "Punch") {
 							aigroup.forEachExists(function(ai) {
 								ai.faceTowards(player.com);
 							});
@@ -262,6 +264,11 @@ class Player {
 				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
 				newPickable.ammo = this.gun.shots;
 				break;
+			case "Pulse Rifle":
+				newPickable = pulseriflePickable(this.com.x, this.com.y);
+				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+				newPickable.ammo = this.gun.shots;
+				break;
 		}
 		if (newPickable != undefined) {
 			this.playStandAnimation();
@@ -312,6 +319,12 @@ class Player {
 		anim.onComplete.add(function() {
 			player.shooting = false;
 		}, this);
+		
+		anim = this.head.animations.add("pulserifleStand", [80], 1, false);
+		anim = this.head.animations.add("pulserifleShoot", [81,80], 10, false);
+		anim.onComplete.add(function() {
+			player.shooting = false;
+		}, this);
 
         this.head.animations.play("stand");
     }
@@ -341,6 +354,9 @@ class Player {
 					break;
 				case "Punch":
 					this.head.animations.play("punchStand");
+					break;
+				case "Pulse Rifle":
+					this.head.animations.play("pulserifleStand");
 					break;
 			}
 		}
@@ -380,6 +396,10 @@ class Player {
 				case "Punch":
 					this.recoil(100, this.head.angle * (Math.PI/180));
 					this.head.animations.play("punch");
+					break;
+				case "Pulse Rifle":
+					this.recoil(300, this.head.angle * (Math.PI/180) + Math.PI);
+					this.head.animations.play("pulserifleShoot");
 					break;
 			}
 		}

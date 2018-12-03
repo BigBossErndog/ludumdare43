@@ -223,3 +223,48 @@ function autoriflePickable(x, y) {
 
 	return sprite;
 }
+
+function pulseriflePickable(x, y) {
+	var sprite = game.add.sprite(x, y, "pickables");
+	sprite.pickableName = "Pulse Rifle";
+	sprite.animations.add("item", [5], 1, false);
+	sprite.animations.play("item");
+	sprite.ammo = null;
+	sprite.dropped = false;
+	sprite.anchor.x = 0.5;
+	sprite.anchor.y = 0.5;
+
+	game.physics.enable(sprite, Phaser.Physics.ARCADE);
+
+	sprite.body.drag.x = 400;
+	sprite.body.drag.y = 400;
+	
+	sprite.logic = function() {
+		game.physics.arcade.collide(this, map.wallLayer);
+		this.dropped = false;
+
+		this.angle += Math.abs(this.body.velocity.x + this.body.velocity.y)/10;
+	}
+
+	sprite.setVelocity = function(x, y) {
+		this.body.velocity.x += x;
+		this.body.velocity.y += y;
+	}
+
+	sprite.pickUp = function() {
+		if (player.gun != null) {
+			player.gun.destroy();
+		}
+
+		player.gun = pulserifle(player);
+		this.destroy();
+
+		player.gun.shots = this.ammo;
+
+		player.playStandAnimation();
+	}
+
+	pickables.add(sprite);
+
+	return sprite;
+}
