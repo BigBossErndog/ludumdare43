@@ -145,7 +145,7 @@ var Level0 = {
 		var spawnPoints = [ [30,40], [60,70], [100, 50], [550, 370], [190, 500] ];
 		for (var i = 0; i < 5; i++) {
 			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
-			newEnemy.gun = autorifle(newEnemy);
+			newEnemy.gun = shotgun(newEnemy);
 			aigroup.add(newEnemy);
 		}
 

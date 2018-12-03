@@ -62,20 +62,23 @@ function pulserifle(owner) {
 	newgun.multiFire = true;
 	newgun.lastBurst = 0;
 	newgun.shoot = function () {
-		if (Date.now() - newgun.lastBurst >= 800 && newgun.shots <= (newgun.fireLimit - 3)) {
-			newgun.lastBurst = Date.now();
+		if (this.fireLimit - this.shots <= 0) {
+			return null;
+		}
+		if (Date.now() - this.lastBurst >= 800 && this.shots <= (this.fireLimit - 3)) {
+			this.lastBurst = Date.now();
 			game.time.events.add(50, function() {
-				newgun.fire();
-				newgun.shots++;
-			});
+				this.fire();
+				this.shots++;
+			}, this, this);
 			game.time.events.add(100, function() {
-				newgun.fire();
-				// newgun.shots++;
-			});
+				this.fire();
+				// this.shots++;
+			}, this, this);
 			// game.time.events.add(150, function() {
 			// 	console.log("fire3");
-			// 	console.log(newgun.fire());
-			// 	console.log(newgun.shots);
+			// 	console.log(this.fire());
+			// 	console.log(this.shots);
 			// });
 			return true;
 		}
@@ -170,16 +173,20 @@ function shotgun(owner) {
 	shotgun.multiFire = true;
 	shotgun.weaponName = "Shot Gun";
 	shotgun.shoot = function () {
-		if (shotgun.shots === 5) shotgun.fireLimit = 7;
+		if (this.shots === 5) this.fireLimit = 7;
+		if (this.fireLimit - this.shots <= 0) {
+			return null;
+		}
+		
 		var success = false;
 
 		//insert check for enough bullets to fire full spread
 		for (var i = 0; i < 4; i++) {
-			if (shotgun.fire()) {
+			if (this.fire()) {
 				success = true;
 			}
 		}
-		if (shotgun.shots === 6) shotgun.fireLimit = 6;
+		if (this.shots === 6) this.fireLimit = 6;
 
 		return success;
 	}
