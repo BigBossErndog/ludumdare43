@@ -47,6 +47,50 @@ function autorifle(owner) {
 	return newgun;
 }
 
+function pulserifle(owner) {
+	var newgun = game.add.weapon(100, "bullet1");
+	if (owner.head !== undefined) newgun.trackSprite(owner.head, 15, 5, true);
+	else newgun.trackSprite(owner, 15, 5, true);
+	newgun.fireRate = 50;
+	newgun.bulletSpeed = 700;
+	newgun.bulletAngleVariance = 1;
+	newgun.bulletSpeedVariance = 0;
+	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+	newgun.onFire.add(function() {
+		shotsFired = true;
+	});
+	newgun.multiFire = true;
+	newgun.lastBurst = 0;
+	newgun.shoot = function () {
+		if (Date.now() - newgun.lastBurst >= 800 && newgun.shots <= (newgun.fireLimit - 3)) {
+			newgun.lastBurst = Date.now();
+			game.time.events.add(50, function() {
+				console.log("fire1");
+				console.log(newgun.fire());
+				newgun.shots++;
+			});
+			game.time.events.add(100, function() {
+				console.log("fire2");
+				console.log(newgun.fire())
+				// newgun.shots++;
+			});
+			// game.time.events.add(150, function() {
+			// 	console.log("fire3");
+			// 	console.log(newgun.fire());
+			// 	console.log(newgun.shots);
+			// });
+		}
+	}
+	newgun.automatic = false;
+	newgun.fireLimit = 30;
+	newgun.damage = 10;
+	newgun.bullets.setAll('damage', 10);
+	newgun.type = 'special';
+	newgun.weaponName = "Auto Rifle";
+
+	return newgun;
+}
+
 function megaParticleCannon(owner) {
 	var newgun = game.add.weapon(900, "bullet1");
 	if (owner.head !== undefined) newgun.trackSprite(owner.head, 15, 5, true);
