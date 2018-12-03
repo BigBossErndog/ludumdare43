@@ -136,6 +136,9 @@ var Level0 = {
 	create: function() {
 		this.justStarted = true;
 
+		var trigger = Phaser.Rectangle(5*PXSIZE, 7*PXSIZE, 32, 32);
+		triggers.push(trigger);
+
 		createControls();
 		parallaxSprite = game.add.sprite(0, 0, "parallax");
 		parallaxSprite.fixedToCamera = true;
@@ -152,6 +155,13 @@ var Level0 = {
 			newEnemy.gun = defaultMelee(newEnemy);
 			aigroup.add(newEnemy);
 		}
+
+		let questGiver = makeHuman(10*PXSIZE,10*PXSIZE, 180);
+		aigroup.add(questGiver);
+		trigger.talker = questGiver;
+
+		var diologue = ["Some edgy shit."];
+
 	},
 
 	update: function() {
