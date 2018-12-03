@@ -1,7 +1,7 @@
 var game;
 
 window.onload = function() {
-	game = new Phaser.Game(400, 300, Phaser.AUTO, '', null, false, false);
+	game = new Phaser.Game(400, 300, Phaser.AUTO, 'phaser-canvas', null, false, false);
 
 	game.state.add("UpgradeScene", UpgradeScene);
 
