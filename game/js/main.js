@@ -3,6 +3,7 @@ var game;
 window.onload = function() {
 	game = new Phaser.Game(400, 300, Phaser.AUTO, ''/*'phaser-canvas'*/, null, false, false);
 
+	game.state.add("openingScene", openingScene);
 	game.state.add("UpgradeScene", UpgradeScene);
 
 	game.state.add("main", testScene);
@@ -10,7 +11,7 @@ window.onload = function() {
 	game.state.add("Level1", Level1);
 	game.state.add("Level2", Level2);
 
-	game.state.start("Level0");
+	game.state.start("openingScene");
 
     // game.state.add("mainScene", mainScene);
 }
@@ -159,7 +160,7 @@ function updateDefaults() {
     recCam.y = (oldcam.y - newcam.y) * 0.9 + newcam.y;
 
     game.camera.focusOnXY(recCam.x, recCam.y);
-	
+
 	if (game.input.keyboard.isDown(Phaser.Keyboard.DELETE)) {
 		console.log("DELETE ALL AI");
 		aigroup.forEachExists(function(ai) {
@@ -168,7 +169,7 @@ function updateDefaults() {
 	}
 
 	player.drawHealth();
-	
+
 	if (player.dead) {
 		if (blackScreen == null || blackScreen == undefined) {
 			blackScreen = game.add.image(0, 0, "blackScreen");

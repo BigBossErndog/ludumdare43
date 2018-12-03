@@ -1,5 +1,33 @@
 var nextLevel;
 
+var openingScene = {
+	finished: false,
+
+	preload: function() {
+		game.load.image("blackScreen", "assets/blackScreen.png");
+		game.camera.setSize(800, 600);
+		loadDefaults();
+	},
+
+	create: function() {
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		game.renderer.renderSession.roundPixels = true;
+		Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
+		// blackScreen = game.add.image(0, 0, "blackScreen");
+		// blackScreen.fixedToCamera = true;
+		// blackScreen.alpha = 1;
+		triggerQuest(this, intro);
+		game.stage.backgroundColor = '#000';
+	},
+
+	update: function() {
+		if (this.finished)
+		game.time.events.add(300, function() {
+			game.state.start("Level0", true, false);
+		}, this);
+	}
+}
+
 var testScene = {
 	preload: function() {
 		game.load.tilemap("mapTest1", "assets/tilemaps/mapTest1.json", null, Phaser.Tilemap.TILED_JSON);
@@ -8,7 +36,6 @@ var testScene = {
 
 	create: function() {
 		this.justStarted = true;
-		// this.justStarted.start = Date.now();
 
 		createControls();
 		parallaxSprite = game.add.sprite(0, 0, "parallax");
@@ -59,7 +86,7 @@ var testScene = {
 				// triggerDialogue(intro);
 			}
 			else {
-				if (blackScreen.alpha > 0/* && (Date.now() >= this.justStarted.start + 10000)*/) {
+				if (blackScreen.alpha > 0) {
 					blackScreen.alpha -= 0.02;
 				}
 				else {
@@ -110,7 +137,7 @@ var Level0 = {
 		parallaxSprite.fixedToCamera = true;
 		parallaxSprite.anchor.x = 0.5;
 		parallaxSprite.anchor.y = 0.5;
-		
+
 		map = makeLevel("Level0", "Sprite Map 2", "spritemap2");
 
 		createDefaults();
@@ -187,7 +214,7 @@ var Level1 = {
 		parallaxSprite.fixedToCamera = true;
 		parallaxSprite.anchor.x = 0.5;
 		parallaxSprite.anchor.y = 0.5;
-		
+
 		map = makeLevel("Level1", "Sprite Map 2", "spritemap2");
 
 		createDefaults();
@@ -264,7 +291,7 @@ var Level2 = {
 		parallaxSprite.fixedToCamera = true;
 		parallaxSprite.anchor.x = 0.5;
 		parallaxSprite.anchor.y = 0.5;
-		
+
 		map = makeLevel("Level2", "Sprite Map 2", "spritemap2");
 
 		createDefaults();
