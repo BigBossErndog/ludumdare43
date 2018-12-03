@@ -431,30 +431,34 @@ class Player {
     		entityBounds = arguments[0].getBounds();
     		if (Phaser.Rectangle.intersects(targeterBounds, entityBounds)) {
                 closest = arguments[0];
-                if (closest.type == "Enemy" || (Math.random() * 100) <= (upgrades.inhumanity)) {
-                    tag.text = /*Add random percentage*/" AI: " + ((Math.random() * upgrades.inhumanity) + (100 - upgrades.inhumanity)).toFixed(1) + "% CONFIDENCE  ";
+                if (tag.tagged !== arguments[0]) {
+                    if (closest.type == "Enemy" || (Math.random() * 100) <= (upgrades.inhumanity)) {
+                        tag.text = /*Add random percentage*/" AI: " + ((Math.random() * upgrades.inhumanity) + (100 - upgrades.inhumanity)).toFixed(1) + "% CONFIDENCE  ";
+                    }
+                    else tag.text = "CIVILIAN  ";
                 }
-                else tag.text = "CIVILIAN  ";
             }
     	}, this, [ null ]);
         pickables.forEachExists(function () {
             entityBounds = arguments[0].getBounds();
             if (Phaser.Rectangle.intersects(targeterBounds, entityBounds)) {
-                closest = arguments[0];
-                tag.text = "[E] " + closest.pickableName + "  ";
+                if (arguments[0].pickableName !== 'corpse') {
+                    closest = arguments[0];
+                    tag.text = "[E] " + closest.pickableName + "  ";
+                }
             }
         }, this, [ null ]);
         // if (closest !== null && tag.isPickable)
         // else
     	if (closest !== null) {
-    		tag.x = closest.x;
-    		tag.y = closest.y;
+    		tag.x = closest.x - 10;
+    		tag.y = closest.y + 20;
     		tag.visible = true;
     		tag.tagged = closest;
             tag.activated = Date.now();
     	} else if (tag.tagged !== undefined && tag.tagged.alive && (Date.now() - tag.activated < 3500)) {
-    		tag.x = tag.tagged.x;
-    		tag.y = tag.tagged.y;
+    		tag.x = tag.tagged.x - 10;
+    		tag.y = tag.tagged.y + 20;
     	} else {
     		tag.visible = false;
     	}
@@ -472,12 +476,12 @@ class Player {
         console.log("no ammo");
         ammoCount.visible = true;
         ammoCount.setText("Out of Rounds");
-        ammoCount.style = shortStyle;
+        // ammoCount.style = shortStyle;
     	// ammoCount.x = this.com.x - 10;
     	// ammoCount.y = this.com.y + 20;
         game.time.events.add(200, function() {
             ammoCount.visible = false;
-            ammoCount.style = longStyle;
+            // ammoCount.style = longStyle;
         }, this, ammoCount);
     }
 
