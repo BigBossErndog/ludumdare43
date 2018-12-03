@@ -189,7 +189,7 @@ class Player {
 
 				var canPickUp = true;
 				pickables.forEachExists(function(item) {
-					if (canPickUp && item.overlap(player.com)) {
+					if (item.pickableName != "corpse" && canPickUp && item.overlap(player.com)) {
 						item.pickUp();
 						canPickUp = false;
 					}
