@@ -235,21 +235,21 @@ function defaultMelee(owner) {
 	return punch;
 }
 
-function typhoon(owner) {
-	var typhoon = game.add.weapon(36, "bullet1");
-	typhoon.type = 'special';
-	if (owner.head !== undefined) typhoon.trackSprite(owner.head, 0, 0, true);
-	else typhoon.trackSprite(owner, 15, 5, true);
-	typhoon.fireRate = 480;
-	typhoon.bulletSpeed = 500;
-	typhoon.bulletAngleVariance = 360;
-	typhoon.fireLimit = 1;
-	typhoon.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
-	typhoon.bulletKillDistance = 256;
-	typhoon.multiFire = true;
-	typhoon.autoExpandBulletsGroup  = true;
-	typhoon.shoot = function () {
-		if (typhoon.shots >= 1) return;
+function bulletBomb(owner) {
+	var bulletBomb = game.add.weapon(36, "bullet1");
+	bulletBomb.type = 'special';
+	if (owner.head !== undefined) bulletBomb.trackSprite(owner.head, 0, 0, true);
+	else bulletBomb.trackSprite(owner, 15, 5, true);
+	bulletBomb.fireRate = 480;
+	bulletBomb.bulletSpeed = 500;
+	bulletBomb.bulletAngleVariance = 360;
+	bulletBomb.fireLimit = 1;
+	bulletBomb.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
+	bulletBomb.bulletKillDistance = 256;
+	bulletBomb.multiFire = true;
+	bulletBomb.autoExpandBulletsGroup  = true;
+	bulletBomb.shoot = function () {
+		if (bulletBomb.shots >= 1) return;
 		owner.locked = true;
 		game.time.slowMotion = 5.0;
 		game.time.desiredFps = 300;
@@ -261,33 +261,33 @@ function typhoon(owner) {
 					if (arguments[0].gun !== undefined) arguments[0].gun.killAll();
 				});
 			}, this, aigroup);
-		}, this, typhoon);
+		}, this, bulletBomb);
 
 		//insert check for enough bullets to fire full spread
 
-		game.time.events.add(Phaser.Timer.SECOND * 1, function() {
-			typhoon.fireLimit = 2;
+		game.time.events.add(250, function() {
+			bulletBomb.fireLimit = 2;
 			for (var i = 0; i < 120; i++) {
-				if (typhoon.fire(0, 0)) {
+				if (bulletBomb.fire(0, 0)) {
 					success = true;
 				}
 			}
-			typhoon.fireLimit = 1;
-		}, this, typhoon);
-		game.time.events.add(Phaser.Timer.SECOND * 2, function() {
+			bulletBomb.fireLimit = 1;
+		}, this, bulletBomb);
+		game.time.events.add(Phaser.Timer.SECOND * 1, function() {
 			owner.locked = false;
 			game.time.slowMotion = 1;
 			game.time.desiredFps = 60;
-		}, this, typhoon);
+		}, this, bulletBomb);
 
 		return success;
 	}
-	typhoon.onFire.add(function() {
+	bulletBomb.onFire.add(function() {
 		shotsFired = true;
 	});
-	typhoon.bullets.setAll('damage', 75);
+	bulletBomb.bullets.setAll('damage', 75);
 
-	return typhoon;
+	return bulletBomb;
 }
 
 function shield(owner) {

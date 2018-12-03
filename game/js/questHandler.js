@@ -14,8 +14,6 @@ var lineIndex = 0;
 var wordDelay = 160;
 var lineDelay = 400;
 
-function triggerDialogue() {
-}
 
 function nextLine(trigger) {
 
@@ -57,6 +55,14 @@ function nextLine(trigger) {
     lineIndex++;
 }
 
+function triggerDialogue(trigger, talker, input) {
+    var x, y;
+    x = talker.head === undefined ? talker.body.x : talker.com.x;
+    y = talker.head === undefined ? talker.body.y : talker.com.y;
+
+    
+}
+
 function triggerSceneChange(trigger, player, game) {
 
 }
@@ -70,5 +76,5 @@ var intro = [
     "But if the pay is a quarter as much as they say, then it's worth it.",
     "Because you've got nothing left to lose,",
     "",
-    "\t\t\t\tright?"
+    "                                        right?"
 ];

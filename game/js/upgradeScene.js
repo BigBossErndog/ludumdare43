@@ -6,7 +6,7 @@ class UpgradesEquipped {
         this.blinkActive = false;
 		this.blinkRunning = false;
 		this.lastBlink = 0;
-        this.typhoonActive = false;
+        this.bulletBombActive = false;
         this.superPunchActive = false;
 		this.equipped = [];
 		this.inhumanity = 0;
@@ -83,8 +83,8 @@ addUpgradeConf({
 	desc: "Powerful bullets are fired in every direction.",
 	frame:6,
 	action:function() {
-		upgrades.typhoonActive = true;
-		upgrades.typhoon = null;
+		upgrades.bulletBombActive = true;
+		upgrades.bulletBomb = null;
 		meleeDamage = 1000;
 		upgrades.inhumanity += 15;
 	}
