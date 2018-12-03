@@ -4,7 +4,7 @@ window.onload = function() {
 	game = new Phaser.Game(400, 300, Phaser.AUTO, '', null, false, false);
 
 	game.state.add("UpgradeScene", UpgradeScene);
-	
+
 	game.state.add("main", mainScene);
 	game.state.add("Level1", Level1);
 
@@ -140,6 +140,7 @@ var targeter;
 var cursors;
 var wasd;
 var keys;
+var shotsFired;
 
 var gun;
 var bulletTime = 0;
@@ -171,6 +172,6 @@ var recCam = {
 function collisionHandler(bullet, ai) {
 	bullet.kill();
 	ai.health -= bullet.damage;
-	//console.log(ai.health);
-	if (ai.health <= 0) ai.kill();
+	console.log(ai.health);
+	if (ai.health <= 0 || isNaN(ai.health)) ai.kill();
 }
