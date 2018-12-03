@@ -60,7 +60,7 @@ var Splashes = {
 	},
 	
 	create: function() {
-		game.state.start("openingScene");
+		game.state.start("mainMenu");
 	},
 	
 	update: function() {
