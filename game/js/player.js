@@ -12,12 +12,15 @@ class Player {
         this.cape = null;
         this.legs = null;
         this.gun = null;
+		this.healthBar = null;
         this.scannerActive = true;
         this.ammoCountActive = false;
         this.speedActive = false;
         this.blinkActive = false;
         this.typhoonActive = false;
         this.superPunchActive = false;
+		
+		this.health = 100;
 		
 		this.addedVelocity = {
 			x:0,
@@ -267,8 +270,10 @@ class Player {
 					break;
 				case "Pistol":
 					this.head.animations.play("pistolStand");
+					break;
 				case "Auto Rifle":
 					this.head.animations.play("autorifleStand");
+					break;
 			}
 		}
 	}
@@ -303,6 +308,7 @@ class Player {
 				case "Auto Rifle":
 					this.recoil(10, this.head.angle * (Math.PI/180) + Math.PI);
 					this.head.animations.play("autorifleShoot");
+					break;
 			}
 		}
 	}
@@ -354,5 +360,17 @@ class Player {
     	ammoCount.x = this.com.x - 10;
     	ammoCount.y = this.com.y + 20;
     }
-
+	
+	
+	drawHealth() {
+		if (this.healthBar != null) {
+			this.healthBar.clear();
+			
+			this.healthBar.beginFill(0xbc1e1e);
+			this.healthBar.drawRect(0,0,Math.floor(40*(this.health/100)), 3);
+			this.healthBar.endFill();
+			
+			console.log(this.health);
+		}
+	}
 }
