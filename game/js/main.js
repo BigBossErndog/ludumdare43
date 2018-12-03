@@ -66,6 +66,7 @@ function loadDefaults() {
 	game.load.spritesheet("deathAnim", "assets/deathAnim.png", 64, 32);
 	game.load.spritesheet("humanDead", "assets/humanDead.png", 64, 32);
 	game.load.spritesheet("enemyDead", "assets/enemyDead.png", 64, 32);
+	game.load.image("humanity", "assets/humanity.png");
 	loadWeapons();
 	loadEnemies();
 	loadLevels();

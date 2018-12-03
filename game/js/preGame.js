@@ -176,6 +176,8 @@ var MainMenu = {
 			
 			if (!this.justStarted) {
 				if (this.startBtn.input.justPressed(0, 500)) {
+					upgrades.restart();
+					upgradeList = [];
 					this.startBtn.alpha = 1;
 					this.targetScene = "openingScene";
 					this.leaving = true;
