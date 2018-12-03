@@ -99,6 +99,8 @@ var UpgradeScene = {
 		targeter.anchor.x = 0.5;
 		targeter.anchor.y = 0.5;
 		targeter.fixedToCamera = true;
+		
+		this.selectedUpgrade = null;
 	},
 	
 	update: function() {
@@ -126,7 +128,7 @@ var UpgradeScene = {
 					
 					this.getUpgrade.alpha = 1;
 					
-					selectedUpgrade = icon;
+					this.selectedUpgrade = icon;
 					
 					this.blackBox.alpha = 0.2;
 					this.blackBox.x = icon.x;
@@ -140,7 +142,7 @@ var UpgradeScene = {
 				this.skipUpgrades.y = this.getUpgrade.bottom + 5;
 				
 				if (this.getUpgrade.input.justPressed(0, 1000)) {
-					this.selectedUpgrade.action();
+					this.selectedUpgrade.conf.action();
 					this.leaving = true;
 				}
 			}
