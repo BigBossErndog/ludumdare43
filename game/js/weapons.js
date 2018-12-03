@@ -164,6 +164,7 @@ function sword(owner) {
 	return sword;
 }
 
+var meleeDamage = 3;
 function defaultMelee(owner) {
 	var punch = game.add.weapon(1, "bullet1");
 	if (owner.head !== undefined) punch.trackSprite(owner.head, 15, 5, true);
@@ -175,7 +176,7 @@ function defaultMelee(owner) {
 	// punch.bulletAngleVariance = 10;
 	punch.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
 	punch.bulletLifespan = 5;
-	punch.bullets.setAll('damage', 3);
+	punch.bullets.setAll('damage', meleeDamage);
 	punch.type = "melee";
 	punch.weaponName = /*FALCON*/"Punch";
 

@@ -1,3 +1,15 @@
+class UpgradesEquipped {
+	constructor() {
+		this.scannerActive = true;
+        this.ammoCountActive = false;
+        this.speedActive = false;
+        this.blinkActive = false;
+        this.typhoonActive = false;
+        this.superPunchActive = false;
+	}
+}
+var upgrades = new UpgradesEquipped();
+
 var upgradeConf = {};
 function addUpgradeConf(conf) {
 	upgradeConf[conf.name] = conf;
@@ -8,7 +20,7 @@ addUpgradeConf({
 	desc: "See Health, AI, etc.",
 	frame:0,
 	action:function() {
-		player.scannerActive = true;
+		upgrades.scannerActive = true;
 	}
 });
 addUpgradeConf({
@@ -16,7 +28,7 @@ addUpgradeConf({
 	desc: "See ammo.",
 	frame:1,
 	action:function() {
-		player.ammoCountActive = true;
+		upgrades.ammoCountActive = true;
 	}
 });
 addUpgradeConf({
@@ -24,7 +36,7 @@ addUpgradeConf({
 	desc: "Run faster.",
 	frame:2,
 	action:function() {
-		player.speedActive = true;
+		upgrades.speedActive = true;
 	}
 });
 addUpgradeConf({
@@ -32,7 +44,7 @@ addUpgradeConf({
 	desc: "Teleport a short distance.",
 	frame:3,
 	action:function() {
-		player.blinkActive = true;
+		upgrades.blinkActive = true;
 	}
 });
 
