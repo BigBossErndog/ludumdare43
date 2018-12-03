@@ -14,7 +14,7 @@ class Player {
         this.gun = null;
         this.locked = false;
 		this.healthBar = null;
-        this.scannerActive = true;
+        this.scannerActive = false;
         this.ammoCountActive = false;
         this.speedActive = false;
         this.blinkActive = false;
@@ -88,6 +88,10 @@ class Player {
             if (cursors.down.isDown || wasd.down.isDown) {
                 this.com.body.velocity.y += 240;
                 this.playWalkAnimation();
+            }
+            if (this.com.body.velocity.x !== 0 && this.com.body.velocity.y !== 0) {
+                this.com.body.velocity.x /= Math.sqrt(2);
+                this.com.body.velocity.y /= Math.sqrt(2);
             }
 
             if (Math.abs(this.com.body.velocity.x) + Math.abs(this.com.body.velocity.y) > 10) {
@@ -362,6 +366,15 @@ class Player {
     	ammoCount.y = this.com.y + 20;
     }
 
+    blink(mouse) {
+        let requestedDistance = Math.sqrt(Math.pow(mouse.x - this.com.x, 2) + Math.pow(mouse.y - this.com.y, 2));
+        if (requestedDistance > 1024
+        sightLine.start.set(this.com.x, this.com.y);
+        sightLine.end.set(mouse.x, mouse.y);
+
+        var hits = layer.getRayCastTiles_custom(sightLine, 4, false, true);
+
+    }
 
 	drawHealth() {
 		if (this.healthBar != null) {
