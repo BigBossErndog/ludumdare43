@@ -62,6 +62,8 @@ class Player {
 
 		this.weaponPickUpButton = false;
 		this.shooting = false;
+		
+		this.recSpace = false;
     }
 
     logic() {
@@ -140,7 +142,7 @@ class Player {
 
 		if (game.input.activePointer.isDown)
 		{
-			if (this.gun != null && (clicked === false || this.gun.automatic)) {
+			if (this.gun != null && (clicked === false || this.gun.automatic) && !upgrades.blinkRunning) {
 				if (this.gun.type === 'special') {
 					if (this.gun.shoot(player)) {
 						this.playShootAnimation();
@@ -196,10 +198,16 @@ class Player {
 
         game.physics.arcade.collide(this.com, map.wallLayer);
 		game.physics.arcade.collide(this.com, map.coverLayer);
-
+		
+		
+		if (!game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+			this.recSpace = false;
+		}
+		
         if (upgrades.scannerActive) player.scanner(aigroup, pickables, targeter, tag);
         if (upgrades.ammoCountActive) player.ammoCount(ammoCount, player.gun);
-        if (upgrades.blinkActive && game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        if (upgrades.blinkActive && game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && !this.recSpace) {
+			this.recSpace = true;
             if (Date.now() - upgrades.lastBlink >= 10000 && !upgrades.blinkRunning) {
                 upgrades.blinkRunning = true;
                 game.time.slowMotion = 50.0;
@@ -211,12 +219,14 @@ class Player {
                     upgrades.blinkRunning = false;
                 }, this);
             } else if (upgrades.blinkRunning) {
-                console.log("blink already active");
+				console.log("Blink Already Active");
             } else /*flash cooldown somehow*/ console.log("blink on cooldown");
         }
-        if (upgrades.blinkActive && upgrades.blinkRunning && game.input.keyboard.isDown(Phaser.Keyboard.Q)) {
+		
+		if (upgrades.blinkActive && upgrades.blinkRunning && game.input.activePointer.justPressed(1000)) {
+			//makeGhost(targeter.x, targeter.y);
             player.blink(targeter.x, targeter.y);
-        }
+		}
     }
 
 	dropWeapon() {
@@ -472,4 +482,37 @@ function createCorpse() {
 	pickables.add(corpse);
 
 	return corpse;
+}
+
+function makeGhost(targetx, targety) {
+	console.log("hello")
+	for (var i = 0; i < 5; i++) {
+		var xtotal = player.com.x + targetx * i;
+		var ytotal = player.com.y + targety * i;
+		
+		var ghost = game.add.sprite(xtotal / (i + 1), ytotal / (i + 1), "head");
+		ghost.anchor.x = 0.25;
+		ghost.anchor.y = 0.5;
+		ghost.angle = player.head.angle;
+		ghost.tryalpha = i+1/6;
+		ghost.alpha = ghost.tryalpha;
+		ghost.pickableName = "ghost";
+		
+		ghost.logic = function() {
+			if (this.tryalpha > 0) {
+				this.tryalpha -= 0.02;
+				if (this.tryalpha > 0) {
+					this.alpha = this.tryalpha;
+				}
+				else {
+					this.destroy();
+				}
+			}
+			else {
+				this.destroy();
+			}
+		}
+		
+		pickables.add(ghost);
+	}
 }
