@@ -1,7 +1,7 @@
 var game;
 
 window.onload = function() {
-	game = new Phaser.Game(400, 300, Phaser.AUTO, 'phaser-canvas', null, false, false);
+	game = new Phaser.Game(400, 300, Phaser.AUTO, ''/*'phaser-canvas'*/, null, false, false);
 
 	game.state.add("UpgradeScene", UpgradeScene);
 
@@ -44,7 +44,7 @@ function loadDefaults() {
 }
 
 var parallaxSprite;
-var style = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10 };
+var style = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 10 };
 var curAI;
 function createDefaults() {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -72,7 +72,7 @@ function createDefaults() {
 
 	ammoCount = game.add.text(0, 0, "Ammo:\t", style);
 	tag = game.add.text(0, 0, "AI  ", style);
-	// triggerDialogue(intro);
+	// triggerQuest(null, intro);
 	player.ammoCountActive = true;
 }
 
