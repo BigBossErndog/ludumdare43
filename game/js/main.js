@@ -22,10 +22,11 @@ window.onload = function() {
 	game.state.add("boot", BootScene);
 	game.state.add("loading", LoadScene);
 	game.state.add("splashes", Splashes);
+	game.state.add("mainMenu", MainMenu);
 
 	game.state.add("UpgradeScene", UpgradeScene);
 
-	game.state.add("main", testScene);
+	game.state.add("test", testScene);
 	game.state.add("Level0", Level0);
 	game.state.add("Level1", Level1);
 	game.state.add("Level2", Level2);
@@ -77,7 +78,7 @@ var parallaxSprite;
 var longStyle;
 var shortStyle;
 var curAI;
-function createDefaults() {
+function createDefaults(x, y) {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 	game.renderer.renderSession.roundPixels = true;
 	Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
@@ -89,11 +90,7 @@ function createDefaults() {
 
 	pickables = game.add.group();
 	aigroup = game.add.group();
-
-	var x, y;
-	x = getRandomInt(300, 500);
-	y = getRandomInt(200, 400);
-
+	
 	player = new Player(game, x, y);
 	targeter = game.add.sprite(100, 100, 'reticle');
 
@@ -264,6 +261,14 @@ function collisionHandler(bullet, ai) {
 	ai.health -= bullet.damage;
 	ai.faceTowards(player.com);
 	ai.addForce(Math.sin(bullet.angle * (Math.PI/180)) * 150, Math.cos(bullet.angle * (Math.PI/180)) * 150);
+	if (ai.type == "Human") {
+		
+	}
+	else if (ai.type == "Enemy") {
+		if (ai.enemyType == "unprovoked") {
+			ai.provoked = true;
+		}
+	}
 	if (ai.health <= 0 || isNaN(ai.health)) {
 		ai.angle = bullet.angle + 180;
 		if (ai.type == "Human") {
