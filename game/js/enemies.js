@@ -6,6 +6,7 @@ var sightLine;
 
 function makeHuman(x, y, angle) {
 	var human = game.add.sprite(x, y, "human");
+	human.health = 10;
 	human.anchor.x = 0.5;
 	human.anchor.y = 0.5;
 
@@ -25,11 +26,11 @@ function makeHuman(x, y, angle) {
 	}
 
 	human.logic = function() {
-		if (this.canSee(player.com, map.wallLayer)) {
-			console.log("hello");
+		if (shotsFired /*this.canSee(player.com, map.wallLayer)*/) {
+			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 40;
+			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 40;
 			this.angle = Math.atan2(player.head.body.y - this.body.y, player.head.body.x - this.body.x) * (180/Math.PI);
-			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
-			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
+			this.angle += 180;
 		}
 	}
 
@@ -51,7 +52,7 @@ function makeHuman(x, y, angle) {
 
 			a = Math.atan2(Math.sin(toOtherAngle-this.angle*(Math.PI/180)), Math.cos(toOtherAngle-this.angle*(Math.PI/180))) * (180/Math.PI);
 			a = Math.abs(a);
-			
+
 			if (a > 60) {
 				success = false;
 			}
@@ -145,7 +146,7 @@ function makeDefaultEnemy(x, y, angle) {
 
 			a = Math.atan2(Math.sin(toOtherAngle-this.angle*(Math.PI/180)), Math.cos(toOtherAngle-this.angle*(Math.PI/180))) * (180/Math.PI);
 			a = Math.abs(a);
-			
+
 			if (a > 60) {
 				success = false;
 			}

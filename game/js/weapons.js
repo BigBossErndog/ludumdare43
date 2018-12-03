@@ -1,5 +1,6 @@
 function loadWeapons() {
 	game.load.spritesheet("bullet1", "assets/bullet1.png");
+	game.load.spritesheet("debugBullet", "assets/debugBullet.png");
 	game.load.spritesheet("invistest", "assets/playercom.png");
 	game.load.image("shield1", "assets/shield1.png");
 }
@@ -40,7 +41,6 @@ function autorifle(owner) {
 	return newgun;
 }
 
-//cannot be reloaded. badness ensues
 function megaParticleCannon(owner) {
 	var newgun = game.add.weapon(900, "bullet1");
 	if (owner.head !== undefined) newgun.trackSprite(owner.head, 25, 5, true);
@@ -58,9 +58,6 @@ function megaParticleCannon(owner) {
 		if (!newgun.specialFiring && newgun.fireLimit > newgun.shots) {
 			console.log("fire start");
 			newgun.specialFiring = true;
-			// owner.com.immovable = true;
-			//lock in place - deregister inputs?
-			console.log(game);
 			//start timer
 			var scale = 2;
 			var fireLoop = game.time.events.loop(50, function() {
@@ -130,15 +127,19 @@ function shotgun(owner) {
 
 		return success;
 	}
+	shotgun.onFire.add(function() {
+		shotsFired = true;
+	});
 	shotgun.bullets.setAll('damage', 35);
 
 	return shotgun;
 }
 
 function sword(owner) {
-	var sword = game.add.weapon(1, "bullet1");
+	var sword = game.add.weapon(1, "debugBullet");
 	if (owner.head !== undefined) sword.trackSprite(owner.head, 15, 5, true);
-	sword.bullets.setAll('scale.y', 3);
+	sword.bullets.setAll('scale.y', 4);
+	sword.bullets.setAll('alpha', 0);
 	sword.fireRate = 480;
 	sword.bulletSpeed = 60;
 	// sword.bulletAngleVariance = 10;
@@ -194,7 +195,7 @@ function typhoon(owner) {
 		game.time.events.add(Phaser.Timer.SECOND * 1, function() {
 			typhoon.fireLimit = 2;
 			for (var i = 0; i < 60; i++) {
-				if (typhoon.fire()) {
+				if (typhoon.fire(0, 0)) {
 					success = true;
 				}
 			}
@@ -208,7 +209,7 @@ function typhoon(owner) {
 
 		return success;
 	}
-	punch.bullets.setAll('damage', 75);
+	typhoon.bullets.setAll('damage', 75);
 
 	return typhoon;
 }
