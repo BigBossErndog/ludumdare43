@@ -65,12 +65,10 @@ function pulserifle(owner) {
 		if (Date.now() - newgun.lastBurst >= 800 && newgun.shots <= (newgun.fireLimit - 3)) {
 			newgun.lastBurst = Date.now();
 			game.time.events.add(50, function() {
-				console.log("fire1");
-				console.log(newgun.fire());
+				newgun.fire();
 				newgun.shots++;
 			});
 			game.time.events.add(100, function() {
-				console.log("fire2");
 				newgun.fire();
 				// newgun.shots++;
 			});
@@ -79,14 +77,16 @@ function pulserifle(owner) {
 			// 	console.log(newgun.fire());
 			// 	console.log(newgun.shots);
 			// });
+			return true;
 		}
+		return false;
 	}
 	newgun.automatic = false;
 	newgun.fireLimit = 30;
 	newgun.damage = 10;
 	newgun.bullets.setAll('damage', 10);
 	newgun.type = 'special';
-	newgun.weaponName = "Auto Rifle";
+	newgun.weaponName = "Pulse Rifle";
 
 	return newgun;
 }

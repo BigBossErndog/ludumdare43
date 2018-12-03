@@ -152,6 +152,9 @@ var Level0 = {
 		for (var i = 0; i < 10; i++) {
 			let newPickable = shotgunPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
 		}
+		for (var i = 0; i < 20; i++) {
+			let newPickable = pulseriflePickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
+		}
 	},
 
 	update: function() {
