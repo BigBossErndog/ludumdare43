@@ -84,6 +84,7 @@ var mainScene = {
 				}
 				else {
 					blackScreen = null;
+					game.stage.backgroundColor = "#000000";
 					nextLevel = "Level1";
 					game.state.start("UpgradeScene", true, false);
 				}
@@ -161,6 +162,7 @@ var Level1 = {
 				}
 				else {
 					blackScreen = null;
+					game.stage.backgroundColor = "#000000";
 					nextLevel = "mainScene";
 					game.state.start("UpgradeScene", true, false);
 				}

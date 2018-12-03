@@ -18,7 +18,7 @@ class Player {
         this.blinkActive = false;
         this.typhoonActive = false;
         this.superPunchActive = false;
-
+		
 		this.addedVelocity = {
 			x:0,
 			y:0
@@ -149,7 +149,7 @@ class Player {
 			if (this.gun !== null) this.gun.resetShots();
 		}
 
-		if (game.input.keyboard.isDown(Phaser.Keyboard.E) || game.input.keyboard.isDown(Phaser.Keyboard.Control)) {
+		if (game.input.keyboard.isDown(Phaser.Keyboard.E) || game.input.keyboard.isDown(Phaser.Keyboard.CONTROL)) {
 			if (!this.weaponPickUpButton) {
 				this.weaponPickUpButton = true;
 
