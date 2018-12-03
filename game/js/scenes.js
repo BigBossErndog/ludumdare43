@@ -99,8 +99,8 @@ var testScene = {
 		updateDefaults();
 
 		let aiCount = 0;
-		aigroup.forEachExists(function() {
-			aiCount += 1;
+		aigroup.forEachExists(function(ai) {
+			if (ai.type == "Enemy") aiCount += 1;
 		});
 		if (aiCount == 0 && !player.dead) {
 			if (blackScreen == undefined || blackScreen == null) {
@@ -179,8 +179,8 @@ var Level0 = {
 		updateDefaults();
 
 		let aiCount = 0;
-		aigroup.forEachExists(function() {
-			aiCount += 1;
+		aigroup.forEachExists(function(ai) {
+			if (ai.type == "Enemy") aiCount += 1;
 		});
 		if (aiCount == 0 && !player.dead) {
 			if (blackScreen == undefined || blackScreen == null) {
@@ -256,8 +256,8 @@ var Level1 = {
 		updateDefaults();
 
 		let aiCount = 0;
-		aigroup.forEachExists(function() {
-			aiCount += 1;
+		aigroup.forEachExists(function(ai) {
+			if (ai.type == "Enemy") aiCount += 1;
 		});
 		if (aiCount == 0 && !player.dead) {
 			if (blackScreen == undefined || blackScreen == null) {
@@ -333,8 +333,8 @@ var Level2 = {
 		updateDefaults();
 
 		let aiCount = 0;
-		aigroup.forEachExists(function() {
-			aiCount += 1;
+		aigroup.forEachExists(function(ai) {
+			if (ai.type == "Enemy") aiCount += 1;
 		});
 		if (aiCount == 0 && !player.dead) {
 			if (blackScreen == undefined || blackScreen == null) {
