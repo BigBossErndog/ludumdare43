@@ -8,7 +8,7 @@ window.onload = function() {
 	game.state.add("main", mainScene);
 	game.state.add("Level1", Level1);
 
-	game.state.start("UpgradeScene");
+	game.state.start("main");
 
     // game.state.add("mainScene", mainScene);
 }
@@ -35,6 +35,8 @@ function loadDefaults() {
 	game.load.image("blackScreen", "assets/blackScreen.png");
 	game.load.spritesheet("upgradeIcons", "assets/Upgrades.png", 32, 32);
 	game.load.image("blackBox", "assets/blackBox.png");
+	game.load.image("getUpgrade", "assets/getUpgrade.png");
+	game.load.image("skipUpgrade", "assets/skipUpgrades.png");
 	loadWeapons();
 	loadEnemies();
 	loadLevels();

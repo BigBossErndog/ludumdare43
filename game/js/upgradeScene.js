@@ -6,25 +6,38 @@ function addUpgradeConf(conf) {
 addUpgradeConf({
 	name: "Optics",
 	desc: "See Health, AI, etc.",
-	frame:0
+	frame:0,
+	action:function() {
+		player.scannerActive = true;
+	}
 });
 addUpgradeConf({
 	name: "Ammo Count",
 	desc: "See ammo.",
-	frame:1
+	frame:1,
+	action:function() {
+		player.ammoCountActive = true;
+	}
 });
 addUpgradeConf({
 	name: "Leg Enhancement",
 	desc: "Run faster.",
-	frame:2
+	frame:2,
+	action:function() {
+		player.speedActive = true;
+	}
 });
 addUpgradeConf({
 	name: "Blink",
 	desc: "Teleport a short distance.",
-	frame:3
+	frame:3,
+	action:function() {
+		player.blinkActive = true;
+	}
 });
 
 var upgradeList = ["Optics", "Ammo Count", "Leg Enhancement", "Blink"];
+var selectedUpgrade;
 
 function makeUpgradeIcon(x, y, conf) {
 	if (conf == null || conf == undefined) return null;
@@ -43,6 +56,7 @@ var UpgradeScene = {
 	
 	create: function() {
 		this.justStarted = true;
+		this.leaving = false;
 		
 		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		game.renderer.renderSession.roundPixels = true;
@@ -68,11 +82,22 @@ var UpgradeScene = {
 			}
 		}
 		
-		var txtstyle = { font: "18px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10, wordWrap:true, wordWrapWidth:100 };
-		this.upgradeNameText = game.add.text(250, 50, "", txtstyle);
+		var txtstyle = { font: "18px Courier", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10, wordWrap:true, wordWrapWidth:100 };
+		this.upgradeName = game.add.text(250, 50, "", txtstyle);
 		
-		var txtstyle = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10, wordWrap:true, wordWrapWidth:100 };
-		this.upgradeNameDesc = game.add.text(250, 100, "", txtstyle);
+		var txtstyle = { font: "12px Courier", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10, wordWrap:true, wordWrapWidth:100 };
+		this.upgradeDesc = game.add.text(250, 100, "", txtstyle);
+		
+		this.getUpgrade = game.add.image(250, 50, "getUpgrade");
+		this.getUpgrade.alpha = 0;
+		this.skipUpgrades = game.add.image(250, 50, "skipUpgrade");
+		
+		player = new Player(game, x, y);
+		targeter = game.add.sprite(100, 100, 'reticle');
+
+		targeter.anchor.x = 0.5;
+		targeter.anchor.y = 0.5;
+		targeter.fixedToCamera = true;
 	},
 	
 	update: function() {
@@ -86,24 +111,64 @@ var UpgradeScene = {
 					blackScreen.alpha -= 0.02;
 				}
 				else {
-					blackScreen.destroy();
+					blackScreen = null;
 					this.justStarted = false;
 				}
 			}
 		}
 		
-		this.iconGroup.forEachExists(function(icon) {
-			if (icon.input.justPressed(0, 1000)) {
-				this.upgradeNameText.text = icon.conf.name;
-				this.upgradeNameDesc.text = icon.conf.desc;
+		if (!this.leaving) {
+			this.iconGroup.forEachExists(function(icon) {
+				if (icon.input.justPressed(0, 1000)) {
+					this.upgradeName.text = icon.conf.name;
+					this.upgradeDesc.text = icon.conf.desc;
+					
+					this.getUpgrade.alpha = 1;
+					
+					selectedUpgrade = icon;
+					
+					this.blackBox.alpha = 0.2;
+					this.blackBox.x = icon.x;
+					this.blackBox.y = icon.y;
+				}
+			}, this);
+			
+			this.upgradeDesc.y = this.upgradeName.bottom + 5;
+			if (this.getUpgrade.alpha > 0) {
+				this.getUpgrade.y = this.upgradeDesc.bottom + 5;
+				this.skipUpgrades.y = this.getUpgrade.bottom + 5;
 				
-				this.blackBox.alpha = 0.2;
-				this.blackBox.x = icon.x;
-				this.blackBox.y = icon.y;
+				if (this.getUpgrades.justPressed(0, 1000)) {
+					this.selectedUpgrade.action();
+					this.leaving = true;
+				}
 			}
-		}, this);
+			
+			if (!this.leaving) {
+				if (this.skipUpgrades.justPressed(0, 1000)) {
+					this.leaving = true;
+				}
+			}
+		}
+		else {
+			if (blackScreen == null || blackScreen == undefined) {
+				blackScreen = game.add.image(0, 0, "blackScreen");
+				blackScreen.alpha = 0;
+			}
+			else {
+				if (blackScreen.alpha < 1) {
+					blackScreen.alpha += 0.01;
+				}
+				else {
+					blackScreen = null;
+					game.state.start(nextLevel, true, false);
+				}
+			}
+		}
 		
-		this.upgradeNameDesc.y = this.upgradeNameText.bottom + 5;
+		targeter.cameraOffset.x = game.input.activePointer.x;
+		targeter.cameraOffset.y = game.input.activePointer.y;
+		targeter.angle += 10;
 		
 		//game.state.start(nextLevel, true, false);
 	}
