@@ -21,7 +21,7 @@ function makeHuman(x, y, angle) {
 		human.angle = angle;
 	}
 	else {
-		human.angle = Math.random() * 2 * Math.PI;
+		human.angle = Math.random() * 360;
 	}
 
 	human.logic = function() {
@@ -59,6 +59,10 @@ function makeHuman(x, y, angle) {
 
 		return success;
 	}
+	
+	human.faceTowards = function(other) {
+		this.angle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x) * (180/Math.PI);
+	}
 
 	return human;
 }
@@ -82,7 +86,7 @@ function makeDefaultEnemy(x, y, angle) {
 		enemy.angle = angle;
 	}
 	else {
-		enemy.angle = Math.random() * 2 * Math.PI;
+		enemy.angle = Math.random() * 360;
 	}
 
 	enemy.gun = null;
@@ -148,6 +152,10 @@ function makeDefaultEnemy(x, y, angle) {
 		}
 
 		return success;
+	}
+	
+	enemy.faceTowards = function(other) {
+		this.angle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x) * (180/Math.PI);
 	}
 
 	return enemy;
