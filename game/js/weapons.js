@@ -71,7 +71,7 @@ function pulserifle(owner) {
 			});
 			game.time.events.add(100, function() {
 				console.log("fire2");
-				console.log(newgun.fire())
+				newgun.fire();
 				// newgun.shots++;
 			});
 			// game.time.events.add(150, function() {
