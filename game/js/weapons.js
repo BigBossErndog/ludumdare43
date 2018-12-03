@@ -127,6 +127,9 @@ function shotgun(owner) {
 
 		return success;
 	}
+	shotgun.onFire.add(function() {
+		shotsFired = true;
+	});
 	shotgun.bullets.setAll('damage', 35);
 
 	return shotgun;
@@ -135,7 +138,7 @@ function shotgun(owner) {
 function sword(owner) {
 	var sword = game.add.weapon(1, "debugBullet");
 	if (owner.head !== undefined) sword.trackSprite(owner.head, 15, 5, true);
-	sword.bullets.setAll('scale.y', 5);
+	sword.bullets.setAll('scale.y', 4);
 	sword.bullets.setAll('alpha', 0);
 	sword.fireRate = 480;
 	sword.bulletSpeed = 60;
@@ -192,7 +195,7 @@ function typhoon(owner) {
 		game.time.events.add(Phaser.Timer.SECOND * 1, function() {
 			typhoon.fireLimit = 2;
 			for (var i = 0; i < 60; i++) {
-				if (typhoon.fire()) {
+				if (typhoon.fire(0, 0)) {
 					success = true;
 				}
 			}
@@ -206,7 +209,7 @@ function typhoon(owner) {
 
 		return success;
 	}
-	punch.bullets.setAll('damage', 75);
+	typhoon.bullets.setAll('damage', 75);
 
 	return typhoon;
 }

@@ -27,6 +27,12 @@ var mainScene = {
 			aigroup.add(newEnemy);
 		}
 
+		var spawnPoints = [ [67,45], [123,80], [346, 90], [456, 370], [190, 500] ];
+		for (var i = 0; i < 5; i++) {
+			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
+			aigroup.add(human);
+		}
+
 		for (var i = 0; i < 5; i++) {
 			let newPickable = shotgunPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
 		}

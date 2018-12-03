@@ -23,7 +23,7 @@ class Player {
         this.com.addChild(this.cape = game.add.sprite(0, 0, "cape"));
         this.com.addChild(this.head = game.add.sprite(0, 0, 'head'));
 
-        this.gun = defaultMelee(this);
+        this.gun = typhoon(this);
 
     	this.legs.animations.add("walk", [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 20, true);
     	this.legs.animations.add("stand", [0], 1, false);
@@ -197,7 +197,7 @@ class Player {
 
 	makeWeaponAnimations() {
 		var anim;
-		
+
         anim = this.head.animations.add("stand", [0], 1, false);
         anim = this.head.animations.add("walk", [0,1,0,2], 5, true);
 
@@ -218,7 +218,7 @@ class Player {
 			player.shooting = false;
 		}, this);
 		anim = this.head.animations.add("swordStand", [50], 1, false);
-		
+
 		anim = this.head.animations.add("pistolStand", [10], 1, false);
 		anim = this.head.animations.add("pistolShoot", [11, 10], 10, false);
 		anim.onComplete.add(function() {
