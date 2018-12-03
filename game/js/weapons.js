@@ -202,11 +202,13 @@ function typhoon(owner) {
 		game.time.desiredFps = 300;
 		var success = false;
 
-		game.time.events.repeat(5, 250, function() {
-			aigroup.forEach(function () {
-				if (arguments[0].gun !== undefined) arguments[0].gun.killAll();
-			});
-		}, this, aigroup);
+		game.time.events.add(500, function() {
+			game.time.events.repeat(5, 125, function() {
+				aigroup.forEach(function () {
+					if (arguments[0].gun !== undefined) arguments[0].gun.killAll();
+				});
+			}, this, aigroup);
+		}, this, typhoon);
 
 		//insert check for enough bullets to fire full spread
 
