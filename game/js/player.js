@@ -155,7 +155,9 @@ class Player {
 								ai.faceTowards(player.com);
 							});
 						}
-					}
+					} else if (this.gun.type !== 'melee' && this.gun.fireLimit <= this.gun.shots && !upgrades.ammoCountActive) {
+                        this.noAmmo(ammoCount);
+                    }
 				}
 				else {
 					if (this.gun.fire()) {
@@ -167,7 +169,9 @@ class Player {
 								ai.faceTowards(player.com);
 							});
 						}
-					}
+					} else if (this.gun.type !== 'melee' && this.gun.fireLimit <= this.gun.shots && !upgrades.ammoCountActive) {
+                        this.noAmmo(ammoCount);
+                    }
 				}
 				clicked = true;
 			}
@@ -457,6 +461,19 @@ class Player {
     	else ammoCount.setText("");
     	ammoCount.x = this.com.x - 10;
     	ammoCount.y = this.com.y + 20;
+    }
+
+    noAmmo(ammoCount) {
+        console.log("no ammo");
+        ammoCount.visible = true;
+        ammoCount.setText("Out of Rounds");
+        ammoCount.style = shortStyle;
+    	ammoCount.x = this.com.x - 10;
+    	ammoCount.y = this.com.y + 20;
+        game.time.events.add(200, function() {
+            ammoCount.visible = false;
+            ammoCount.style = longStyle;
+        }, this, ammoCount);
     }
 
     blink(targetx, targety) {
