@@ -18,7 +18,7 @@ class Player {
         this.ammoCountActive = false;
         this.speedActive = false;
         this.blinkActive = false;
-        this.typhoonActive = false;
+        this.bulletBombActive = false;
         this.superPunchActive = false;
 
         this.maxHealth = 200;
@@ -238,8 +238,13 @@ class Player {
 			//makeGhost(targeter.x, targeter.y);
             player.blink(targeter.x, targeter.y);
 		}
-        if (upgrades.typhoonActive && game.input.keyboard.isDown(Phaser.Keyboard.Q)) {
-            upgrades.typhoon.shoot();
+        if (upgrades.bulletBombActive && game.input.keyboard.isDown(Phaser.Keyboard.Q)) {
+            upgrades.bulletBomb.shoot();
+        }
+
+        if (ammoCount.visible) {
+        	ammoCount.x = this.com.x - 10;
+        	ammoCount.y = this.com.y + 20;
         }
     }
 
@@ -459,8 +464,8 @@ class Player {
         ammoCount.visible = true;
         if (gun !== null) ammoCount.setText("Ammo:" + (gun.fireLimit > 0 ? (gun.fireLimit - gun.shots) + "  \t\t\t\t\t\t\t\t  " : "N/A  \t\t\t\t\t\t  "));
     	else ammoCount.setText("");
-    	ammoCount.x = this.com.x - 10;
-    	ammoCount.y = this.com.y + 20;
+    	// ammoCount.x = this.com.x - 10;
+    	// ammoCount.y = this.com.y + 20;
     }
 
     noAmmo(ammoCount) {
@@ -468,8 +473,8 @@ class Player {
         ammoCount.visible = true;
         ammoCount.setText("Out of Rounds");
         ammoCount.style = shortStyle;
-    	ammoCount.x = this.com.x - 10;
-    	ammoCount.y = this.com.y + 20;
+    	// ammoCount.x = this.com.x - 10;
+    	// ammoCount.y = this.com.y + 20;
         game.time.events.add(200, function() {
             ammoCount.visible = false;
             ammoCount.style = longStyle;

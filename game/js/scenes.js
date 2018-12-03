@@ -5,7 +5,7 @@ var openingScene = {
 
 	preload: function() {
 		game.load.image("blackScreen", "assets/blackScreen.png");
-		game.camera.setSize(800, 600);
+		// game.camera.setSize(800, 600);
 		loadDefaults();
 	},
 
