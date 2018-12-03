@@ -6,6 +6,20 @@ class UpgradesEquipped {
         this.blinkActive = false;
         this.typhoonActive = false;
         this.superPunchActive = false;
+		this.equipped = [];
+	}
+	
+	get(up) {
+		this.equipped.push(up);
+	}
+	
+	has(up) {
+		for (var i = 0; i < this.equipped.length; i++) {
+			if (this.equipped[i] == up) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
 var upgrades = new UpgradesEquipped();
@@ -17,7 +31,7 @@ function addUpgradeConf(conf) {
 
 addUpgradeConf({
 	name: "Optics",
-	desc: "See Health, AI, etc.",
+	desc: "See information about people.",
 	frame:0,
 	action:function() {
 		upgrades.scannerActive = true;
@@ -47,8 +61,26 @@ addUpgradeConf({
 		upgrades.blinkActive = true;
 	}
 });
+addUpgradeConf({
+	name: "Punch of Death",
+	desc: "Punches instantly kill.",
+	frame:4,
+	action:function() {
+		upgrades.superPunchActive = true;
+		meleeDamage = 1000;
+	}
+});
+addUpgradeConf({
+	name: "Bullet Explosion",
+	desc: "Powerful bullets are fired in every direction.",
+	frame:6,
+	action:function() {
+		upgrades.typoon = true;
+		meleeDamage = 1000;
+	}
+});
 
-var upgradeList = ["Optics", "Ammo Count", "Leg Enhancement", "Blink"];
+var upgradeList = ["Optics", "Ammo Count", "Leg Enhancement", "Blink", "Punch of Death", "Bullet Explosion"];
 var selectedUpgrade;
 
 function makeUpgradeIcon(x, y, conf) {
@@ -85,10 +117,15 @@ var UpgradeScene = {
 			this.icons[i] = [];
 			for (var j = 0; j < 3; j++) {
 				if (j*4 + i < upgradeList.length) {
-					this.icons[i][j] = makeUpgradeIcon(50 + i * 50, 50 + j * 50, upgradeConf[upgradeList[j*4 + i]]);
-					if (this.icons[i][j] != null) {
-						this.iconGroup.add(this.icons[i][j]);
-						this.icons[i][j].inputEnabled = true;
+					var newicon = makeUpgradeIcon(50 + i * 50, 50 + j * 50, upgradeConf[upgradeList[j*4 + i]]);
+					this.icons[i][j] = newicon;
+					if (newicon != null) {
+						this.iconGroup.add(newicon);
+						newicon.inputEnabled = true;
+						
+						if (upgrades.has(newicon.conf.name)) {
+							newicon.alpha = 0.3;
+						}
 					}
 				}
 			}
@@ -145,6 +182,10 @@ var UpgradeScene = {
 					this.blackBox.alpha = 0.2;
 					this.blackBox.x = icon.x;
 					this.blackBox.y = icon.y;
+					
+					if (upgrades.has(this.selectedUpgrade.conf.name)) {
+						this.getUpgrade.alpha = 0.3;
+					}
 				}
 			}, this);
 			
@@ -153,8 +194,11 @@ var UpgradeScene = {
 				this.getUpgrade.y = this.upgradeDesc.bottom + 5;
 				this.skipUpgrades.y = this.getUpgrade.bottom + 5;
 				
-				if (this.getUpgrade.input.justPressed(0, 1000)) {
+				if (!upgrades.has(this.selectedUpgrade.conf.name) && this.getUpgrade.input.justPressed(0, 1000)) {
 					this.selectedUpgrade.conf.action();
+					this.selectedUpgrade.alpha = 0.5;
+					upgrades.get(this.selectedUpgrade.conf.name);
+					this.getUpgrade.alpha = 0.3;
 					this.leaving = true;
 				}
 			}
@@ -162,6 +206,7 @@ var UpgradeScene = {
 			if (!this.leaving) {
 				if (this.skipUpgrades.input.justPressed(0, 1000)) {
 					this.leaving = true;
+					this.skipUpgrades.alpha = 0.3;
 				}
 			}
 		}

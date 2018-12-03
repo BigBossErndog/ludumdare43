@@ -192,7 +192,7 @@ class Player {
 					if (newPickable != undefined) {
 						newPickable.dropped = true;
 						this.gun.destroy();
-						this.gun = null;
+						this.gun = defaultMelee(this);
 					}
 				}
 
@@ -233,7 +233,7 @@ class Player {
 			player.shooting = false;
 		}, this);
 		anim = this.head.animations.add("smgStand", [40], 1, false);
-
+		
 		anim = this.head.animations.add("swordSwing", [52,53,54,51,50], 15, false);
 		anim.onComplete.add(function() {
 			player.shooting = false;
@@ -247,7 +247,13 @@ class Player {
 		}, this);
 		
 		anim = this.head.animations.add("autorifleStand", [60], 1, false);
-		anim = this.head.animations.add("autorifleShoot", [61,60], 1, false);
+		anim = this.head.animations.add("autorifleShoot", [61,60], 20, false);
+		anim.onComplete.add(function() {
+			player.shooting = false;
+		}, this);
+		
+		anim = this.head.animations.add("punchStand", [0], 1, false);
+		anim = this.head.animations.add("punch", [70,71,72,73,0], 15, false);
 		anim.onComplete.add(function() {
 			player.shooting = false;
 		}, this);
@@ -277,6 +283,9 @@ class Player {
 					break;
 				case "Auto Rifle":
 					this.head.animations.play("autorifleStand");
+					break;
+				case "Punch":
+					this.head.animations.play("punchStand");
 					break;
 			}
 		}
@@ -312,6 +321,10 @@ class Player {
 				case "Auto Rifle":
 					this.recoil(10, this.head.angle * (Math.PI/180) + Math.PI);
 					this.head.animations.play("autorifleShoot");
+					break;
+				case "Punch":
+					this.recoil(100, this.head.angle * (Math.PI/180));
+					this.head.animations.play("punch");
 					break;
 			}
 		}
