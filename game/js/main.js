@@ -90,7 +90,7 @@ function createDefaults(x, y) {
 
 	pickables = game.add.group();
 	aigroup = game.add.group();
-	
+
 	player = new Player(game, x, y);
 	targeter = game.add.sprite(100, 100, 'reticle');
 
@@ -201,6 +201,12 @@ function updateDefaults() {
 		});
 	}
 
+	triggers.forEach(function (trigger) {
+		if (Phaser.Rectangle.intersects(trigger.getBounds(), player.com.getBounds())) {
+			triggerDialogue(trigger, trigger.talker, trigger.text);
+		}
+	}
+
 	player.drawHealth();
 
 	if (player.dead) {
@@ -262,7 +268,7 @@ function collisionHandler(bullet, ai) {
 	ai.faceTowards(player.com);
 	ai.addForce(Math.sin(bullet.angle * (Math.PI/180)) * 150, Math.cos(bullet.angle * (Math.PI/180)) * 150);
 	if (ai.type == "Human") {
-		
+
 	}
 	else if (ai.type == "Enemy") {
 		if (ai.enemyType == "unprovoked") {
