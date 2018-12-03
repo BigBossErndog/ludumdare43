@@ -106,14 +106,14 @@ function makeDefaultEnemy(x, y, angle) {
 				this.gun.resetShots();
 				this.gun.fire();
 			}
-			//this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
-			//this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
-			//this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
+			this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
+			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
+			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
 		}
 		else if (this.recPlayerSight != null) {
-			//this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
-			//this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
-			//this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
+			this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
+			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
+			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
 
 			let xdiff = Math.abs(this.body.x - this.recPlayerSight.x);
 			let ydiff = Math.abs(this.body.y - this.recPlayerSight.y);

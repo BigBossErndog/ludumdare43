@@ -71,8 +71,8 @@ function createDefaults() {
 }
 
 function updateDefaults() {
-	parallaxSprite.cameraOffset.x = game.width*0.5 - game.camera.x/15;
-	parallaxSprite.cameraOffset.y = game.height*0.5 - game.camera.y/15;
+	parallaxSprite.cameraOffset.x = game.width*0.5 + game.camera.x/15;
+	parallaxSprite.cameraOffset.y = game.height*0.5 + game.camera.y/15;
 
 	if (player.gun != null) {
 		game.physics.arcade.overlap(player.gun.bullets, aigroup, collisionHandler, null, this);

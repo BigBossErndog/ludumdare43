@@ -59,18 +59,22 @@ var mainScene = {
 					this.justStarted = false;
 				}
 			}
-		} else {
-			updateDefaults();
+		}
+		updateDefaults();
 
-			let aiCount = 0;
-			aigroup.forEachExists(function() {
-				aiCount += 1;
-			});
-			if (aiCount == 0) {
-				if (blackScreen == undefined || blackScreen == null) {
-					blackScreen = game.add.image(0, 0, "blackScreen");
-					blackScreen.alpha = 0;
-					blackScreen.fixedToCamera = true;
+		let aiCount = 0;
+		aigroup.forEachExists(function() {
+			aiCount += 1;
+		});
+		if (aiCount == 0) {
+			if (blackScreen == undefined || blackScreen == null) {
+				blackScreen = game.add.image(0, 0, "blackScreen");
+				blackScreen.alpha = 0;
+				blackScreen.fixedToCamera = true;
+			}
+			else {
+				if (blackScreen.alpha < 1) {
+					blackScreen.alpha += 0.01;
 				}
 				else {
 					blackScreen = null;
@@ -147,7 +151,7 @@ var Level1 = {
 			}
 			else {
 				if (blackScreen.alpha < 1) {
-					blackScreen.alpha += 0.02;
+					blackScreen.alpha += 0.01;
 				}
 				else {
 					blackScreen = null;

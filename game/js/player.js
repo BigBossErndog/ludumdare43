@@ -113,8 +113,8 @@ class Player {
                 sin:Math.sin(this.cape.angle * (Math.PI/180)),
                 cos:Math.cos(this.cape.angle * (Math.PI/180))
             }
-            capeAngle.sin = (capeAngle.sin - headAngle.sin) * 0.8 + headAngle.sin;
-            capeAngle.cos = (capeAngle.cos - headAngle.cos) * 0.8 + headAngle.cos;
+            capeAngle.sin = (capeAngle.sin - headAngle.sin) * 0.85 + headAngle.sin;
+            capeAngle.cos = (capeAngle.cos - headAngle.cos) * 0.85 + headAngle.cos;
             this.cape.angle = Math.atan2(capeAngle.sin, capeAngle.cos) * (180/Math.PI);
         }
 
