@@ -49,10 +49,10 @@ function makeHuman(x, y, angle) {
 		if (success) {
 			toOtherAngle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x);
 
-			var phi = Math.abs(toOtherAngle - this.angle) % (Math.PI * 2);       // This is either the distance or 360 - distance
-			var distance = phi > Math.PI ? (Math.PI * 2) - phi : phi;
-
-			if (distance > Math.PI/2) {
+			a = Math.atan2(Math.sin(toOtherAngle-this.angle*(Math.PI/180)), Math.cos(toOtherAngle-this.angle*(Math.PI/180))) * (180/Math.PI);
+			a = Math.abs(a);
+			
+			if (a > 60) {
 				success = false;
 			}
 		}
@@ -106,19 +106,14 @@ function makeDefaultEnemy(x, y, angle) {
 				this.gun.resetShots();
 				this.gun.fire();
 			}
-			this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
-			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
-			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
+			//this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
+			//this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
+			//this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
 		}
 		else if (this.recPlayerSight != null) {
-			if (this.gun != null) {
-				this.gun.resetShots();
-				this.gun.fire();
-			}
-
-			this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
-			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
-			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
+			//this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
+			//this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 20;
+			//this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 20;
 
 			let xdiff = Math.abs(this.body.x - this.recPlayerSight.x);
 			let ydiff = Math.abs(this.body.y - this.recPlayerSight.y);
@@ -142,13 +137,12 @@ function makeDefaultEnemy(x, y, angle) {
 	    }
 
 		if (success) {
-			toOtherAngle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x) * (180/Math.PI);
+			toOtherAngle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x);
 
-			var phi = Math.abs(toOtherAngle - this.angle) % 360;       // This is either the distance or 360 - distance
-			var distance = phi > 180 ? 360 - phi : phi;
+			a = Math.atan2(Math.sin(toOtherAngle-this.angle*(Math.PI/180)), Math.cos(toOtherAngle-this.angle*(Math.PI/180))) * (180/Math.PI);
+			a = Math.abs(a);
 			
-			console.log(distance);
-			if (distance > 180) {
+			if (a > 60) {
 				success = false;
 			}
 		}

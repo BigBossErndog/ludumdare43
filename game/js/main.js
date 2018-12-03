@@ -171,6 +171,6 @@ var recCam = {
 function collisionHandler(bullet, ai) {
 	bullet.kill();
 	ai.health -= bullet.damage;
-	console.log(ai.health);
+	//console.log(ai.health);
 	if (ai.health <= 0) ai.kill();
 }
