@@ -3,7 +3,7 @@ var game;
 WebFontConfig = {
 
 	active: function() { game.time.events.add(Phaser.Timer.SECOND, function () {
-		longStyle = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 15 };
+		longStyle = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10/* wordWrap: true, wordWrapWidth: 50 */};
 		shortStyle = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10 };
 	}, this); },
 
@@ -12,6 +12,8 @@ WebFontConfig = {
     }
 
 };
+
+var triggers = [];
 
 window.onload = function() {
 	game = new Phaser.Game(400, 300, Phaser.AUTO, ''/*'phaser-canvas'*/, null, false, false);
