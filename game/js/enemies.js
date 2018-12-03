@@ -60,11 +60,11 @@ function makeHuman(x, y, angle) {
 
 		return success;
 	}
-	
+
 	human.faceTowards = function(other) {
 		this.angle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x) * (180/Math.PI);
 	}
-	
+
 	human.addForce = function(x, y) {
 		this.body.velocity.x += x;
 		this.body.velocity.y += y;
@@ -76,6 +76,7 @@ function makeHuman(x, y, angle) {
 function makeDefaultEnemy(x, y, angle) {
 	var enemy = game.add.sprite(x, y, "human");
 	enemy.health = 100;
+	enemy.reloadStart = 0;
 
 	enemy.anchor.x = 0.5;
 	enemy.anchor.y = 0.5;
@@ -113,8 +114,15 @@ function makeDefaultEnemy(x, y, angle) {
 			}
 
 			if (this.gun != null) {
-				this.gun.resetShots();
-				this.gun.fire();
+				// this.gun.resetShots();
+				if(this.gun.fire() == null) {
+					if (this.reloadStart === -1) this.reloadStart = Date.now();
+					else if (Date.now() - this.reloadStart >= 10000) {
+						console.log("reloading");
+						this.gun.resetShots();
+						this.reloadStart = -1;
+					}
+				};
 			}
 			this.angle = Math.atan2(this.recPlayerSight.y - this.body.y, this.recPlayerSight.x - this.body.x) * (180/Math.PI);
 			if (player.health > 0) {
@@ -163,11 +171,11 @@ function makeDefaultEnemy(x, y, angle) {
 
 		return success;
 	}
-	
+
 	enemy.faceTowards = function(other) {
 		this.angle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x) * (180/Math.PI);
 	}
-	
+
 	enemy.addForce = function(x, y) {
 		this.body.velocity.x += x;
 		this.body.velocity.y += y;
