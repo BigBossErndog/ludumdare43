@@ -1,4 +1,5 @@
 var nextLevel;
+const PXSIZE = 32;
 
 var openingScene = {
 	finished: false,
@@ -142,18 +143,11 @@ var Level0 = {
 
 		createDefaults();
 
-		var spawnPoints = [ [30,40], [60,70], [100, 50], [550, 370], [190, 500] ];
-		for (var i = 0; i < 5; i++) {
-			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
-			newEnemy.gun = shotgun(newEnemy);
+		var spawnPoints = [ [4*PXSIZE,19*PXSIZE, 90] ];
+		for (var i = 0; i < 1; i++) {
+			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1], spawnPoints[i][2]);
+			newEnemy.gun = defaultMelee(newEnemy);
 			aigroup.add(newEnemy);
-		}
-
-		for (var i = 0; i < 10; i++) {
-			let newPickable = shotgunPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
-		}
-		for (var i = 0; i < 20; i++) {
-			let newPickable = pulseriflePickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
 		}
 	},
 
@@ -222,15 +216,22 @@ var Level1 = {
 
 		createDefaults();
 
-		var spawnPoints = [ [30,40], [60,70], [100, 50], [550, 370], [190, 500] ];
-		for (var i = 0; i < 5; i++) {
+		var spawnPoints = [ [7*PXSIZE,48*PXSIZE, 0] ];
+		for (var i = 0; i < 1; i++) {
 			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
-			newEnemy.gun = autorifle(newEnemy);
+			newEnemy.gun = null;
 			aigroup.add(newEnemy);
 		}
 
-		for (var i = 0; i < 10; i++) {
-			let newPickable = shotgunPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
+		var spawnPoints = [ [3*PXSIZE, 6*PXSIZE, 0], [11*PXSIZE,6*PXSIZE,0], [19*PXSIZE, 4*PXSIZE, -45], [14*PXSIZE, 12*PXSIZE, 180], [6*PXSIZE,12*PXSIZE,180],
+		[28*PXSIZE,10*PXSIZE,-90], [18*PXSIZE, 7*PXSIZE, 0], [ 24*PXSIZE, 17*PXSIZE, 90],  [25*PXSIZE, 4*PXSIZE, 90], [21*PXSIZE,9*PXSIZE],
+		[9*PXSIZE,24*PXSIZE,90], [11.5*PXSIZE,47.5*PXSIZE,180], [8.5*PXSIZE,44.5*PXSIZE], [6.5*PXSIZE,44.5*PXSIZE], [22*PXSIZE,37*PXSIZE,-90] ];
+		for (var i = 0; i < 15; i++) {
+			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
+			aigroup.add(human);
+		}
+		for (var i = 0; i < 1; i++) {
+			let newPickable = pistolPickable(9*PXSIZE, 4*PXSIZE);
 		}
 	},
 

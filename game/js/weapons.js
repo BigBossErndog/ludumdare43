@@ -215,7 +215,7 @@ function sword(owner) {
 	return sword;
 }
 
-var meleeDamage = 3;
+var meleeDamage = 30;
 function defaultMelee(owner) {
 	var punch = game.add.weapon(1, "bullet1");
 	if (owner.head !== undefined) punch.trackSprite(owner.head, 15, 5, true);
