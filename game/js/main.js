@@ -5,10 +5,12 @@ window.onload = function() {
 
 	game.state.add("UpgradeScene", UpgradeScene);
 
-	game.state.add("main", mainScene);
+	game.state.add("main", testScene);
+	game.state.add("Level0", Level0);
 	game.state.add("Level1", Level1);
+	game.state.add("Level2", Level2);
 
-	game.state.start("main");
+	game.state.start("Level0");
 
     // game.state.add("mainScene", mainScene);
 }
