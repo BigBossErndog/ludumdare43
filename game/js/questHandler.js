@@ -1,8 +1,8 @@
 function triggerQuest(trigger, input) {
-    text = game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65" });
+    text = game.add.text(15, 15, '', { font: "13px Arial", fill: "#0a8293", tabs: 50, wordWrap: true, wordWrapWidth: 300 });
     text.fixedToCamera = true;
     dialogueArray = input;
-    nextLine();
+    nextLine(trigger);
 }
 
 var dialogueArray;
@@ -17,11 +17,12 @@ var lineDelay = 400;
 function triggerDialogue() {
 }
 
-function nextLine() {
+function nextLine(trigger) {
 
     if (lineIndex === intro.length)
     {
         //  We're finished
+        trigger.finished = true;
         return;
     }
 
@@ -46,7 +47,9 @@ function nextLine() {
             text.text = text.text.concat("\n");
 
             //  Get the next line after the lineDelay amount of ms has elapsed
-            game.time.events.add(lineDelay, nextLine, this);
+            game.time.events.add(lineDelay, function() {
+                nextLine(trigger);
+            }, this);
         }
     }, this);
 
@@ -62,8 +65,10 @@ var intro = [
     "You are a wage slave for a megacorp.",
     "Each day the corporation bleeds you of your humanity in the name of profit, and gives you a pittance in return.",
     "You've been given an opportunity however...",
-    "The corp needs someone to volunteer as a G O L E M  hunter.",
+    "The corp needs someone to volunteer as a G.O.L.E.M. hunter.",
     "You've heard rumours...",
     "But if the pay is a quarter as much as they say, then it's worth it.",
-    "Because you've got nothing left to lose, right?"
+    "Because you've got nothing left to lose,",
+    "",
+    "\t\t\t\tright?"
 ];

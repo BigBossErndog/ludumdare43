@@ -1,6 +1,6 @@
 class UpgradesEquipped {
 	constructor() {
-		this.scannerActive = true;
+		this.scannerActive = false;
         this.ammoCountActive = false;
         this.speedActive = false;
         this.blinkActive = false;
