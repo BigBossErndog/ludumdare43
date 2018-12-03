@@ -21,7 +21,9 @@ class Player {
         this.typhoonActive = false;
         this.superPunchActive = false;
 
-		this.health = 200;
+        this.maxHealth = 200;
+		this.health = this.maxHealth;
+
 		this.dead = false;
 
 		this.addedVelocity = {
@@ -441,7 +443,7 @@ class Player {
 			this.healthBar.clear();
 
 			this.healthBar.beginFill(0xbc1e1e);
-			this.healthBar.drawRect(0,0,Math.floor(40*(this.health/100)), 3);
+			this.healthBar.drawRect(0,0,Math.floor(40*(this.health/this.maxHealth)), 3);
 			this.healthBar.endFill();
 		}
 	}
