@@ -3,7 +3,7 @@ class UpgradesEquipped {
 		this.scannerActive = true;
         this.ammoCountActive = false;
         this.speedActive = false;
-        this.blinkActive = true;
+        this.blinkActive = false;
 		this.blinkRunning = false;
 		this.lastBlink = 0;
         this.typhoonActive = false;
