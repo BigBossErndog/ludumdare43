@@ -23,7 +23,7 @@ function loadFunction(progress) {
 	loadBar.clear();
 	
 	loadBar.beginFill(0xffffff, 1);
-	loadBar.drawRect(20, 300 - 20, progress, 10);
+	loadBar.drawRect(20, 300 - 20, progress * 2, 10);
 	loadBar.endFill();
 }
 
@@ -35,15 +35,22 @@ var LoadScene = {
 		game.load.image("cityBackground", "assets/mainMenu/cityBackground.png");
 		game.load.image("glow", "assets/mainMenu/glow.png");
 		
+		game.load.image("startBtn", "assets/startBtn.png");
+		game.load.image("howToPlayBtn", "assets/howToPlayBtn.png");
+		game.load.image("creditsBtn", "assets/creditsBtn.png");
+		
 		this.game.load.onFileComplete.add(loadFunction, this);
 	},
 	
 	create: function() {
-		
+		this.counter = 0;
 	},
 	
 	update: function() {
-		game.state.start("splashes", true, false);
+		this.counter += 1;
+		if (this.counter == 60) {
+			game.state.start("splashes", true, false);
+		}
 	}
 }
 
@@ -53,7 +60,7 @@ var Splashes = {
 	},
 	
 	create: function() {
-		game.state.start("mainMenu");
+		game.state.start("openingScene");
 	},
 	
 	update: function() {
@@ -68,6 +75,7 @@ var MainMenu = {
 	
 	create: function() {
 		this.justStarted = true;
+		this.leaving = false;
 		
 		this.cityBackground = game.add.image(0, 0, "cityBackground");
 		this.glow = game.add.sprite(0, 0, "glow");
@@ -87,6 +95,26 @@ var MainMenu = {
 		targeter.anchor.x = 0.5;
 		targeter.anchor.y = 0.5;
 		targeter.fixedToCamera = true;
+		
+		this.startBtn = game.add.image(game.width/2, 180, "startBtn");
+		this.startBtn.anchor.x = 0.5;
+		this.startBtn.anchor.y = 0.5;
+		this.startBtn.alpha = 0.3;
+		this.startBtn.inputEnabled = true;
+		
+		this.howToPlayBtn = game.add.image(game.width/2, 220, "howToPlayBtn");
+		this.howToPlayBtn.anchor.x = 0.5;
+		this.howToPlayBtn.anchor.y = 0.5;
+		this.howToPlayBtn.alpha = 0.3;
+		this.howToPlayBtn.inputEnabled = true;
+		
+		this.creditsBtn = game.add.image(game.width/2, 260, "creditsBtn");
+		this.creditsBtn.anchor.x = 0.5;
+		this.creditsBtn.anchor.y = 0.5;
+		this.creditsBtn.alpha = 0.3;
+		this.creditsBtn.inputEnabled = true;
+		
+		this.targetScene = null;
 	},
 	
 	update: function() {
@@ -119,10 +147,63 @@ var MainMenu = {
 			}
 			this.logo2.alpha = this.glow.alpha;
 			
-			
 			this.flickerCount2 = 0;
 			this.flickerCount1 = Math.random() * 10;
 		}
 		this.flickerCount2 += 1;
+		
+		if (!this.leaving) {
+			if (this.startBtn.input.justOver(0, 500)) {
+				this.startBtn.alpha = 1;
+			}
+			if (this.startBtn.input.justOut(0, 500)) {
+				this.startBtn.alpha = 0.3;
+			}
+			if (this.startBtn.input.justPressed(0, 500)) {
+				this.startBtn.alpha = 1;
+				this.targetScene = "Level0";
+				this.leaving = true;
+			}
+			
+			if (this.howToPlayBtn.input.justOver(0, 500)) {
+				this.howToPlayBtn.alpha = 1;
+			}
+			if (this.howToPlayBtn.input.justOut(0, 500)) {
+				this.howToPlayBtn.alpha = 0.3;
+			}
+			if (this.howToPlayBtn.input.justPressed(0, 500)) {
+				this.howToPlayBtn.alpha = 1;
+				this.targetScene = "howToPlay";
+				this.leaving = true;
+			}
+			
+			if (this.creditsBtn.input.justOver(0, 500)) {
+				this.creditsBtn.alpha = 1;
+			}
+			if (this.creditsBtn.input.justOut(0, 500)) {
+				this.creditsBtn.alpha = 0.3;
+			}
+			if (this.creditsBtn.input.justPressed(0, 500)) {
+				this.creditsBtn.alpha = 1;
+				this.targetScene = "credits";
+				this.leaving = true;
+			}
+		}
+		else {
+			if (blackScreen == undefined || blackScreen == null) {
+				blackScreen = game.add.image(0, 0, "blackScreen");
+				blackScreen.alpha = 0;
+			}
+			else {
+				if (blackScreen.alpha < 1) {
+					blackScreen.alpha += 0.01;
+				}
+				else {
+					blackScreen = null;
+					this.justStarted = false;
+					game.state.start(this.targetScene, true, false);
+				}
+			}
+		}
 	}
 }

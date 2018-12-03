@@ -18,13 +18,16 @@ var openingScene = {
 		// blackScreen.alpha = 1;
 		triggerQuest(this, intro);
 		game.stage.backgroundColor = '#000';
+		this.counter = 0;
 	},
 
 	update: function() {
-		if (this.finished)
-		game.time.events.add(300, function() {
-			game.state.start("Level0", true, false);
-		}, this);
+		if (this.finished) {
+			this.counter += 1;
+			if (this.counter > 2 * 60) {
+				game.state.start("Level0");
+			}
+		}
 	}
 }
 
