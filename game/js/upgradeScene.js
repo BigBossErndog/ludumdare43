@@ -68,11 +68,15 @@ var UpgradeScene = {
 			}
 		}
 		
-		var txtstyle = { font: "18px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10, wordWrap:true, wordWrapWidth:100 };
-		this.upgradeNameText = game.add.text(250, 50, "", txtstyle);
+		var txtstyle = { font: "18px Courier", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10, wordWrap:true, wordWrapWidth:100 };
+		this.upgradeName = game.add.text(250, 50, "", txtstyle);
 		
-		var txtstyle = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10, wordWrap:true, wordWrapWidth:100 };
-		this.upgradeNameDesc = game.add.text(250, 100, "", txtstyle);
+		var txtstyle = { font: "12px Courier", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10, wordWrap:true, wordWrapWidth:100 };
+		this.upgradeDesc = game.add.text(250, 100, "", txtstyle);
+		
+		this.getUpgrade = game.add.image(250, 50, "getUpgrade");
+		this.getUpgrade.alpha = 0;
+		this.skipUpgrades = game.add.image(250, 50, "skipUpgrade");
 	},
 	
 	update: function() {
@@ -94,8 +98,10 @@ var UpgradeScene = {
 		
 		this.iconGroup.forEachExists(function(icon) {
 			if (icon.input.justPressed(0, 1000)) {
-				this.upgradeNameText.text = icon.conf.name;
-				this.upgradeNameDesc.text = icon.conf.desc;
+				this.upgradeName.text = icon.conf.name;
+				this.upgradeDesc.text = icon.conf.desc;
+				
+				this.getUpgrade.alpha = 1;
 				
 				this.blackBox.alpha = 0.2;
 				this.blackBox.x = icon.x;
@@ -103,7 +109,11 @@ var UpgradeScene = {
 			}
 		}, this);
 		
-		this.upgradeNameDesc.y = this.upgradeNameText.bottom + 5;
+		this.upgradeDesc.y = this.upgradeName.bottom + 5;
+		if (this.getUpgrade.alpha > 0) {
+			this.getUpgrade.y = this.upgradeDesc.bottom + 5;
+			this.skipUpgrades.y = this.getUpgrade.bottom + 5;
+		}
 		
 		//game.state.start(nextLevel, true, false);
 	}

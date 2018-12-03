@@ -35,6 +35,8 @@ function loadDefaults() {
 	game.load.image("blackScreen", "assets/blackScreen.png");
 	game.load.spritesheet("upgradeIcons", "assets/Upgrades.png", 32, 32);
 	game.load.image("blackBox", "assets/blackBox.png");
+	game.load.image("getUpgrade", "assets/getUpgrade.png");
+	game.load.image("skipUpgrade", "assets/skipUpgrades.png");
 	loadWeapons();
 	loadEnemies();
 	loadLevels();
