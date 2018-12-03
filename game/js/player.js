@@ -21,7 +21,7 @@ class Player {
         this.typhoonActive = false;
         this.superPunchActive = false;
 
-		this.health = 100;
+		this.health = 200;
 		this.dead = false;
 
 		this.addedVelocity = {
@@ -34,7 +34,7 @@ class Player {
         this.com.addChild(this.cape = game.add.sprite(0, 0, "cape"));
         this.com.addChild(this.head = game.add.sprite(0, 0, 'head'));
 
-        this.gun = typhoon(this);
+        this.gun = defaultMelee(this);
 
     	this.legs.animations.add("walk", [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 20, true);
     	this.legs.animations.add("stand", [0], 1, false);
