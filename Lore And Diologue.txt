@@ -1,0 +1,77 @@
+LORE:
+
+Player (Wage Slave, Arvalis Corey) Searching for (Counterparts) to eliminate them, at the request of (Aggregande Corporation).
+
+Level 0:
+
+???: Choice? of course you have a choice. We all have a choice. You can kill, or be killed. Isn't free will wonderful?
+???: Across the street there's a <counterpart>, Aggregande Corp is recalling all our products... I'll be here when you're done.
+
+//Player kills counterpart.
+
+Counterpart: Why... are... you... ?
+
+Level 1:
+
+???: Over the other part of town, there's a counterpart who works in the bar. Find them, use the pistol by the trash.
+
+//Player traverses town to find counterpart.
+
+Counterpart: Hey there sir, can I get a drink for you?
+Counterpart: Woah, woah, there's no need for that sir!
+
+Level 2:
+
+???: There's a few counterparts working for Aggregande in this factory, find them, you know the rest.
+
+//Player enters the factory and kills the counterparts.
+
+Counterpart: Please, spare the others.
+
+//Player continues through the factory shooting the counterparts, they shoot back for the first time.
+
+Level 3:
+
+???: Word seems to have gotten out about our 'used product policy'.
+???: Go in there and... You know the rest...
+
+//Player walks up to the entrance to the entrenchment.
+
+Counterpart: It doesn't have to end like this, you can just walk away.
+
+//Player begins shooting, the level begins. Very hard level.
+//Innocent civilians are found in the factory, they can be shot at, and killed.
+
+Level 4: (THE level)
+
+If(humanity Full){
+	???: We have one last target in there, but please, accuracy is of the utmost importance.
+}
+
+If(humanity Empty) {
+	???: KILL, MAIME, TEAR!
+}
+
+If(humanity middle) {
+	???: We have the last counterpart surrounded, go in and take him out, no matter the cost.
+}
+
+//The player then enters a crowded street.
+//The counterpart is a couple of streets across. If the player is fully humane, and observant, they can find them, and kill them.
+//If the player is careless, civilians will be harmed.
+//If the player is not human at all, all civilians will appear as counterparts.
+
+Ending:
+
+If(No civilians killed) {
+	???: Aggregande appreciates your... Co-operation. We'll be sure to contact you about your promotion.
+}
+
+If(Civilians killed, and inhumane) {
+	???: Was it worth it? Do you feel happy? They didn't have to die you know?
+	???: The counterparts did, but none of those civilians.
+}
+
+If(Middling Humanity) {
+	???: Loose ends cannot be tolerated, and you are indeed a loose end.
+}
