@@ -189,7 +189,7 @@ class Player {
 
 				var canPickUp = true;
 				pickables.forEachExists(function(item) {
-					if (canPickUp && item.overlap(player.com)) {
+					if (item.pickableName != "corpse" && canPickUp && item.overlap(player.com)) {
 						item.pickUp();
 						canPickUp = false;
 					}
@@ -488,15 +488,15 @@ class Player {
 	}
 }
 
-function createCorpse() {
-	var corpse = game.add.sprite(player.com.x, player.com.y, "deathAnim");
+function createCorpse(person, anim) {
+	var corpse = game.add.sprite(person.x, person.y, anim);
 	corpse.anchor.x = 0.75;
 	corpse.anchor.y = 0.5;
 	corpse.pickableName = "corpse";
-
+	
 	game.physics.enable(corpse, Phaser.Physics.ARCADE);
 
-	corpse.angle = player.com.angle;
+	corpse.angle = person.angle;
 	corpse.body.drag.x = 600;
 	corpse.body.drag.y = 600;
 

@@ -62,6 +62,8 @@ function loadDefaults() {
 	game.load.image("getUpgrade", "assets/getUpgrade.png");
 	game.load.image("skipUpgrade", "assets/skipUpgrades.png");
 	game.load.spritesheet("deathAnim", "assets/deathAnim.png", 64, 32);
+	game.load.spritesheet("humanDead", "assets/humanDead.png", 64, 32);
+	game.load.spritesheet("enemyDead", "assets/enemyDead.png", 64, 32);
 	loadWeapons();
 	loadEnemies();
 	loadLevels();
@@ -134,7 +136,7 @@ function updateDefaults() {
 				if (player.health <= 0 && !player.dead) {
 					player.com.angle = bullet.angle + 180;
 					player.dropWeapon();
-					createCorpse();
+					createCorpse(player.com, "deathAnim");
 					playercom.kill();
 					player.dead = true;
 				}
@@ -249,5 +251,14 @@ function collisionHandler(bullet, ai) {
 	ai.health -= bullet.damage;
 	ai.faceTowards(player.com);
 	ai.addForce(Math.sin(bullet.angle * (Math.PI/180)) * 150, Math.cos(bullet.angle * (Math.PI/180)) * 150);
-	if (ai.health <= 0 || isNaN(ai.health)) ai.kill();
+	if (ai.health <= 0 || isNaN(ai.health)) {
+		ai.angle = bullet.angle + 180;
+		if (ai.type == "Human") {
+			createCorpse(ai, "humanDead");
+		}
+		else if (ai.type == "Enemy") {
+			createCorpse(ai, "enemyDead");
+		}
+		ai.kill();
+	}
 }
