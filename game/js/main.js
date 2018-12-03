@@ -68,6 +68,7 @@ function createDefaults() {
 	ammoCount = game.add.text(0, 0, "Ammo:\t", style);
 	tag = game.add.text(0, 0, "AI  ", style);
 	// triggerDialogue(intro);
+	player.ammoCountActive = true;
 }
 
 function updateDefaults() {
@@ -128,11 +129,7 @@ function updateDefaults() {
 
     game.camera.focusOnXY(recCam.x, recCam.y);
 
-	if (player.gun !== null) ammoCount.setText("Ammo:" + (player.gun.fireLimit > 0 ? (player.gun.fireLimit - player.gun.shots) + "  " : "∞  "));
-	else ammoCount.setText("");
-	ammoCount.x = player.com.x - 10;
-	ammoCount.y = player.com.y + 15;
-	player.scanner(aigroup, pickables, targeter, tag);
+
 }
 
 var player;

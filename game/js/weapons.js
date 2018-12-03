@@ -7,8 +7,8 @@ function loadWeapons() {
 
 function pistol(owner) {
 	var newgun = game.add.weapon(100, "bullet1");
-	if (owner.head !== undefined) newgun.trackSprite(owner.head, 25, 5, true);
-	else newgun.trackSprite(owner, 25, 5, true);
+	if (owner.head !== undefined) newgun.trackSprite(owner.head, 15, 5, true);
+	else newgun.trackSprite(owner, 15, 5, true);
 	newgun.bullets.setAll('scale.y', 0.25);
 	newgun.fireRate = 500;
 	newgun.fireRateVariance = 200;
@@ -16,6 +16,9 @@ function pistol(owner) {
 	newgun.bulletSpeedVariance = 50;
 	newgun.bulletAngleVariance = 1;
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+	newgun.onFire.add(function() {
+		shotsFired = true;
+	});
 	newgun.fireLimit = 8;
 	newgun.bullets.setAll('damage', 8);
 	newgun.weaponName = "Pistol";
@@ -25,13 +28,16 @@ function pistol(owner) {
 
 function autorifle(owner) {
 	var newgun = game.add.weapon(100, "bullet1");
-	if (owner.head !== undefined) newgun.trackSprite(owner.head, 25, 5, true);
-	else newgun.trackSprite(owner, 25, 5, true);
+	if (owner.head !== undefined) newgun.trackSprite(owner.head, 15, 5, true);
+	else newgun.trackSprite(owner, 15, 5, true);
 	newgun.fireRate = 100;
 	newgun.bulletSpeed = 400;
 	newgun.bulletAngleVariance = 5;
 	newgun.bulletSpeedVariance = 50;
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+	newgun.onFire.add(function() {
+		shotsFired = true;
+	});
 	newgun.automatic = true;
 	newgun.fireLimit = 60;
 	newgun.damage = 10;
@@ -43,7 +49,7 @@ function autorifle(owner) {
 
 function megaParticleCannon(owner) {
 	var newgun = game.add.weapon(900, "bullet1");
-	if (owner.head !== undefined) newgun.trackSprite(owner.head, 25, 5, true);
+	if (owner.head !== undefined) newgun.trackSprite(owner.head, 15, 5, true);
 	else newgun.trackSprite(owner, 75, 5, true);
 	newgun.bullets.setAll('scale.x', 3);
 	newgun.fireRate = 0.5;
@@ -75,6 +81,9 @@ function megaParticleCannon(owner) {
 		}
 		// unlock - reregister inputs?
 	}
+	newgun.onFire.add(function() {
+		shotsFired = true;
+	});
 	newgun.bullets.setAll('damage', 1000);
 	newgun.type = "special";
 	newgun.weaponName = "Railgun";
@@ -84,13 +93,16 @@ function megaParticleCannon(owner) {
 
 function smg(owner) {
 	var newgun = game.add.weapon(25, "bullet1");
-	if (owner.head !== undefined) newgun.trackSprite(owner.head, 25, 5, true);
-	else newgun.trackSprite(owner, 25, 5, true);
+	if (owner.head !== undefined) newgun.trackSprite(owner.head, 15, 5, true);
+	else newgun.trackSprite(owner, 15, 5, true);
 	newgun.fireRate = 25;
 	newgun.bulletSpeed = 750;
 	newgun.bulletSpeedVariance = 150;
 	newgun.bulletAngleVariance = 35;
 	newgun.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+	newgun.onFire.add(function() {
+		shotsFired = true;
+	});
 	newgun.fireLimit = 30;
 	newgun.bullets.setAll('damage', 15);
 	newgun.automatic = true;
@@ -194,7 +206,7 @@ function typhoon(owner) {
 
 		game.time.events.add(Phaser.Timer.SECOND * 1, function() {
 			typhoon.fireLimit = 2;
-			for (var i = 0; i < 60; i++) {
+			for (var i = 0; i < 120; i++) {
 				if (typhoon.fire(0, 0)) {
 					success = true;
 				}
@@ -209,6 +221,9 @@ function typhoon(owner) {
 
 		return success;
 	}
+	typhoon.onFire.add(function() {
+		shotsFired = true;
+	});
 	typhoon.bullets.setAll('damage', 75);
 
 	return typhoon;

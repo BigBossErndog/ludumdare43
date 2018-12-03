@@ -12,6 +12,12 @@ class Player {
         this.cape = null;
         this.legs = null;
         this.gun = null;
+        this.scannerActive = true;
+        this.ammoCountActive = false;
+        this.speedActive = false;
+        this.blinkActive = false;
+        this.typhoonActive = false;
+        this.superPunchActive = false;
 
 		this.addedVelocity = {
 			x:0,
@@ -193,6 +199,9 @@ class Player {
 
         game.physics.arcade.collide(this.com, map.wallLayer);
 		game.physics.arcade.collide(this.com, map.coverLayer);
+
+        if (player.scannerActive) player.scanner(aigroup, pickables, targeter, tag);
+        if (player.ammoCountActive) player.ammoCount(ammoCount, player.gun);
     }
 
 	makeWeaponAnimations() {
@@ -287,6 +296,8 @@ class Player {
 	}
 
     scanner(aigroup, pickables, targeter, tag) {
+        var aigroup = arguments[0], pickables = arguments[1], targeter = arguments[2], tag = arguments[3];
+
     	var closest = null;
     	var targeterBounds = targeter.getBounds();
     	var entityBounds;
@@ -318,6 +329,13 @@ class Player {
     	} else {
     		tag.visible = false;
     	}
+    }
+
+    ammoCount(ammoCount, gun) {
+        if (gun !== null) ammoCount.setText("Ammo:" + (gun.fireLimit > 0 ? (gun.fireLimit - gun.shots) + "  " : "∞  "));
+    	else ammoCount.setText("");
+    	ammoCount.x = this.com.x - 10;
+    	ammoCount.y = this.com.y + 20;
     }
 
 }
