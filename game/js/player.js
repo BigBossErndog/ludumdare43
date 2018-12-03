@@ -64,7 +64,7 @@ class Player {
 
 		this.weaponPickUpButton = false;
 		this.shooting = false;
-		
+
 		this.recSpace = false;
     }
 
@@ -155,7 +155,9 @@ class Player {
 								ai.faceTowards(player.com);
 							});
 						}
-					}
+					} else if (this.gun.type !== 'melee' && this.gun.fireLimit <= this.gun.shots && !upgrades.ammoCountActive) {
+                        this.noAmmo(ammoCount);
+                    }
 				}
 				else {
 					if (this.gun.fire()) {
@@ -167,7 +169,9 @@ class Player {
 								ai.faceTowards(player.com);
 							});
 						}
-					}
+					} else if (this.gun.type !== 'melee' && this.gun.fireLimit <= this.gun.shots && !upgrades.ammoCountActive) {
+                        this.noAmmo(ammoCount);
+                    }
 				}
 				clicked = true;
 			}
@@ -202,12 +206,12 @@ class Player {
 
         game.physics.arcade.collide(this.com, map.wallLayer);
 		game.physics.arcade.collide(this.com, map.coverLayer);
-		
-		
+
+
 		if (!game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
 			this.recSpace = false;
 		}
-		
+
         if (upgrades.scannerActive) player.scanner(aigroup, pickables, targeter, tag);
         if (upgrades.ammoCountActive) player.ammoCount(ammoCount, player.gun);
         if (upgrades.blinkActive && game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && !this.recSpace) {
@@ -229,11 +233,14 @@ class Player {
 				game.time.desiredFps = 60;
             } else /*flash cooldown somehow*/ console.log("blink on cooldown");
         }
-		
+
 		if (upgrades.blinkActive && upgrades.blinkRunning && game.input.activePointer.justPressed(1000)) {
 			//makeGhost(targeter.x, targeter.y);
             player.blink(targeter.x, targeter.y);
 		}
+        if (upgrades.typhoonActive && game.input.keyboard.isDown(Phaser.Keyboard.Q)) {
+            upgrades.typhoon.shoot();
+        }
     }
 
 	dropWeapon() {
@@ -319,7 +326,7 @@ class Player {
 		anim.onComplete.add(function() {
 			player.shooting = false;
 		}, this);
-		
+
 		anim = this.head.animations.add("pulserifleStand", [80], 1, false);
 		anim = this.head.animations.add("pulserifleShoot", [81,80], 10, false);
 		anim.onComplete.add(function() {
@@ -411,6 +418,7 @@ class Player {
 	}
 
     scanner(aigroup, pickables, targeter, tag) {
+        tag.visible = true;
     	var closest = null;
     	var targeterBounds = targeter.getBounds();
     	var entityBounds;
@@ -418,7 +426,10 @@ class Player {
     		entityBounds = arguments[0].getBounds();
     		if (Phaser.Rectangle.intersects(targeterBounds, entityBounds)) {
                 closest = arguments[0];
-                tag.text = /*Add random percentage*/(Math.random() * 100).toFixed(2) + "% AI  ";
+                if (closest.type == "Enemy" || (Math.random() * 100) <= (upgrades.inhumanity)) {
+                    tag.text = /*Add random percentage*/" AI: " + ((Math.random() * upgrades.inhumanity) + (100 - upgrades.inhumanity)).toFixed(1) + "% CONFIDENCE  ";
+                }
+                else tag.text = "CIVILIAN  ";
             }
     	}, this, [ null ]);
         pickables.forEachExists(function () {
@@ -446,10 +457,23 @@ class Player {
 
     ammoCount(ammoCount, gun) {
         ammoCount.visible = true;
-        if (gun !== null) ammoCount.setText("Ammo:" + (gun.fireLimit > 0 ? (gun.fireLimit - gun.shots) + "  " : "∞  "));
+        if (gun !== null) ammoCount.setText("Ammo:" + (gun.fireLimit > 0 ? (gun.fireLimit - gun.shots) + "  \t\t\t\t\t\t\t\t  " : "N/A  \t\t\t\t\t\t  "));
     	else ammoCount.setText("");
     	ammoCount.x = this.com.x - 10;
     	ammoCount.y = this.com.y + 20;
+    }
+
+    noAmmo(ammoCount) {
+        console.log("no ammo");
+        ammoCount.visible = true;
+        ammoCount.setText("Out of Rounds");
+        ammoCount.style = shortStyle;
+    	ammoCount.x = this.com.x - 10;
+    	ammoCount.y = this.com.y + 20;
+        game.time.events.add(200, function() {
+            ammoCount.visible = false;
+            ammoCount.style = longStyle;
+        }, this, ammoCount);
     }
 
     blink(targetx, targety) {
@@ -489,7 +513,7 @@ function createCorpse(person, anim) {
 	corpse.anchor.x = 0.75;
 	corpse.anchor.y = 0.5;
 	corpse.pickableName = "corpse";
-	
+
 	game.physics.enable(corpse, Phaser.Physics.ARCADE);
 
 	corpse.angle = person.angle;
@@ -516,7 +540,7 @@ function makeGhost(targetx, targety) {
 	for (var i = 0; i < 5; i++) {
 		var xtotal = player.com.x + targetx * i;
 		var ytotal = player.com.y + targety * i;
-		
+
 		var ghost = game.add.sprite(xtotal / (i + 1), ytotal / (i + 1), "head");
 		ghost.anchor.x = 0.25;
 		ghost.anchor.y = 0.5;
@@ -524,7 +548,7 @@ function makeGhost(targetx, targety) {
 		ghost.tryalpha = i+1/6;
 		ghost.alpha = ghost.tryalpha;
 		ghost.pickableName = "ghost";
-		
+
 		ghost.logic = function() {
 			if (this.tryalpha > 0) {
 				this.tryalpha -= 0.02;
@@ -539,7 +563,7 @@ function makeGhost(targetx, targety) {
 				this.destroy();
 			}
 		}
-		
+
 		pickables.add(ghost);
 	}
 }

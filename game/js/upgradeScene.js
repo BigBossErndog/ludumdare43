@@ -9,6 +9,7 @@ class UpgradesEquipped {
         this.typhoonActive = false;
         this.superPunchActive = false;
 		this.equipped = [];
+		this.inhumanity = 0;
 	}
 
 	get(up) {
@@ -37,6 +38,7 @@ addUpgradeConf({
 	frame:0,
 	action:function() {
 		upgrades.scannerActive = true;
+		upgrades.inhumanity += 6;
 	}
 });
 addUpgradeConf({
@@ -45,6 +47,7 @@ addUpgradeConf({
 	frame:1,
 	action:function() {
 		upgrades.ammoCountActive = true;
+		upgrades.inhumanity += 3;
 	}
 });
 addUpgradeConf({
@@ -53,6 +56,7 @@ addUpgradeConf({
 	frame:2,
 	action:function() {
 		upgrades.speedActive = true;
+		upgrades.inhumanity += 10;
 	}
 });
 addUpgradeConf({
@@ -61,6 +65,7 @@ addUpgradeConf({
 	frame:3,
 	action:function() {
 		upgrades.blinkActive = true;
+		upgrades.inhumanity += 20;
 	}
 });
 addUpgradeConf({
@@ -70,6 +75,7 @@ addUpgradeConf({
 	action:function() {
 		upgrades.superPunchActive = true;
 		meleeDamage = 1000;
+		upgrades.inhumanity += 20;
 	}
 });
 addUpgradeConf({
@@ -77,8 +83,10 @@ addUpgradeConf({
 	desc: "Powerful bullets are fired in every direction.",
 	frame:6,
 	action:function() {
-		upgrades.typoon = true;
+		upgrades.typhoonActive = true;
+		upgrades.typhoon = null;
 		meleeDamage = 1000;
+		upgrades.inhumanity += 15;
 	}
 });
 
@@ -105,7 +113,7 @@ var UpgradeScene = {
 		this.upgradesBG = game.add.sprite(0, 0, "upgradesBG");
 		this.upgradesBG.fixedToCamera = true;
 		this.upgradesBG.alpha = 0.05;
-		
+
 		this.justStarted = true;
 		this.leaving = false;
 
@@ -162,7 +170,7 @@ var UpgradeScene = {
 	update: function() {
 		this.upgradesBG.cameraOffset.x -= 1;
 		this.upgradesBG.cameraOffset.x = this.upgradesBG.cameraOffset.x % 80;
-		
+
 		if (this.justStarted) {
 			if (blackScreen == null || blackScreen == undefined) {
 				blackScreen = game.add.image(0, 0, "blackScreen");

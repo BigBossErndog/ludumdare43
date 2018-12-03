@@ -177,11 +177,11 @@ function shotgun(owner) {
 		if (this.fireLimit - this.shots <= 0) {
 			return null;
 		}
-		
+
 		var success = false;
 
 		//insert check for enough bullets to fire full spread
-		for (var i = 0; i < 4; i++) {
+		for (var i = 0; i < 5; i++) {
 			if (this.fire()) {
 				success = true;
 			}

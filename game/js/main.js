@@ -1,5 +1,18 @@
 var game;
 
+WebFontConfig = {
+
+	active: function() { game.time.events.add(Phaser.Timer.SECOND, function () {
+		longStyle = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 15 };
+		shortStyle = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10 };
+	}, this); },
+
+    google: {
+      families: ['Press Start 2P']
+    }
+
+};
+
 window.onload = function() {
 	game = new Phaser.Game(400, 300, Phaser.AUTO, ''/*'phaser-canvas'*/, null, false, false);
 
@@ -41,6 +54,7 @@ function createControls() {
 }
 
 function loadDefaults() {
+	game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 	game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
 	game.load.image("parallax", "assets/Parallax.png");
 	game.load.spritesheet("pickables", "assets/pickables.png", 32, 32);
@@ -59,7 +73,8 @@ function loadDefaults() {
 }
 
 var parallaxSprite;
-var style = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 10 };
+var longStyle;
+var shortStyle;
 var curAI;
 function createDefaults() {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -85,15 +100,19 @@ function createDefaults() {
     targeter.anchor.y = 0.5;
 	targeter.fixedToCamera = true;
 
-	ammoCount = game.add.text(0, 0, "Ammo:\t", style);
+	ammoCount = game.add.text(0, 0, "AMMO:", shortStyle);
 	ammoCount.visible = false;
-	tag = game.add.text(0, 0, "AI  ", style);
+	ammoCount.padding.set(10, 16);
+	tag = game.add.text(0, 0, "AI  ", longStyle);
+	tag.visible = false;
+	tag.padding.set(10, 16);
 	// triggerQuest(null, intro);
 	player.ammoCountActive = true;
 
 	player.healthBar = game.add.graphics(-2, 15);
 	player.com.addChild(player.healthBar);
 	player.gun = defaultMelee(player);
+	if (upgrades.typhoonActive) upgrades.typhoon = typhoon(player);
 }
 
 function updateDefaults() {
@@ -104,6 +123,13 @@ function updateDefaults() {
 		game.physics.arcade.overlap(player.gun.bullets, aigroup, collisionHandler, null, this);
 
 		game.physics.arcade.collide(player.gun.bullets, map.wallLayer, function(bullet) {
+			bullet.kill();
+		});
+	}
+	if (upgrades.typhoonActive) {
+		game.physics.arcade.overlap(upgrades.typhoon.bullets, aigroup, collisionHandler, null, this);
+
+		game.physics.arcade.collide(upgrades.typhoon.bullets, map.wallLayer, function(bullet) {
 			bullet.kill();
 		});
 	}
