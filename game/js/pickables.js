@@ -1,6 +1,6 @@
 function pistolPickable(x, y) {
 	var sprite = game.add.sprite(x, y, "pickables");
-	sprite.pickableName = "Pistol";
+	sprite.pickableName = "Pistol  ";
 	sprite.animations.add("item", [0], 1, false);
 	sprite.animations.play("item");
 	sprite.ammo = null;
@@ -34,7 +34,7 @@ function pistolPickable(x, y) {
 		this.destroy();
 
 		player.gun.shots = this.ammo;
-		
+
 		player.playStandAnimation();
 	}
 
@@ -45,7 +45,7 @@ function pistolPickable(x, y) {
 
 function smgPickable(x, y) {
 	var sprite = game.add.sprite(x, y, "pickables");
-	sprite.pickableName = "SMG";
+	sprite.pickableName = "SMG  ";
 	sprite.animations.add("item", [1], 1, false);
 	sprite.animations.play("item");
 	sprite.ammo = null;
@@ -90,7 +90,7 @@ function smgPickable(x, y) {
 
 function shotgunPickable(x, y) {
 	var sprite = game.add.sprite(x, y, "pickables");
-	sprite.pickableName = "Shotgun";
+	sprite.pickableName = "Shotgun  ";
 	sprite.animations.add("item", [2], 1, false);
 	sprite.animations.play("item");
 	sprite.ammo = null;
@@ -135,7 +135,7 @@ function shotgunPickable(x, y) {
 
 function swordPickable(x, y) {
 	var sprite = game.add.sprite(x, y, "pickables");
-	sprite.pickableName = "Sword";
+	sprite.pickableName = "Sword  ";
 	sprite.animations.add("item", [3], 1, false);
 	sprite.animations.play("item");
 	sprite.ammo = null;
@@ -181,7 +181,7 @@ function swordPickable(x, y) {
 
 function autoriflePickable(x, y) {
 	var sprite = game.add.sprite(x, y, "pickables");
-	sprite.pickableName = "Auto Rifle";
+	sprite.pickableName = "Auto Rifle  ";
 	sprite.animations.add("item", [4], 1, false);
 	sprite.animations.play("item");
 	sprite.ammo = null;
@@ -226,7 +226,7 @@ function autoriflePickable(x, y) {
 
 function pulseriflePickable(x, y) {
 	var sprite = game.add.sprite(x, y, "pickables");
-	sprite.pickableName = "Pulse Rifle";
+	sprite.pickableName = "Pulse Rifle  ";
 	sprite.animations.add("item", [5], 1, false);
 	sprite.animations.play("item");
 	sprite.ammo = null;
@@ -238,7 +238,7 @@ function pulseriflePickable(x, y) {
 
 	sprite.body.drag.x = 400;
 	sprite.body.drag.y = 400;
-	
+
 	sprite.logic = function() {
 		game.physics.arcade.collide(this, map.wallLayer);
 		this.dropped = false;
