@@ -97,10 +97,15 @@ function makeUpgradeIcon(x, y, conf) {
 
 var UpgradeScene = {
 	preload: function() {
+		game.load.image("upgradesBG", "assets/upgradesBG.png");
 		loadDefaults();
 	},
 
 	create: function() {
+		this.upgradesBG = game.add.sprite(0, 0, "upgradesBG");
+		this.upgradesBG.fixedToCamera = true;
+		this.upgradesBG.alpha = 0.05;
+		
 		this.justStarted = true;
 		this.leaving = false;
 
@@ -155,6 +160,9 @@ var UpgradeScene = {
 	},
 
 	update: function() {
+		this.upgradesBG.cameraOffset.x -= 1;
+		this.upgradesBG.cameraOffset.x = this.upgradesBG.cameraOffset.x % 80;
+		
 		if (this.justStarted) {
 			if (blackScreen == null || blackScreen == undefined) {
 				blackScreen = game.add.image(0, 0, "blackScreen");

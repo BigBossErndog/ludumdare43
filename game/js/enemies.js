@@ -1,5 +1,6 @@
 function loadEnemies() {
 	game.load.spritesheet("human", "assets/Head.png", 32, 32);
+	game.load.spritesheet("enemy", "assets/Head.png", 32, 32);
 }
 
 var sightLine;
@@ -9,6 +10,8 @@ function makeHuman(x, y, angle) {
 	human.health = 10;
 	human.anchor.x = 0.5;
 	human.anchor.y = 0.5;
+	
+	human.type = "Human";
 
 	game.physics.enable(human, Phaser.Physics.ARCADE);
 
@@ -74,9 +77,11 @@ function makeHuman(x, y, angle) {
 }
 
 function makeDefaultEnemy(x, y, angle) {
-	var enemy = game.add.sprite(x, y, "human");
+	var enemy = game.add.sprite(x, y, "enemy");
 	enemy.health = 100;
 	enemy.reloadStart = 0;
+	
+	enemy.type = "Enemy"
 
 	enemy.anchor.x = 0.5;
 	enemy.anchor.y = 0.5;
@@ -163,7 +168,7 @@ function makeDefaultEnemy(x, y, angle) {
 
 			a = Math.atan2(Math.sin(toOtherAngle-this.angle*(Math.PI/180)), Math.cos(toOtherAngle-this.angle*(Math.PI/180))) * (180/Math.PI);
 			a = Math.abs(a);
-
+			
 			if (a > 60) {
 				success = false;
 			}
