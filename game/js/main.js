@@ -262,6 +262,14 @@ function collisionHandler(bullet, ai) {
 	ai.health -= bullet.damage;
 	ai.faceTowards(player.com);
 	ai.addForce(Math.sin(bullet.angle * (Math.PI/180)) * 150, Math.cos(bullet.angle * (Math.PI/180)) * 150);
+	if (ai.type == "Human") {
+		
+	}
+	else if (ai.type == "Enemy") {
+		if (ai.enemyType == "unprovoked") {
+			ai.provoked = true;
+		}
+	}
 	if (ai.health <= 0 || isNaN(ai.health)) {
 		ai.angle = bullet.angle + 180;
 		if (ai.type == "Human") {
