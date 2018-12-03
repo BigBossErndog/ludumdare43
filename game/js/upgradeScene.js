@@ -90,11 +90,12 @@ var UpgradeScene = {
 		
 		this.getUpgrade = game.add.image(250, 50, "getUpgrade");
 		this.getUpgrade.alpha = 0;
+		this.getUpgrade.inputEnabled = true;
 		this.skipUpgrades = game.add.image(250, 50, "skipUpgrade");
+		this.skipUpgrades.inputEnabled = true;
 		
-		player = new Player(game, x, y);
 		targeter = game.add.sprite(100, 100, 'reticle');
-
+		
 		targeter.anchor.x = 0.5;
 		targeter.anchor.y = 0.5;
 		targeter.fixedToCamera = true;
@@ -138,14 +139,14 @@ var UpgradeScene = {
 				this.getUpgrade.y = this.upgradeDesc.bottom + 5;
 				this.skipUpgrades.y = this.getUpgrade.bottom + 5;
 				
-				if (this.getUpgrades.justPressed(0, 1000)) {
+				if (this.getUpgrades.input.justPressed(0, 1000)) {
 					this.selectedUpgrade.action();
 					this.leaving = true;
 				}
 			}
 			
 			if (!this.leaving) {
-				if (this.skipUpgrades.justPressed(0, 1000)) {
+				if (this.skipUpgrades.input.justPressed(0, 1000)) {
 					this.leaving = true;
 				}
 			}
@@ -161,6 +162,7 @@ var UpgradeScene = {
 				}
 				else {
 					blackScreen = null;
+					game.stage.backgroundColor = "#000000";
 					game.state.start(nextLevel, true, false);
 				}
 			}

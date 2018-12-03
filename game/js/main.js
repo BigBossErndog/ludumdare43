@@ -25,7 +25,9 @@ function createControls() {
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.R ]);
 
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.E ]);
-	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.Control ]);
+	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.CONTROL ]);
+	
+	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.DELETE ]);
 }
 
 function loadDefaults() {
@@ -137,7 +139,12 @@ function updateDefaults() {
 
     game.camera.focusOnXY(recCam.x, recCam.y);
 
-
+	if (game.input.keyboard.isDown(Phaser.Keyboard.DELETE)) {
+		console.log("DELETE ALL AI");
+		aigroup.forEachExists(function(ai) {
+			ai.kill();
+		});
+	}
 }
 
 var player;

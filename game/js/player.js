@@ -152,7 +152,7 @@ class Player {
 			if (this.gun !== null) this.gun.resetShots();
 		}
 
-		if (game.input.keyboard.isDown(Phaser.Keyboard.E) || game.input.keyboard.isDown(Phaser.Keyboard.Control)) {
+		if (game.input.keyboard.isDown(Phaser.Keyboard.E) || game.input.keyboard.isDown(Phaser.Keyboard.CONTROL)) {
 			if (!this.weaponPickUpButton) {
 				this.weaponPickUpButton = true;
 
@@ -176,6 +176,11 @@ class Player {
 							break;
 						case "Sword":
 							newPickable = swordPickable(this.com.x, this.com.y);
+							newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+							newPickable.ammo = this.gun.shots;
+							break;
+						case "Auto Rifle":
+							newPickable = autoriflePickable(this.com.x, this.com.y);
 							newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
 							newPickable.ammo = this.gun.shots;
 							break;
@@ -237,6 +242,12 @@ class Player {
 			player.shooting = false;
 		}, this);
 
+		anim = this.head.animations.add("autorifleStand", [60], 1, false);
+		anim = this.head.animations.add("autorifleShoot", [61,60], 1, false);
+		anim.onComplete.add(function() {
+			player.shooting = false;
+		}, this);
+
         this.head.animations.play("stand");
     }
 
@@ -259,6 +270,8 @@ class Player {
 					break;
 				case "Pistol":
 					this.head.animations.play("pistolStand");
+				case "Auto Rifle":
+					this.head.animations.play("autorifleStand");
 			}
 		}
 	}
@@ -276,19 +289,23 @@ class Player {
 			switch (this.gun.weaponName) {
 				case "Shot Gun":
 					this.recoil(700, this.head.angle * (Math.PI/180) + Math.PI);
-					this.head.play("shotGunShoot");
+					this.head.animations.play("shotGunShoot");
 					break;
 				case "Submachine Gun":
 					this.recoil(10, this.head.angle * (Math.PI/180) + Math.PI);
-					this.head.play("smgShoot");
+					this.head.animations.play("smgShoot");
 					break;
 				case "Sword":
 					this.recoil(100, this.head.angle * (Math.PI/180));
-					this.head.play("swordSwing");
+					this.head.animations.play("swordSwing");
 					break;
 				case "Pistol":
-					this.head.play("pistolShoot");
+					this.recoil(10, this.head.angle * (Math.PI/180) + Math.PI);
+					this.head.animations.play("pistolShoot");
 					break;
+				case "Auto Rifle":
+					this.recoil(10, this.head.angle * (Math.PI/180) + Math.PI);
+					this.head.animations.play("autorifleShoot");
 			}
 		}
 	}
