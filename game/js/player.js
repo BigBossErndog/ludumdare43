@@ -411,6 +411,7 @@ class Player {
     }
 
     ammoCount(ammoCount, gun) {
+        ammoCount.visible = true;
         if (gun !== null) ammoCount.setText("Ammo:" + (gun.fireLimit > 0 ? (gun.fireLimit - gun.shots) + "  " : "∞  "));
     	else ammoCount.setText("");
     	ammoCount.x = this.com.x - 10;
