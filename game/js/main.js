@@ -1,7 +1,7 @@
 var game;
 
 window.onload = function() {
-	game = new Phaser.Game(400, 300, Phaser.AUTO, '', null, false, false);
+	game = new Phaser.Game(400, 300, Phaser.AUTO, ''/*'phaser-canvas'*/, null, false, false);
 
 	game.state.add("UpgradeScene", UpgradeScene);
 
@@ -24,11 +24,12 @@ function createControls() {
       right: game.input.keyboard.addKey(Phaser.Keyboard.D),
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
+	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.Q ]);
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.R ]);
-	
+
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.E ]);
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.CONTROL ]);
-	
+
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.DELETE ]);
 }
 
@@ -49,7 +50,7 @@ function loadDefaults() {
 }
 
 var parallaxSprite;
-var style = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10 };
+var style = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 10 };
 var curAI;
 function createDefaults() {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -76,10 +77,11 @@ function createDefaults() {
 	targeter.fixedToCamera = true;
 
 	ammoCount = game.add.text(0, 0, "Ammo:\t", style);
+	ammoCount.visible = false;
 	tag = game.add.text(0, 0, "AI  ", style);
-	// triggerDialogue(intro);
+	// triggerQuest(null, intro);
 	player.ammoCountActive = true;
-	
+
 	player.healthBar = game.add.graphics(-2, 15);
 	player.com.addChild(player.healthBar);
 	player.gun = defaultMelee(player);
@@ -91,7 +93,7 @@ function updateDefaults() {
 
 	if (player.gun != null) {
 		game.physics.arcade.overlap(player.gun.bullets, aigroup, collisionHandler, null, this);
-		
+
 		game.physics.arcade.collide(player.gun.bullets, map.wallLayer, function(bullet) {
 			bullet.kill();
 		});
@@ -164,7 +166,7 @@ function updateDefaults() {
 			ai.kill();
 		});
 	}
-	
+
 	player.drawHealth();
 	
 	if (player.dead) {

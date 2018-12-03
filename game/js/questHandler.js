@@ -1,5 +1,8 @@
-function triggerQuest(trigger, player) {
-
+function triggerQuest(trigger, input) {
+    text = game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65" });
+    text.fixedToCamera = true;
+    dialogueArray = input;
+    nextLine();
 }
 
 var dialogueArray;
@@ -11,10 +14,7 @@ var lineIndex = 0;
 var wordDelay = 160;
 var lineDelay = 400;
 
-function triggerDialogue(input) {
-    text = game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65" });
-    dialogueArray = input;
-    nextLine();
+function triggerDialogue() {
 }
 
 function nextLine() {

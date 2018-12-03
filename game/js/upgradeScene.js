@@ -3,16 +3,18 @@ class UpgradesEquipped {
 		this.scannerActive = true;
         this.ammoCountActive = false;
         this.speedActive = false;
-        this.blinkActive = false;
+        this.blinkActive = true;
+		this.blinkRunning = false;
+		this.lastBlink = 0;
         this.typhoonActive = false;
         this.superPunchActive = false;
 		this.equipped = [];
 	}
-	
+
 	get(up) {
 		this.equipped.push(up);
 	}
-	
+
 	has(up) {
 		for (var i = 0; i < this.equipped.length; i++) {
 			if (this.equipped[i] == up) {
@@ -87,9 +89,9 @@ function makeUpgradeIcon(x, y, conf) {
 	if (conf == null || conf == undefined) return null;
 	var u = game.add.sprite(x, y, "upgradeIcons");
 	u.conf = conf;
-	
+
 	u.animations.frame = conf.frame;
-	
+
 	return u;
 }
 
@@ -97,21 +99,21 @@ var UpgradeScene = {
 	preload: function() {
 		loadDefaults();
 	},
-	
+
 	create: function() {
 		this.justStarted = true;
 		this.leaving = false;
-		
+
 		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		game.renderer.renderSession.roundPixels = true;
 		Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
 		game.stage.backgroundColor = '#04434c';
-		
+
 		this.blackBox = game.add.image(50, 50, "blackBox");
 		this.blackBox.alpha = 0;
-		
+
 		this.iconGroup = game.add.group();
-		
+
 		this.icons = [];
 		for (var i = 0; i < 4; i++) {
 			this.icons[i] = [];
@@ -122,7 +124,7 @@ var UpgradeScene = {
 					if (newicon != null) {
 						this.iconGroup.add(newicon);
 						newicon.inputEnabled = true;
-						
+
 						if (upgrades.has(newicon.conf.name)) {
 							newicon.alpha = 0.3;
 						}
@@ -130,28 +132,28 @@ var UpgradeScene = {
 				}
 			}
 		}
-		
+
 		var txtstyle = { font: "18px Courier", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10, wordWrap:true, wordWrapWidth:100 };
 		this.upgradeName = game.add.text(250, 50, "", txtstyle);
-		
+
 		var txtstyle = { font: "12px Courier", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10, wordWrap:true, wordWrapWidth:100 };
 		this.upgradeDesc = game.add.text(250, 100, "", txtstyle);
-		
+
 		this.getUpgrade = game.add.image(250, 50, "getUpgrade");
 		this.getUpgrade.alpha = 0;
 		this.getUpgrade.inputEnabled = true;
 		this.skipUpgrades = game.add.image(250, 50, "skipUpgrade");
 		this.skipUpgrades.inputEnabled = true;
-		
+
 		targeter = game.add.sprite(100, 100, 'reticle');
-		
+
 		targeter.anchor.x = 0.5;
 		targeter.anchor.y = 0.5;
 		targeter.fixedToCamera = true;
-		
+
 		this.selectedUpgrade = null;
 	},
-	
+
 	update: function() {
 		if (this.justStarted) {
 			if (blackScreen == null || blackScreen == undefined) {
@@ -168,32 +170,32 @@ var UpgradeScene = {
 				}
 			}
 		}
-		
+
 		if (!this.leaving) {
 			this.iconGroup.forEachExists(function(icon) {
 				if (icon.input.justPressed(0, 1000)) {
 					this.upgradeName.text = icon.conf.name;
 					this.upgradeDesc.text = icon.conf.desc;
-					
+
 					this.getUpgrade.alpha = 1;
-					
+
 					this.selectedUpgrade = icon;
-					
+
 					this.blackBox.alpha = 0.2;
 					this.blackBox.x = icon.x;
 					this.blackBox.y = icon.y;
-					
+
 					if (upgrades.has(this.selectedUpgrade.conf.name)) {
 						this.getUpgrade.alpha = 0.3;
 					}
 				}
 			}, this);
-			
+
 			this.upgradeDesc.y = this.upgradeName.bottom + 5;
 			if (this.getUpgrade.alpha > 0) {
 				this.getUpgrade.y = this.upgradeDesc.bottom + 5;
 				this.skipUpgrades.y = this.getUpgrade.bottom + 5;
-				
+
 				if (!upgrades.has(this.selectedUpgrade.conf.name) && this.getUpgrade.input.justPressed(0, 1000)) {
 					this.selectedUpgrade.conf.action();
 					this.selectedUpgrade.alpha = 0.5;
@@ -202,7 +204,7 @@ var UpgradeScene = {
 					this.leaving = true;
 				}
 			}
-			
+
 			if (!this.leaving) {
 				if (this.skipUpgrades.input.justPressed(0, 1000)) {
 					this.leaving = true;
@@ -226,11 +228,11 @@ var UpgradeScene = {
 				}
 			}
 		}
-		
+
 		targeter.cameraOffset.x = game.input.activePointer.x;
 		targeter.cameraOffset.y = game.input.activePointer.y;
 		targeter.angle += 10;
-		
+
 		//game.state.start(nextLevel, true, false);
 	}
 }

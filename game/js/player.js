@@ -12,11 +12,18 @@ class Player {
         this.cape = null;
         this.legs = null;
         this.gun = null;
+        this.locked = false;
 		this.healthBar = null;
-		
+        this.scannerActive = false;
+        this.ammoCountActive = false;
+        this.speedActive = false;
+        this.blinkActive = false;
+        this.typhoonActive = false;
+        this.superPunchActive = false;
+
 		this.health = 100;
 		this.dead = false;
-		
+
 		this.addedVelocity = {
 			x:0,
 			y:0
@@ -67,7 +74,7 @@ class Player {
         this.com.body.velocity.x = this.addedVelocity.x;
         this.com.body.velocity.y = this.addedVelocity.y;
 
-        if (this.gun == null || (this.gun !== 'special' && !this.gun.specialFiring)) {
+        if (this.gun == null || (!this.locked)) {
             if (cursors.left.isDown || wasd.left.isDown)
             {
                 this.com.body.velocity.x += -240;
@@ -85,6 +92,10 @@ class Player {
             if (cursors.down.isDown || wasd.down.isDown) {
                 this.com.body.velocity.y += 240;
                 this.playWalkAnimation();
+            }
+            if (this.com.body.velocity.x !== 0 && this.com.body.velocity.y !== 0) {
+                this.com.body.velocity.x /= Math.sqrt(2);
+                this.com.body.velocity.y /= Math.sqrt(2);
             }
 
             if (Math.abs(this.com.body.velocity.x) + Math.abs(this.com.body.velocity.y) > 10) {
@@ -123,6 +134,8 @@ class Player {
             capeAngle.sin = (capeAngle.sin - headAngle.sin) * 0.85 + headAngle.sin;
             capeAngle.cos = (capeAngle.cos - headAngle.cos) * 0.85 + headAngle.cos;
             this.cape.angle = Math.atan2(capeAngle.sin, capeAngle.cos) * (180/Math.PI);
+        } else {
+            this.playStandAnimation();
         }
 
 		if (game.input.activePointer.isDown)
@@ -186,8 +199,26 @@ class Player {
 
         if (upgrades.scannerActive) player.scanner(aigroup, pickables, targeter, tag);
         if (upgrades.ammoCountActive) player.ammoCount(ammoCount, player.gun);
+        if (upgrades.blinkActive && game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+            if (Date.now() - upgrades.lastBlink >= 10000 && !upgrades.blinkRunning) {
+                upgrades.blinkRunning = true;
+                game.time.slowMotion = 50.0;
+        		game.time.desiredFps = 30000;
+
+        		game.time.events.add(8000, function() {
+                    game.time.slowMotion = 1;
+                    game.time.desiredFps = 60;
+                    upgrades.blinkRunning = false;
+                }, this);
+            } else if (upgrades.blinkRunning) {
+                console.log("blink already active");
+            } else /*flash cooldown somehow*/ console.log("blink on cooldown");
+        }
+        if (upgrades.blinkActive && upgrades.blinkRunning && game.input.keyboard.isDown(Phaser.Keyboard.Q)) {
+            player.blink(targeter.x, targeter.y);
+        }
     }
-	
+
 	dropWeapon() {
 		var newPickable;
 		switch (this.gun.weaponName) {
@@ -241,7 +272,7 @@ class Player {
 			player.shooting = false;
 		}, this);
 		anim = this.head.animations.add("smgStand", [40], 1, false);
-		
+
 		anim = this.head.animations.add("swordSwing", [52,53,54,51,50], 15, false);
 		anim.onComplete.add(function() {
 			player.shooting = false;
@@ -253,19 +284,19 @@ class Player {
 		anim.onComplete.add(function() {
 			player.shooting = false;
 		}, this);
-		
+
 		anim = this.head.animations.add("autorifleStand", [60], 1, false);
 		anim = this.head.animations.add("autorifleShoot", [61,60], 20, false);
 		anim.onComplete.add(function() {
 			player.shooting = false;
 		}, this);
-		
+
 		anim = this.head.animations.add("punchStand", [0], 1, false);
 		anim = this.head.animations.add("punch", [70,71,72,73,0], 15, false);
 		anim.onComplete.add(function() {
 			player.shooting = false;
 		}, this);
-		
+
         this.head.animations.play("stand");
     }
 
@@ -344,8 +375,6 @@ class Player {
 	}
 
     scanner(aigroup, pickables, targeter, tag) {
-        var aigroup = arguments[0], pickables = arguments[1], targeter = arguments[2], tag = arguments[3];
-		
     	var closest = null;
     	var targeterBounds = targeter.getBounds();
     	var entityBounds;
@@ -385,12 +414,32 @@ class Player {
     	ammoCount.x = this.com.x - 10;
     	ammoCount.y = this.com.y + 20;
     }
-	
-	
+
+    blink(targetx, targety) {
+        let requestedDistance = Math.sqrt(Math.pow(targetx - this.com.x, 2) + Math.pow(targety - this.com.y, 2));
+        if (requestedDistance > 240) {
+            targetx *= (240 / requestedDistance);
+            targety *= (240 / requestedDistance);
+        }
+        sightLine.start.set(this.com.x, this.com.y);
+        sightLine.end.set(targetx, targety);
+
+        var hits = map.wallLayer.getRayCastTiles_custom(sightLine, 4, false, true);
+        hits = hits.concat(map.coverLayer.getRayCastTiles_custom(sightLine, 4, false, true));
+        if (hits.length === 0) {
+            player.com.x = targetx;
+            player.com.y = targety;
+            upgrades.lastBlink = Date.now();
+            upgrades.blinkRunning = false;
+            game.time.slowMotion = 1;
+            game.time.desiredFps = 60;
+        } else console.log("obstruction");
+    }
+
 	drawHealth() {
 		if (this.healthBar != null) {
 			this.healthBar.clear();
-			
+
 			this.healthBar.beginFill(0xbc1e1e);
 			this.healthBar.drawRect(0,0,Math.floor(40*(this.health/100)), 3);
 			this.healthBar.endFill();
@@ -403,24 +452,24 @@ function createCorpse() {
 	corpse.anchor.x = 0.75;
 	corpse.anchor.y = 0.5;
 	corpse.pickableName = "corpse";
-	
+
 	game.physics.enable(corpse, Phaser.Physics.ARCADE);
-	
+
 	corpse.angle = player.com.angle;
 	corpse.body.drag.x = 600;
 	corpse.body.drag.y = 600;
-	
+
 	corpse.body.velocity.x = Math.cos(corpse.angle * (Math.PI/180) + Math.PI) * 300;
 	corpse.body.velocity.y = Math.sin(corpse.angle * (Math.PI/180) + Math.PI) * 300;
-	
+
 	corpse.animations.add("die", [0,1,2,3], 10, false);
 	corpse.play("die");
-	
+
 	corpse.logic = function() {
-		
+
 	}
-	
+
 	pickables.add(corpse);
-	
+
 	return corpse;
 }
