@@ -85,9 +85,7 @@ var intro = [
     "Each day the corporation bleeds you of your humanity in the name of profit, and gives you a pittance in return.",
     "You've been given an opportunity however...",
     "The corp needs someone to volunteer as a G.O.L.E.M. hunter, an  individual  who  finds  and \"recalls\" these G.O.L.E.M.s, artifical intelligence built  for human convenience.",
-    "You've heard rumours...",
-    "But if the pay is a quarter as much as they say, then it's worth it.",
+    "Its not pretty work, but if the pay is half as much as they say, then it's worth it.",
     "Because you've got nothing left to lose,",
-    "",
     "                                        right?"
 ];
