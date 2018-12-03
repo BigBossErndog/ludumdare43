@@ -141,12 +141,22 @@ class Player {
 					if (this.gun.shoot(player)) {
 						this.playShootAnimation();
 						this.shooting = true;
+						if (this.gun.weaponName != "Sword") {
+							aigroup.forEachExists(function(ai) {
+								ai.faceTowards(player.com);
+							});
+						}
 					}
 				}
 				else {
 					if (this.gun.fire()) {
 						this.playShootAnimation();
 						this.shooting = true;
+						if (this.gun.weaponName != "Sword") {
+							aigroup.forEachExists(function(ai) {
+								ai.faceTowards(player.com);
+							});
+						}
 					}
 				}
 				clicked = true;
@@ -215,8 +225,8 @@ class Player {
         game.physics.arcade.collide(this.com, map.wallLayer);
 		game.physics.arcade.collide(this.com, map.coverLayer);
 
-        if (player.scannerActive) player.scanner(aigroup, pickables, targeter, tag);
-        if (player.ammoCountActive) player.ammoCount(ammoCount, player.gun);
+        if (upgrades.scannerActive) player.scanner(aigroup, pickables, targeter, tag);
+        if (upgrades.ammoCountActive) player.ammoCount(ammoCount, player.gun);
     }
 
 	makeWeaponAnimations() {

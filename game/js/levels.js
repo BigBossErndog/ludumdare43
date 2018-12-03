@@ -5,7 +5,7 @@ function loadLevels() {
 
 function makeLevel(mapdata, imgdata, img) {
 	var newmap = game.add.tilemap(mapdata);
-
+	
 	newmap.addTilesetImage(imgdata, img);
 
 	var floorLayer = newmap.createLayer("Floor");
