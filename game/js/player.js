@@ -18,7 +18,7 @@ class Player {
         this.ammoCountActive = false;
         this.speedActive = false;
         this.blinkActive = false;
-        this.typhoonActive = false;
+        this.bulletBombActive = false;
         this.superPunchActive = false;
 
         this.maxHealth = 200;
@@ -238,8 +238,8 @@ class Player {
 			//makeGhost(targeter.x, targeter.y);
             player.blink(targeter.x, targeter.y);
 		}
-        if (upgrades.typhoonActive && game.input.keyboard.isDown(Phaser.Keyboard.Q)) {
-            upgrades.typhoon.shoot();
+        if (upgrades.bulletBombActive && game.input.keyboard.isDown(Phaser.Keyboard.Q)) {
+            upgrades.bulletBomb.shoot();
         }
     }
 

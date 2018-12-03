@@ -111,7 +111,7 @@ function createDefaults() {
 	player.healthBar = game.add.graphics(-2, 15);
 	player.com.addChild(player.healthBar);
 	player.gun = defaultMelee(player);
-	if (upgrades.typhoonActive) upgrades.typhoon = typhoon(player);
+	if (upgrades.bulletBombActive) upgrades.bulletBomb = bulletBomb(player);
 }
 
 function updateDefaults() {
@@ -125,10 +125,10 @@ function updateDefaults() {
 			bullet.kill();
 		});
 	}
-	if (upgrades.typhoonActive) {
-		game.physics.arcade.overlap(upgrades.typhoon.bullets, aigroup, collisionHandler, null, this);
+	if (upgrades.bulletBombActive) {
+		game.physics.arcade.overlap(upgrades.bulletBomb.bullets, aigroup, collisionHandler, null, this);
 
-		game.physics.arcade.collide(upgrades.typhoon.bullets, map.wallLayer, function(bullet) {
+		game.physics.arcade.collide(upgrades.bulletBomb.bullets, map.wallLayer, function(bullet) {
 			bullet.kill();
 		});
 	}
