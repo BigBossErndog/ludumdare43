@@ -140,6 +140,7 @@ function updateDefaults() {
     game.camera.focusOnXY(recCam.x, recCam.y);
 
 	if (game.input.keyboard.isDown(Phaser.Keyboard.DELETE)) {
+		console.log("DELETE ALL AI");
 		aigroup.forEachExists(function(ai) {
 			ai.kill();
 		});

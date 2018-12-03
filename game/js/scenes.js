@@ -45,6 +45,9 @@ var mainScene = {
 		for (var i = 0; i < 5; i++) {
 			let newPickable = smgPickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
 		}
+		for (var i = 0; i < 5; i++) {
+			let newPickable = autoriflePickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
+		}
 	},
 
 	update: function() {
