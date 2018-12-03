@@ -64,7 +64,7 @@ class Player {
 
 		this.weaponPickUpButton = false;
 		this.shooting = false;
-		
+
 		this.recSpace = false;
     }
 
@@ -200,12 +200,12 @@ class Player {
 
         game.physics.arcade.collide(this.com, map.wallLayer);
 		game.physics.arcade.collide(this.com, map.coverLayer);
-		
-		
+
+
 		if (!game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
 			this.recSpace = false;
 		}
-		
+
         if (upgrades.scannerActive) player.scanner(aigroup, pickables, targeter, tag);
         if (upgrades.ammoCountActive) player.ammoCount(ammoCount, player.gun);
         if (upgrades.blinkActive && game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && !this.recSpace) {
@@ -227,7 +227,7 @@ class Player {
 				game.time.desiredFps = 60;
             } else /*flash cooldown somehow*/ console.log("blink on cooldown");
         }
-		
+
 		if (upgrades.blinkActive && upgrades.blinkRunning && game.input.activePointer.justPressed(1000)) {
 			//makeGhost(targeter.x, targeter.y);
             player.blink(targeter.x, targeter.y);
@@ -391,6 +391,7 @@ class Player {
 	}
 
     scanner(aigroup, pickables, targeter, tag) {
+        tag.visible = true;
     	var closest = null;
     	var targeterBounds = targeter.getBounds();
     	var entityBounds;
@@ -398,7 +399,10 @@ class Player {
     		entityBounds = arguments[0].getBounds();
     		if (Phaser.Rectangle.intersects(targeterBounds, entityBounds)) {
                 closest = arguments[0];
-                tag.text = /*Add random percentage*/(Math.random() * 100).toFixed(2) + "% AI  ";
+                if (closest.type == "Enemy" || (Math.random() * 100) <= (upgrades.inhumanity)) {
+                    tag.text = /*Add random percentage*/" AI: " + ((Math.random() * upgrades.inhumanity) + (100 - upgrades.inhumanity)).toFixed(1) + "% Confidence  ";
+                }
+                else tag.text = "Civilian  ";
             }
     	}, this, [ null ]);
         pickables.forEachExists(function () {
@@ -496,7 +500,7 @@ function makeGhost(targetx, targety) {
 	for (var i = 0; i < 5; i++) {
 		var xtotal = player.com.x + targetx * i;
 		var ytotal = player.com.y + targety * i;
-		
+
 		var ghost = game.add.sprite(xtotal / (i + 1), ytotal / (i + 1), "head");
 		ghost.anchor.x = 0.25;
 		ghost.anchor.y = 0.5;
@@ -504,7 +508,7 @@ function makeGhost(targetx, targety) {
 		ghost.tryalpha = i+1/6;
 		ghost.alpha = ghost.tryalpha;
 		ghost.pickableName = "ghost";
-		
+
 		ghost.logic = function() {
 			if (this.tryalpha > 0) {
 				this.tryalpha -= 0.02;
@@ -519,7 +523,7 @@ function makeGhost(targetx, targety) {
 				this.destroy();
 			}
 		}
-		
+
 		pickables.add(ghost);
 	}
 }
