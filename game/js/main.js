@@ -76,7 +76,7 @@ var parallaxSprite;
 var longStyle;
 var shortStyle;
 var curAI;
-function createDefaults() {
+function createDefaults(x, y) {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 	game.renderer.renderSession.roundPixels = true;
 	Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
@@ -88,11 +88,7 @@ function createDefaults() {
 
 	pickables = game.add.group();
 	aigroup = game.add.group();
-
-	var x, y;
-	x = getRandomInt(300, 500);
-	y = getRandomInt(200, 400);
-
+	
 	player = new Player(game, x, y);
 	targeter = game.add.sprite(100, 100, 'reticle');
 
