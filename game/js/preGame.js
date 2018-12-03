@@ -159,22 +159,12 @@ var MainMenu = {
 			if (this.startBtn.input.justOut(0, 500)) {
 				this.startBtn.alpha = 0.3;
 			}
-			if (this.startBtn.input.justPressed(0, 500)) {
-				this.startBtn.alpha = 1;
-				this.targetScene = "openingScene";
-				this.leaving = true;
-			}
 			
 			if (this.howToPlayBtn.input.justOver(0, 500)) {
 				this.howToPlayBtn.alpha = 1;
 			}
 			if (this.howToPlayBtn.input.justOut(0, 500)) {
 				this.howToPlayBtn.alpha = 0.3;
-			}
-			if (this.howToPlayBtn.input.justPressed(0, 500)) {
-				this.howToPlayBtn.alpha = 1;
-				this.targetScene = "howToPlay";
-				this.leaving = true;
 			}
 			
 			if (this.creditsBtn.input.justOver(0, 500)) {
@@ -183,10 +173,25 @@ var MainMenu = {
 			if (this.creditsBtn.input.justOut(0, 500)) {
 				this.creditsBtn.alpha = 0.3;
 			}
-			if (this.creditsBtn.input.justPressed(0, 500)) {
-				this.creditsBtn.alpha = 1;
-				this.targetScene = "credits";
-				this.leaving = true;
+			
+			if (!this.justStarted) {
+				if (this.startBtn.input.justPressed(0, 500)) {
+					this.startBtn.alpha = 1;
+					this.targetScene = "openingScene";
+					this.leaving = true;
+				}
+				
+				if (this.howToPlayBtn.input.justPressed(0, 500)) {
+					this.howToPlayBtn.alpha = 1;
+					this.targetScene = "howToPlay";
+					this.leaving = true;
+				}
+			
+				if (this.creditsBtn.input.justPressed(0, 500)) {
+					this.creditsBtn.alpha = 1;
+					this.targetScene = "credits";
+					this.leaving = true;
+				}
 			}
 		}
 		else {
