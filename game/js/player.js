@@ -234,6 +234,9 @@ class Player {
 			//makeGhost(targeter.x, targeter.y);
             player.blink(targeter.x, targeter.y);
 		}
+        if (upgrades.typhoonActive && game.input.keyboard.isDown(Phaser.Keyboard.Q)) {
+            upgrades.typhoon.shoot();
+        }
     }
 
 	dropWeapon() {
@@ -493,7 +496,7 @@ function createCorpse(person, anim) {
 	corpse.anchor.x = 0.75;
 	corpse.anchor.y = 0.5;
 	corpse.pickableName = "corpse";
-	
+
 	game.physics.enable(corpse, Phaser.Physics.ARCADE);
 
 	corpse.angle = person.angle;

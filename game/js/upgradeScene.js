@@ -83,7 +83,8 @@ addUpgradeConf({
 	desc: "Powerful bullets are fired in every direction.",
 	frame:6,
 	action:function() {
-		upgrades.typoon = true;
+		upgrades.typhoonActive = true;
+		upgrades.typhoon = null;
 		meleeDamage = 1000;
 		upgrades.inhumanity += 15;
 	}
