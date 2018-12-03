@@ -39,7 +39,7 @@ function autorifle(owner) {
 		shotsFired = true;
 	});
 	newgun.automatic = true;
-	newgun.fireLimit = 60;
+	newgun.fireLimit = 30;
 	newgun.damage = 10;
 	newgun.bullets.setAll('damage', 10);
 	newgun.weaponName = "Auto Rifle";
