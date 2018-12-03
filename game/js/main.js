@@ -8,7 +8,7 @@ window.onload = function() {
 	game.state.add("main", mainScene);
 	game.state.add("Level1", Level1);
 
-	game.state.start("main");
+	game.state.start("UpgradeScene");
 
     // game.state.add("mainScene", mainScene);
 }
@@ -33,6 +33,8 @@ function loadDefaults() {
 	game.load.image("parallax", "assets/Parallax.png");
 	game.load.spritesheet("pickables", "assets/pickables.png", 32, 32);
 	game.load.image("blackScreen", "assets/blackScreen.png");
+	game.load.spritesheet("upgradeIcons", "assets/Upgrades.png", 32, 32);
+	game.load.image("blackBox", "assets/blackBox.png");
 	loadWeapons();
 	loadEnemies();
 	loadLevels();
@@ -41,6 +43,7 @@ function loadDefaults() {
 
 var parallaxSprite;
 var style = { font: "12px Courier", stroke: '#000000', strokeThickness: 2, fill: "#fff", tabs: 10 };
+var curAI;
 function createDefaults() {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 	game.renderer.renderSession.roundPixels = true;
@@ -84,9 +87,10 @@ function updateDefaults() {
 	}
 
     for (var i = 0; i < aigroup.length; i++) {
-        if(aigroup.getAt(i).exists) aigroup.getAt(i).logic();
+		curAI = aigroup.getAt(i);
+        if(curAI.exists) aigroup.getAt(i).logic();
         if (aigroup.getAt(i).gun != null) {
-            game.physics.arcade.collide(aigroup.getAt(i).gun.bullets, map.wallLayer, function(bullet) {
+            game.physics.arcade.collide(curAI.gun.bullets, map.wallLayer, function(bullet) {
                 bullet.kill();
             });
         }
@@ -105,7 +109,9 @@ function updateDefaults() {
 	player.logic();
 
 	game.physics.arcade.collide(aigroup);
-	game.physics.arcade.collide(aigroup, player.com);
+	game.physics.arcade.collide(aigroup, player.com, function(p, ai) {
+		ai.faceTowards(player.com);
+	});
 	game.physics.arcade.collide(aigroup, map.wallLayer);
 	game.physics.arcade.collide(aigroup, map.coverLayer);
 
@@ -169,6 +175,7 @@ var recCam = {
 function collisionHandler(bullet, ai) {
 	bullet.kill();
 	ai.health -= bullet.damage;
+	ai.faceTowards(player.com);
 	console.log(ai.health);
 	if (ai.health <= 0 || isNaN(ai.health)) ai.kill();
 }
