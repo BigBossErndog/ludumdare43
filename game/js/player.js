@@ -12,6 +12,7 @@ class Player {
         this.cape = null;
         this.legs = null;
         this.gun = null;
+        this.locked = false;
         this.scannerActive = true;
         this.ammoCountActive = false;
         this.speedActive = false;
@@ -66,7 +67,7 @@ class Player {
         this.com.body.velocity.x = this.addedVelocity.x;
         this.com.body.velocity.y = this.addedVelocity.y;
 
-        if (this.gun == null || (this.gun !== 'special' && !this.gun.specialFiring)) {
+        if (this.gun == null || (!this.locked)) {
             if (cursors.left.isDown || wasd.left.isDown)
             {
                 this.com.body.velocity.x += -240;
@@ -122,6 +123,8 @@ class Player {
             capeAngle.sin = (capeAngle.sin - headAngle.sin) * 0.85 + headAngle.sin;
             capeAngle.cos = (capeAngle.cos - headAngle.cos) * 0.85 + headAngle.cos;
             this.cape.angle = Math.atan2(capeAngle.sin, capeAngle.cos) * (180/Math.PI);
+        } else {
+            this.playStandAnimation();
         }
 
 		if (game.input.activePointer.isDown)
@@ -303,7 +306,7 @@ class Player {
     		entityBounds = arguments[0].getBounds();
     		if (Phaser.Rectangle.intersects(targeterBounds, entityBounds)) {
                 closest = arguments[0];
-                if (game.input.activePointer.middleButton.isDown) tag.text = /*Add random percentage*/(Math.random() * 100).toFixed(2) + "% AI  ";
+                tag.text = /*Add random percentage*/(Math.random() * 100).toFixed(2) + "% AI  ";
             }
     	}, this, [ null ]);
         pickables.forEachExists(function () {

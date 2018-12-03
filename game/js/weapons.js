@@ -197,10 +197,16 @@ function typhoon(owner) {
 	typhoon.autoExpandBulletsGroup  = true;
 	typhoon.shoot = function () {
 		if (typhoon.shots >= 1) return;
-		typhoon.specialFiring = true;
+		owner.locked = true;
 		game.time.slowMotion = 5.0;
 		game.time.desiredFps = 300;
 		var success = false;
+
+		game.time.events.repeat(5, 250, function() {
+			aigroup.forEach(function () {
+				if (arguments[0].gun !== undefined) arguments[0].gun.killAll();
+			});
+		}, this, aigroup);
 
 		//insert check for enough bullets to fire full spread
 
@@ -214,7 +220,7 @@ function typhoon(owner) {
 			typhoon.fireLimit = 1;
 		}, this, typhoon);
 		game.time.events.add(Phaser.Timer.SECOND * 2, function() {
-			typhoon.specialFiring = false;
+			owner.locked = false;
 			game.time.slowMotion = 1;
 			game.time.desiredFps = 60;
 		}, this, typhoon);
