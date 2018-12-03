@@ -11,12 +11,12 @@ function makeHuman(x, y, angle) {
 	human.anchor.x = 0.25;
 	human.anchor.y = 0.5;
 	human.shooting = true;
-	
+
 	human.addedVelocity = {
 		x:0,
 		y:0
 	}
-	
+
 	human.type = "Human";
 
 	game.physics.enable(human, Phaser.Physics.ARCADE);
@@ -26,7 +26,7 @@ function makeHuman(x, y, angle) {
 	human.body.maxVelocity.set(100);
 
 	human.body.setSize(20, 20, 6, 6);
-	
+
 	human.addAnimations = function() {
 		var anim;
 
@@ -68,7 +68,7 @@ function makeHuman(x, y, angle) {
 		anim.onComplete.add(function() {
 			this.shooting = false;
 		}, this);
-		
+
 		anim = this.animations.add("pulserifleStand", [80], 1, false);
 		anim = this.animations.add("pulserifleShoot", [81,80], 10, false);
 		anim.onComplete.add(function() {
@@ -89,7 +89,7 @@ function makeHuman(x, y, angle) {
 	human.logic = function() {
 		this.body.velocity.x = this.addedVelocity.x;
 		this.body.velocity.y = this.addedVelocity.y;
-		
+
 		if (shotsFired /*this.canSee(player.com, map.wallLayer)*/) {
 			this.body.velocity.y += Math.sin(this.angle * (Math.PI/180)) * 300;
 			this.body.velocity.x += Math.cos(this.angle * (Math.PI/180)) * 300;
@@ -97,7 +97,7 @@ function makeHuman(x, y, angle) {
 			this.angle += 180;
 			this.animations.play("walk");
 		}
-		
+
 		this.addedVelocity.x = this.addedVelocity.x * 0.8;
 		this.addedVelocity.y = this.addedVelocity.y * 0.8;
 	}
@@ -146,12 +146,12 @@ function makeDefaultEnemy(x, y, angle) {
 	enemy.health = 100;
 	enemy.reloadStart = 0;
 	enemy.shooting = false;
-	
+
 	enemy.addedVelocity = {
 			x:0,
 			y:0
 		}
-	
+
 	enemy.type = "Enemy";
 	enemy.enemyType = "default";
 
@@ -176,7 +176,7 @@ function makeDefaultEnemy(x, y, angle) {
 	enemy.gun = null;
 
 	enemy.recPlayerSight = null;
-	
+
 	enemy.addAnimations = function() {
 		var anim;
 
@@ -218,7 +218,7 @@ function makeDefaultEnemy(x, y, angle) {
 		anim.onComplete.add(function() {
 			this.shooting = false;
 		}, this);
-		
+
 		anim = this.animations.add("pulserifleStand", [80], 1, false);
 		anim = this.animations.add("pulserifleShoot", [81,80], 10, false);
 		anim.onComplete.add(function() {
@@ -228,7 +228,7 @@ function makeDefaultEnemy(x, y, angle) {
 		this.animations.play("stand");
 	}
 	enemy.addAnimations();
-	
+
 	enemy.playStandAnimation = function() {
 		if (this.gun == null) {
 			this.animations.play("stand");
@@ -259,7 +259,7 @@ function makeDefaultEnemy(x, y, angle) {
 			}
 		}
 	}
-	
+
 	enemy.playShootAnimation = function() {
 		if (this.gun != null) {
 			switch (this.gun.weaponName) {
@@ -294,7 +294,7 @@ function makeDefaultEnemy(x, y, angle) {
 			}
 		}
 	}
-	
+
 	enemy.recoil = function(force, direction) {
 		this.addedVelocity.x += Math.cos(direction) * force;
 		this.addedVelocity.y += Math.sin(direction) * force;
@@ -303,7 +303,7 @@ function makeDefaultEnemy(x, y, angle) {
 	enemy.logic = function() {
 		this.body.velocity.x = this.addedVelocity.x;
 		this.body.velocity.y = this.addedVelocity.y;
-		
+
 		if (this.canSee(player.com, map.wallLayer)) {
 			if (this.recPlayerSight != null) {
 				this.recPlayerSight.x = player.com.body.x;
@@ -357,7 +357,7 @@ function makeDefaultEnemy(x, y, angle) {
 				this.recPlayerSight = null;
 			}
 		}
-		
+
 		this.addedVelocity.x = this.addedVelocity.x * 0.8;
 		this.addedVelocity.y = this.addedVelocity.y * 0.8;
 	}
@@ -380,7 +380,7 @@ function makeDefaultEnemy(x, y, angle) {
 
 			a = Math.atan2(Math.sin(toOtherAngle-this.angle*(Math.PI/180)), Math.cos(toOtherAngle-this.angle*(Math.PI/180))) * (180/Math.PI);
 			a = Math.abs(a);
-			
+
 			if (a > 60) {
 				success = false;
 			}
@@ -404,18 +404,18 @@ function makeDefaultEnemy(x, y, angle) {
 
 function makeUnprovokedEnemy(x, y, angle) {
 	var enemy = game.add.sprite(x, y, "enemy");
-	enemy.health = 100;
+	enemy.health = 40;
 	enemy.reloadStart = 0;
 	enemy.shooting = false;
-	
+
 	enemy.addedVelocity = {
 			x:0,
 			y:0
 		}
-	
+
 	enemy.type = "Enemy"
 	enemy.enemyType = "unprovoked";
-	
+
 	enemy.provoked = false;
 
 	enemy.anchor.x = 0.25;
@@ -439,7 +439,7 @@ function makeUnprovokedEnemy(x, y, angle) {
 	enemy.gun = null;
 
 	enemy.recPlayerSight = null;
-	
+
 	enemy.addAnimations = function() {
 		var anim;
 
@@ -481,7 +481,7 @@ function makeUnprovokedEnemy(x, y, angle) {
 		anim.onComplete.add(function() {
 			this.shooting = false;
 		}, this);
-		
+
 		anim = this.animations.add("pulserifleStand", [80], 1, false);
 		anim = this.animations.add("pulserifleShoot", [81,80], 10, false);
 		anim.onComplete.add(function() {
@@ -491,7 +491,7 @@ function makeUnprovokedEnemy(x, y, angle) {
 		this.animations.play("stand");
 	}
 	enemy.addAnimations();
-	
+
 	enemy.playStandAnimation = function() {
 		if (this.gun == null) {
 			this.animations.play("stand");
@@ -522,7 +522,7 @@ function makeUnprovokedEnemy(x, y, angle) {
 			}
 		}
 	}
-	
+
 	enemy.playShootAnimation = function() {
 		if (this.gun != null) {
 			switch (this.gun.weaponName) {
@@ -557,7 +557,7 @@ function makeUnprovokedEnemy(x, y, angle) {
 			}
 		}
 	}
-	
+
 	enemy.recoil = function(force, direction) {
 		this.addedVelocity.x += Math.cos(direction) * force;
 		this.addedVelocity.y += Math.sin(direction) * force;
@@ -566,7 +566,7 @@ function makeUnprovokedEnemy(x, y, angle) {
 	enemy.logic = function() {
 		this.body.velocity.x = this.addedVelocity.x;
 		this.body.velocity.y = this.addedVelocity.y;
-		
+
 		if (this.canSee(player.com, map.wallLayer) && this.provoked) {
 			if (this.recPlayerSight != null) {
 				this.recPlayerSight.x = player.com.body.x;
@@ -620,7 +620,7 @@ function makeUnprovokedEnemy(x, y, angle) {
 				this.recPlayerSight = null;
 			}
 		}
-		
+
 		this.addedVelocity.x = this.addedVelocity.x * 0.8;
 		this.addedVelocity.y = this.addedVelocity.y * 0.8;
 	}
@@ -643,7 +643,7 @@ function makeUnprovokedEnemy(x, y, angle) {
 
 			a = Math.atan2(Math.sin(toOtherAngle-this.angle*(Math.PI/180)), Math.cos(toOtherAngle-this.angle*(Math.PI/180))) * (180/Math.PI);
 			a = Math.abs(a);
-			
+
 			if (a > 60) {
 				success = false;
 			}
