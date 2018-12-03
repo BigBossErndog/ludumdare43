@@ -3,7 +3,8 @@ var game;
 WebFontConfig = {
 
 	active: function() { game.time.events.add(Phaser.Timer.SECOND, function () {
-		style = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 15 };
+		longStyle = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 15 };
+		shortStyle = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10 };
 	}, this); },
 
     google: {
@@ -71,7 +72,8 @@ function loadDefaults() {
 }
 
 var parallaxSprite;
-var style;
+var longStyle;
+var shortStyle;
 var curAI;
 function createDefaults() {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -97,10 +99,10 @@ function createDefaults() {
     targeter.anchor.y = 0.5;
 	targeter.fixedToCamera = true;
 
-	ammoCount = game.add.text(0, 0, "AMMO:", style);
+	ammoCount = game.add.text(0, 0, "AMMO:", shortStyle);
 	ammoCount.visible = false;
 	ammoCount.padding.set(10, 16);
-	tag = game.add.text(0, 0, "AI  ", style);
+	tag = game.add.text(0, 0, "AI  ", longStyle);
 	tag.visible = false;
 	tag.padding.set(10, 16);
 	// triggerQuest(null, intro);
