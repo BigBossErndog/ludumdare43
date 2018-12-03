@@ -161,7 +161,7 @@ var MainMenu = {
 			}
 			if (this.startBtn.input.justPressed(0, 500)) {
 				this.startBtn.alpha = 1;
-				this.targetScene = "Level0";
+				this.targetScene = "openingScene";
 				this.leaving = true;
 			}
 			
