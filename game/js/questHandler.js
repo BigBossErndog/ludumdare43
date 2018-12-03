@@ -60,7 +60,20 @@ function triggerDialogue(trigger, talker, input) {
     x = talker.head === undefined ? talker.body.x : talker.com.x;
     y = talker.head === undefined ? talker.body.y : talker.com.y;
 
-    
+    game.time.events.add(lineDelay, printLine, this, lineArray, index++, x, y, textBox, trigger);
+}
+
+function printLine(lineArray, index, x, y, textBox, trigger) {
+    if (index === lineArray.length) {
+        trigger.destroy();
+        return;
+    }
+
+    textBox.text = lineArray[lineIndex];
+    textBox.x = x;
+    textBox.y = y;
+    //add a repeat in here to continually update the textBox position if the speaker moves when talking
+    game.time.events.add(lineDelay, printLine, this, lineArray, index++, x, y, textBox, trigger);
 }
 
 function triggerSceneChange(trigger, player, game) {
