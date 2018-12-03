@@ -177,6 +177,7 @@ function defaultMelee(owner) {
 	punch.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
 	punch.bulletLifespan = 5;
 	punch.bullets.setAll('damage', meleeDamage);
+	punch.bullets.setAll('alpha', 0);
 	punch.type = "melee";
 	punch.weaponName = /*FALCON*/"Punch";
 

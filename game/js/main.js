@@ -81,6 +81,7 @@ function createDefaults() {
 
 	player.healthBar = game.add.graphics(-2, 15);
 	player.com.addChild(player.healthBar);
+	player.gun = defaultMelee(player);
 }
 
 function updateDefaults() {
