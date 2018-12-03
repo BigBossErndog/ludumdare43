@@ -222,6 +222,9 @@ class Player {
                 }, this);
             } else if (upgrades.blinkRunning) {
 				console.log("Blink Already Active");
+				upgrades.blinkRunning = false;
+				game.time.slowMotion = 1;
+				game.time.desiredFps = 60;
             } else /*flash cooldown somehow*/ console.log("blink on cooldown");
         }
 		
@@ -261,6 +264,7 @@ class Player {
 				break;
 		}
 		if (newPickable != undefined) {
+			this.playStandAnimation();
 			newPickable.dropped = true;
 			this.gun.destroy();
 			this.gun = defaultMelee(this);

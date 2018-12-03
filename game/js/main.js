@@ -3,6 +3,10 @@ var game;
 window.onload = function() {
 	game = new Phaser.Game(400, 300, Phaser.AUTO, ''/*'phaser-canvas'*/, null, false, false);
 
+	game.state.add("boot", BootScene);
+	game.state.add("loading", LoadScene);
+	game.state.add("splashes", Splashes);
+	
 	game.state.add("UpgradeScene", UpgradeScene);
 
 	game.state.add("main", testScene);
@@ -10,7 +14,7 @@ window.onload = function() {
 	game.state.add("Level1", Level1);
 	game.state.add("Level2", Level2);
 
-	game.state.start("Level0");
+	game.state.start("boot");
 
     // game.state.add("mainScene", mainScene);
 }
