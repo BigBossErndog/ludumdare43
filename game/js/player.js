@@ -15,6 +15,7 @@ class Player {
 		this.healthBar = null;
 		
 		this.health = 100;
+		this.dead = false;
 		
 		this.addedVelocity = {
 			x:0,
@@ -57,6 +58,9 @@ class Player {
     }
 
     logic() {
+		if (this.health <= 0) {
+			return;
+		}
 		this.addedVelocity.x = this.addedVelocity.x * 0.8;
 		this.addedVelocity.y = this.addedVelocity.y * 0.8;
 
@@ -128,7 +132,7 @@ class Player {
 					if (this.gun.shoot(player)) {
 						this.playShootAnimation();
 						this.shooting = true;
-						if (this.gun.weaponName != "Sword") {
+						if (this.gun.weaponName != "Sword" && this.gun.weaponName != "Punch") {
 							aigroup.forEachExists(function(ai) {
 								ai.faceTowards(player.com);
 							});
@@ -161,39 +165,7 @@ class Player {
 				this.weaponPickUpButton = true;
 
 				if (this.gun != null) {
-					var newPickable;
-					switch (this.gun.weaponName) {
-						case "Shot Gun":
-							newPickable = shotgunPickable(this.com.x, this.com.y);
-							newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
-							newPickable.ammo = this.gun.shots;
-							break;
-						case "Pistol":
-							newPickable = pistolPickable(this.com.x, this.com.y);
-							newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
-							newPickable.ammo = this.gun.shots;
-							break;
-						case "Submachine Gun":
-							newPickable = smgPickable(this.com.x, this.com.y);
-							newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
-							newPickable.ammo = this.gun.shots;
-							break;
-						case "Sword":
-							newPickable = swordPickable(this.com.x, this.com.y);
-							newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
-							newPickable.ammo = this.gun.shots;
-							break;
-						case "Auto Rifle":
-							newPickable = autoriflePickable(this.com.x, this.com.y);
-							newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
-							newPickable.ammo = this.gun.shots;
-							break;
-					}
-					if (newPickable != undefined) {
-						newPickable.dropped = true;
-						this.gun.destroy();
-						this.gun = defaultMelee(this);
-					}
+					this.dropWeapon();
 				}
 
 				var canPickUp = true;
@@ -215,6 +187,42 @@ class Player {
         if (upgrades.scannerActive) player.scanner(aigroup, pickables, targeter, tag);
         if (upgrades.ammoCountActive) player.ammoCount(ammoCount, player.gun);
     }
+	
+	dropWeapon() {
+		var newPickable;
+		switch (this.gun.weaponName) {
+			case "Shot Gun":
+				newPickable = shotgunPickable(this.com.x, this.com.y);
+				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+				newPickable.ammo = this.gun.shots;
+				break;
+			case "Pistol":
+				newPickable = pistolPickable(this.com.x, this.com.y);
+				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+				newPickable.ammo = this.gun.shots;
+				break;
+			case "Submachine Gun":
+				newPickable = smgPickable(this.com.x, this.com.y);
+				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+				newPickable.ammo = this.gun.shots;
+				break;
+			case "Sword":
+				newPickable = swordPickable(this.com.x, this.com.y);
+				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+				newPickable.ammo = this.gun.shots;
+				break;
+			case "Auto Rifle":
+				newPickable = autoriflePickable(this.com.x, this.com.y);
+				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+				newPickable.ammo = this.gun.shots;
+				break;
+		}
+		if (newPickable != undefined) {
+			newPickable.dropped = true;
+			this.gun.destroy();
+			this.gun = defaultMelee(this);
+		}
+	}
 
 	makeWeaponAnimations() {
 		var anim;
@@ -386,8 +394,33 @@ class Player {
 			this.healthBar.beginFill(0xbc1e1e);
 			this.healthBar.drawRect(0,0,Math.floor(40*(this.health/100)), 3);
 			this.healthBar.endFill();
-			
-			console.log(this.health);
 		}
 	}
+}
+
+function createCorpse() {
+	var corpse = game.add.sprite(player.com.x, player.com.y, "deathAnim");
+	corpse.anchor.x = 0.75;
+	corpse.anchor.y = 0.5;
+	corpse.pickableName = "corpse";
+	
+	game.physics.enable(corpse, Phaser.Physics.ARCADE);
+	
+	corpse.angle = player.com.angle;
+	corpse.body.drag.x = 600;
+	corpse.body.drag.y = 600;
+	
+	corpse.body.velocity.x = Math.cos(corpse.angle * (Math.PI/180) + Math.PI) * 300;
+	corpse.body.velocity.y = Math.sin(corpse.angle * (Math.PI/180) + Math.PI) * 300;
+	
+	corpse.animations.add("die", [0,1,2,3], 10, false);
+	corpse.play("die");
+	
+	corpse.logic = function() {
+		
+	}
+	
+	pickables.add(corpse);
+	
+	return corpse;
 }
