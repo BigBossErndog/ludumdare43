@@ -227,6 +227,24 @@ class Player {
 
         if (upgrades.scannerActive) player.scanner(aigroup, pickables, targeter, tag);
         if (upgrades.ammoCountActive) player.ammoCount(ammoCount, player.gun);
+        if (upgrades.blinkActive && game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+            if (Date.now() - upgrades.lastBlink >= 10000 && !upgrades.blinkRunning) {
+                upgrades.blinkRunning = true;
+                game.time.slowMotion = 50.0;
+        		game.time.desiredFps = 30000;
+
+        		game.time.events.add(8000, function() {
+                    game.time.slowMotion = 1;
+                    game.time.desiredFps = 60;
+                    upgrades.blinkRunning = false;
+                }, this);
+            } else if (upgrades.blinkRunning) {
+                console.log("blink already active");
+            } else /*flash cooldown somehow*/ console.log("blink on cooldown");
+        }
+        if (upgrades.blinkActive && upgrades.blinkRunning && game.input.keyboard.isDown(Phaser.Keyboard.Q)) {
+            player.blink(targeter.x, targeter.y);
+        }
     }
 
 	makeWeaponAnimations() {
@@ -376,14 +394,25 @@ class Player {
     	ammoCount.y = this.com.y + 20;
     }
 
-    blink(mouse) {
-        let requestedDistance = Math.sqrt(Math.pow(mouse.x - this.com.x, 2) + Math.pow(mouse.y - this.com.y, 2));
-        if (requestedDistance > 1024
+    blink(targetx, targety) {
+        let requestedDistance = Math.sqrt(Math.pow(targetx - this.com.x, 2) + Math.pow(targety - this.com.y, 2));
+        if (requestedDistance > 240) {
+            targetx *= (240 / requestedDistance);
+            targety *= (240 / requestedDistance);
+        }
         sightLine.start.set(this.com.x, this.com.y);
-        sightLine.end.set(mouse.x, mouse.y);
+        sightLine.end.set(targetx, targety);
 
-        var hits = layer.getRayCastTiles_custom(sightLine, 4, false, true);
-
+        var hits = map.wallLayer.getRayCastTiles_custom(sightLine, 4, false, true);
+        hits = hits.concat(map.coverLayer.getRayCastTiles_custom(sightLine, 4, false, true));
+        if (hits.length === 0) {
+            player.com.x = targetx;
+            player.com.y = targety;
+            upgrades.lastBlink = Date.now();
+            upgrades.blinkRunning = false;
+            game.time.slowMotion = 1;
+            game.time.desiredFps = 60;
+        } else console.log("obstruction");
     }
 
 	drawHealth() {
