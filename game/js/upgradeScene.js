@@ -139,7 +139,7 @@ var UpgradeScene = {
 				this.getUpgrade.y = this.upgradeDesc.bottom + 5;
 				this.skipUpgrades.y = this.getUpgrade.bottom + 5;
 				
-				if (this.getUpgrades.input.justPressed(0, 1000)) {
+				if (this.getUpgrade.input.justPressed(0, 1000)) {
 					this.selectedUpgrade.action();
 					this.leaving = true;
 				}

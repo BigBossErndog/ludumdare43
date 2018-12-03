@@ -64,6 +64,11 @@ function makeHuman(x, y, angle) {
 	human.faceTowards = function(other) {
 		this.angle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x) * (180/Math.PI);
 	}
+	
+	human.addForce = function(x, y) {
+		this.body.velocity.x += x;
+		this.body.velocity.y += y;
+	}
 
 	return human;
 }
@@ -157,6 +162,11 @@ function makeDefaultEnemy(x, y, angle) {
 	
 	enemy.faceTowards = function(other) {
 		this.angle = Math.atan2(other.body.y - this.body.y, other.body.x - this.body.x) * (180/Math.PI);
+	}
+	
+	enemy.addForce = function(x, y) {
+		this.body.velocity.x += x;
+		this.body.velocity.y += y;
 	}
 
 	return enemy;

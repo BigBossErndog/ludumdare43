@@ -23,7 +23,7 @@ function createControls() {
     };
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.R ]);
-
+	
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.E ]);
 	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.CONTROL ]);
 	
@@ -76,6 +76,9 @@ function createDefaults() {
 	tag = game.add.text(0, 0, "AI  ", style);
 	// triggerQuest(null, intro);
 	player.ammoCountActive = true;
+	
+	player.healthBar = game.add.graphics(-2, 15);
+	player.com.addChild(player.healthBar);
 }
 
 function updateDefaults() {
@@ -84,7 +87,7 @@ function updateDefaults() {
 
 	if (player.gun != null) {
 		game.physics.arcade.overlap(player.gun.bullets, aigroup, collisionHandler, null, this);
-
+		
 		game.physics.arcade.collide(player.gun.bullets, map.wallLayer, function(bullet) {
 			bullet.kill();
 		});
@@ -95,6 +98,14 @@ function updateDefaults() {
         if(curAI.exists) aigroup.getAt(i).logic();
         if (aigroup.getAt(i).gun != null) {
             game.physics.arcade.collide(curAI.gun.bullets, map.wallLayer, function(bullet) {
+                bullet.kill();
+            });
+			game.physics.arcade.overlap(curAI.gun.bullets, player.com, function(playercom, bullet) {
+				player.health -= bullet.damage;
+				player.recoil(150, bullet.angle * (Math.PI/180));
+				if (player.health < 0) {
+					playercom.kill();
+				}
                 bullet.kill();
             });
         }
@@ -145,6 +156,8 @@ function updateDefaults() {
 			ai.kill();
 		});
 	}
+	
+	player.drawHealth();
 }
 
 var player;
@@ -185,6 +198,6 @@ function collisionHandler(bullet, ai) {
 	bullet.kill();
 	ai.health -= bullet.damage;
 	ai.faceTowards(player.com);
-	console.log(ai.health);
+	ai.addForce(Math.sin(bullet.angle * (Math.PI/180)) * 150, Math.cos(bullet.angle * (Math.PI/180)) * 150);
 	if (ai.health <= 0 || isNaN(ai.health)) ai.kill();
 }
