@@ -40,6 +40,7 @@ function loadDefaults() {
 	game.load.image("blackBox", "assets/blackBox.png");
 	game.load.image("getUpgrade", "assets/getUpgrade.png");
 	game.load.image("skipUpgrade", "assets/skipUpgrades.png");
+	game.load.spritesheet("deathAnim", "assets/deathAnim.png", 64, 32);
 	loadWeapons();
 	loadEnemies();
 	loadLevels();
@@ -106,8 +107,12 @@ function updateDefaults() {
 			game.physics.arcade.overlap(curAI.gun.bullets, player.com, function(playercom, bullet) {
 				player.health -= bullet.damage;
 				player.recoil(150, bullet.angle * (Math.PI/180));
-				if (player.health < 0) {
+				if (player.health <= 0 && !player.dead) {
+					player.com.angle = bullet.angle + 180;
+					player.dropWeapon();
+					createCorpse();
 					playercom.kill();
+					player.dead = true;
 				}
                 bullet.kill();
             });
@@ -152,7 +157,7 @@ function updateDefaults() {
     recCam.y = (oldcam.y - newcam.y) * 0.9 + newcam.y;
 
     game.camera.focusOnXY(recCam.x, recCam.y);
-
+	
 	if (game.input.keyboard.isDown(Phaser.Keyboard.DELETE)) {
 		console.log("DELETE ALL AI");
 		aigroup.forEachExists(function(ai) {
@@ -161,6 +166,24 @@ function updateDefaults() {
 	}
 
 	player.drawHealth();
+	
+	if (player.dead) {
+		if (blackScreen == null || blackScreen == undefined) {
+			blackScreen = game.add.image(0, 0, "blackScreen");
+			blackScreen.alpha = 0;
+			blackScreen.fixedToCamera = true;
+		}
+		else {
+			if (blackScreen.alpha < 1) {
+				blackScreen.alpha += 0.01;
+			}
+			else {
+				blackScreen = null;
+				game.stage.backgroundColor = "#000000";
+				game.state.restart(true, false);
+			}
+		}
+	}
 }
 
 var player;

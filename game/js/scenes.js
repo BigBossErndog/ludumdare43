@@ -75,7 +75,7 @@ var mainScene = {
 		aigroup.forEachExists(function() {
 			aiCount += 1;
 		});
-		if (aiCount == 0) {
+		if (aiCount == 0 && !player.dead) {
 			if (blackScreen == undefined || blackScreen == null) {
 				blackScreen = game.add.image(0, 0, "blackScreen");
 				blackScreen.alpha = 0;
@@ -111,7 +111,7 @@ var Level1 = {
 		parallaxSprite.fixedToCamera = true;
 		parallaxSprite.anchor.x = 0.5;
 		parallaxSprite.anchor.y = 0.5;
-
+		
 		map = makeLevel("Level1", "Sprite Map 2", "spritemap2");
 
 		createDefaults();
@@ -153,7 +153,7 @@ var Level1 = {
 		aigroup.forEachExists(function() {
 			aiCount += 1;
 		});
-		if (aiCount == 0) {
+		if (aiCount == 0 && !player.dead) {
 			if (blackScreen == undefined || blackScreen == null) {
 				blackScreen = game.add.image(0, 0, "blackScreen");
 				blackScreen.alpha = 0;
