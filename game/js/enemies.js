@@ -176,6 +176,48 @@ function makeDefaultEnemy(x, y, angle) {
 	enemy.gun = null;
 
 	enemy.recPlayerSight = null;
+	
+	enemy.dropWeapon = function() {
+		var newPickable;
+		switch (this.gun.weaponName) {
+			case "Shot Gun":
+				newPickable = shotgunPickable(this.x, this.y);
+				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+				newPickable.ammo = this.gun.shots;
+				break;
+			case "Pistol":
+				newPickable = pistolPickable(this.x, this.y);
+				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+				newPickable.ammo = this.gun.shots;
+				break;
+			case "Submachine Gun":
+				newPickable = smgPickable(this.x, this.y);
+				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+				newPickable.ammo = this.gun.shots;
+				break;
+			case "Sword":
+				newPickable = swordPickable(this.x, this.y);
+				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+				newPickable.ammo = this.gun.shots;
+				break;
+			case "Auto Rifle":
+				newPickable = autoriflePickable(this.x, this.y);
+				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+				newPickable.ammo = this.gun.shots;
+				break;
+			case "Pulse Rifle":
+				newPickable = pulseriflePickable(this.x, this.y);
+				newPickable.setVelocity(Math.random() * 500 - 250, Math.random() * 500 - 250);
+				newPickable.ammo = this.gun.shots;
+				break;
+		}
+		if (newPickable != undefined) {
+			this.playStandAnimation();
+			newPickable.dropped = true;
+			this.gun.destroy();
+			this.gun = defaultMelee(this);
+		}
+	}
 
 	enemy.addAnimations = function() {
 		var anim;

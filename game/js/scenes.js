@@ -57,7 +57,7 @@ var testScene = {
 			newEnemy.gun = autorifle(newEnemy);
 			aigroup.add(newEnemy);
 		}
-
+		
 		var spawnPoints = [ [67,45], [123,80], [346, 90], [456, 370], [190, 500] ];
 		for (var i = 0; i < 5; i++) {
 			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
@@ -106,6 +106,7 @@ var testScene = {
 		aigroup.forEachExists(function(ai) {
 			if (ai.type == "Enemy") aiCount += 1;
 		});
+		aiLeftTxt.text = "G.O.L.E.M. left: " + aiCount;
 		if (aiCount == 0 && !player.dead) {
 			if (blackScreen == undefined || blackScreen == null) {
 				blackScreen = game.add.image(0, 0, "blackScreen");
@@ -192,6 +193,7 @@ var Level0 = {
 		aigroup.forEachExists(function(ai) {
 			if (ai.type == "Enemy") aiCount += 1;
 		});
+		aiLeftTxt.text = "G.O.L.E.M. left: " + aiCount;
 		if (aiCount == 0 && !player.dead) {
 			if (blackScreen == undefined || blackScreen == null) {
 				blackScreen = game.add.image(0, 0, "blackScreen");
@@ -299,6 +301,7 @@ var Level1 = {
 		aigroup.forEachExists(function(ai) {
 			if (ai.type == "Enemy") aiCount += 1;
 		});
+		aiLeftTxt.text = "G.O.L.E.M. left: " + aiCount;
 		if (aiCount == 0 && !player.dead) {
 			if (blackScreen == undefined || blackScreen == null) {
 				blackScreen = game.add.image(0, 0, "blackScreen");
@@ -413,6 +416,7 @@ var Level2 = {
 		aigroup.forEachExists(function(ai) {
 			if (ai.type == "Enemy") aiCount += 1;
 		});
+		aiLeftTxt.text = "G.O.L.E.M left: " + aiCount;
 		if (aiCount == 0 && !player.dead) {
 			if (blackScreen == undefined || blackScreen == null) {
 				blackScreen = game.add.image(0, 0, "blackScreen");
@@ -513,6 +517,7 @@ var Level3 = {
 		aigroup.forEachExists(function(ai) {
 			if (ai.type == "Enemy") aiCount += 1;
 		});
+		aiLeftTxt.text = "G.O.L.E.M left: " + aiCount;
 		if (aiCount == 0 && !player.dead) {
 			if (blackScreen == undefined || blackScreen == null) {
 				blackScreen = game.add.image(0, 0, "blackScreen");
@@ -607,6 +612,7 @@ var Level4 = {
 		aigroup.forEachExists(function(ai) {
 			if (ai.type == "Enemy") aiCount += 1;
 		});
+		aiLeftTxt.text = "G.O.L.E.M left: " + aiCount;
 		if (aiCount == 0 && !player.dead) {
 			if (blackScreen == undefined || blackScreen == null) {
 				blackScreen = game.add.image(0, 0, "blackScreen");
