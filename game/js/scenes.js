@@ -79,7 +79,7 @@ var testScene = {
 		for (var i = 0; i < 5; i++) {
 			let newPickable = autoriflePickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
 		}
-		
+
 		checkInhuman();
 	},
 
@@ -168,7 +168,7 @@ var Level0 = {
 		trigger.triggered = false;
 		console.log(trigger.talker);
 		triggers.push(trigger);
-		
+
 		checkInhuman();
 	},
 
@@ -268,17 +268,17 @@ var Level1 = {
 
 		var diologue1 = "There's  a  barkeep across town,\ndeal with it.";
 		var diologue2 = "Hey there sir,\ncan I  get you a drink?";
-		
+
 		trigger1.text = diologue1;
 		trigger1.triggered = false;
 		console.log(trigger1.talker);
 		triggers.push(trigger1);
-		
+
 		trigger2.text = diologue2;
 		trigger2.triggered = false;
 		console.log(trigger2.talker);
 		triggers.push(trigger2);
-		
+
 		checkInhuman();
 	},
 
@@ -390,12 +390,12 @@ var Level2 = {
 		trigger.talker = questGiver;
 
 		var diologue = "There's a couple of Golems working here,\nfile their notice for them.";
-		
+
 		trigger.text = diologue;
 		trigger.triggered = false;
 		console.log(trigger.talker);
 		triggers.push(trigger);
-		
+
 		checkInhuman();
 	},
 
@@ -469,9 +469,9 @@ var Level3 = {
 
 		createDefaults(44.5*PXSIZE,4.5*PXSIZE);
 
-		let newPickable = autoriflePickable(56.5*PXSIZE, 21.5*PXSIZE);
 		let newPickable = autoriflePickable(3.5*PXSIZE, 38.5*PXSIZE);
-		let newPickable = shotgunPickable(19.5*PXSIZE, 27.5*PXSIZE);
+		newPickable = autoriflePickable(56.5*PXSIZE, 21.5*PXSIZE);
+		newPickable = shotgunPickable(19.5*PXSIZE, 27.5*PXSIZE);
 
 		var spawnPoints = [ [28*PXSIZE,32*PXSIZE, -0], [21*PXSIZE,30*PXSIZE, 45], [16*PXSIZE,37*PXSIZE, -45] ];
 		for (var i = 0; i < spawnPoints.length; i++) {
@@ -494,7 +494,7 @@ var Level3 = {
 			aigroup.add(newEnemy);
 		}
 
-		var spawnPoints = [[36.5*PXSIZE,29.5*PXSIZE, -90], [21.5*PXSIZE,61.5*PXSIZE, 0], [34.5*PXSIZE,55.5*PXSIZE, 90], [50.5*PXSIZE,50.5*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
+		var spawnPoints = [[36.5*PXSIZE,29.5*PXSIZE, -90], [34.5*PXSIZE,55.5*PXSIZE, 90], [50.5*PXSIZE,50.5*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
 		[56.5*PXSIZE,27.5*PXSIZE, 180] ];
 		for (var i = 0; i < spawnPoints.length; i++) {
 			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
@@ -518,7 +518,7 @@ var Level3 = {
 		trigger.triggered = false;
 		console.log(trigger.talker);
 		triggers.push(trigger);
-		
+
 		checkInhuman();
 	},
 
@@ -586,8 +586,10 @@ var Level4 = {
 
 		map = makeLevel("Level4", "Sprite Map 2", "spritemap2");
 
+		var trigger = new Phaser.Rectangle(3*PXSIZE, 26*PXSIZE, 32, 32);
+
 		createDefaults(3.5*PXSIZE,26.5*PXSIZE);
-		
+
 		for (var i = 0; i < 1; i++) {
 			let newPickable = swordPickable(14.5*PXSIZE, 50.5*PXSIZE);
 		}
@@ -598,7 +600,7 @@ var Level4 = {
 			newEnemy.gun = pistol(newEnemy);
 			aigroup.add(newEnemy);
 		}
-		
+
 		var spawnPoints = [[1,25],[3,23],[2,17],[4,14],[11,6],[21,20],[18,18],[17,21],[17,18],[14,12],[12,7],[13,3],[11,2],[9,1],[9,5],[6,3],[7,6],[5,4],[4,3],[3,1],[2,4],[1,8],[7,27],[10,28],[10,26],[9,25],[11,25],[9,22],[6,20],[5,19],[8,19],[13,17],[9,16],[17,22],[19,19],[14,28],[12,27],[11,29],[7,29],[8,27],[7,25],[7,20],[5,12],[7,9],[9,11],[5,17],[8,16],[6,11],[3,11],[22,18],[19,18],[12,19],[13,17],[13,20],[10,17]];
 		for (var i = 0; i < spawnPoints.length; i++) {
 			spawnPoints[i][0] = (spawnPoints[i][0] + 0.5)*PXSIZE;
@@ -609,7 +611,23 @@ var Level4 = {
 			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
 			aigroup.add(human);
 		}
-		
+
+		let questGiver = makeHuman(3.5*PXSIZE,25.5*PXSIZE, -90);
+		aigroup.add(questGiver);
+		trigger.talker = questGiver;
+
+		var diologue;
+		if(upgrades.inhumanity < MAX_HUMANITY) {
+			diologue = "The last one, and you're done.\nYou know the drill.";
+		} else {
+			diologue = "KILL, MAIME, TEAR!";
+		}
+
+		trigger.text = diologue;
+		trigger.triggered = false;
+		console.log(trigger.talker);
+		triggers.push(trigger);
+
 		checkInhuman();
 	},
 
