@@ -79,6 +79,8 @@ var testScene = {
 		for (var i = 0; i < 5; i++) {
 			let newPickable = autoriflePickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
 		}
+
+		checkInhuman();
 	},
 
 	update: function() {
@@ -166,6 +168,8 @@ var Level0 = {
 		trigger.triggered = false;
 		console.log(trigger.talker);
 		triggers.push(trigger);
+
+		checkInhuman();
 	},
 
 	update: function() {
@@ -240,7 +244,7 @@ var Level1 = {
 		createDefaults(8*PXSIZE,2*PXSIZE);
 
 		var spawnPoints = [ [7*PXSIZE,48*PXSIZE, 45] ];
-		for (var i = 0; i < 1; i++) {
+		for (var i = 0; i < spawnPoints.length; i++) {
 			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1]);
 			newEnemy.gun = defaultMelee(newEnemy);
 			aigroup.add(newEnemy);
@@ -250,7 +254,7 @@ var Level1 = {
 		var spawnPoints = [ [3*PXSIZE, 6*PXSIZE, 0], [11*PXSIZE,6*PXSIZE,0], [19*PXSIZE, 4*PXSIZE, -45], [14*PXSIZE, 12*PXSIZE, 180], [6*PXSIZE,12*PXSIZE,180],
 		[28*PXSIZE,10*PXSIZE,-90], [18*PXSIZE, 7*PXSIZE, 0], [ 24*PXSIZE, 17*PXSIZE, 90],  [25*PXSIZE, 4*PXSIZE, 90], [21*PXSIZE,9*PXSIZE],
 		[9*PXSIZE,24*PXSIZE,90], [11.5*PXSIZE,47.5*PXSIZE,180], [8.5*PXSIZE,44.5*PXSIZE, 60], [6.5*PXSIZE,44.5*PXSIZE], [22*PXSIZE,37*PXSIZE,-90] ];
-		for (var i = 0; i < 15; i++) {
+		for (var i = 0; i < spawnPoints.length; i++) {
 			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
 			aigroup.add(human);
 		}
@@ -274,6 +278,8 @@ var Level1 = {
 		trigger2.triggered = false;
 		console.log(trigger2.talker);
 		triggers.push(trigger2);
+
+		checkInhuman();
 	},
 
 	update: function() {
@@ -351,14 +357,14 @@ var Level2 = {
 		}
 
 		var spawnPoints = [ [29*PXSIZE,25*PXSIZE,90], [32*PXSIZE,26*PXSIZE,180] ];
-		for (var i = 0; i < 2; i++) {
+		for (var i = 0; i < spawnPoints.length; i++) {
 			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1]);
 			newEnemy.gun = pistol(newEnemy);
 			aigroup.add(newEnemy);
 		}
 
 		var spawnPoints = [ [48*PXSIZE,61*PXSIZE, -90], [52*PXSIZE,24*PXSIZE, 180] ];
-		for (var i = 0; i < 2; i++) {
+		for (var i = 0; i < spawnPoints.length; i++) {
 			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
 			newEnemy.gun = pistol(newEnemy);
 			aigroup.add(newEnemy);
@@ -366,7 +372,7 @@ var Level2 = {
 
 		var spawnPoints = [[40*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
 		[56*PXSIZE,27*PXSIZE, 180] ];
-		for (var i = 0; i < 5; i++) {
+		for (var i = 0; i < spawnPoints.length; i++) {
 			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
 			newEnemy.gun = pulserifle(newEnemy);
 			aigroup.add(newEnemy);
@@ -374,7 +380,7 @@ var Level2 = {
 
 		var spawnPoints = [ [11*PXSIZE, 52*PXSIZE, 90], [5*PXSIZE, 51*PXSIZE, 0], [12*PXSIZE,59*PXSIZE,-90], [4*PXSIZE,50*PXSIZE, 90], [27*PXSIZE,43*PXSIZE,10],
 		[35*PXSIZE,40*PXSIZE,0], [30*PXSIZE,46*PXSIZE,90],[35*PXSIZE,46*PXSIZE,180],  [27*PXSIZE,27*PXSIZE,0], [24*PXSIZE,28*PXSIZE,0] ];
-		for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < spawnPoints.length; i++) {
 			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
 			aigroup.add(human);
 		}
@@ -389,6 +395,8 @@ var Level2 = {
 		trigger.triggered = false;
 		console.log(trigger.talker);
 		triggers.push(trigger);
+
+		checkInhuman();
 	},
 
 	update: function() {
@@ -461,21 +469,41 @@ var Level3 = {
 
 		createDefaults(44.5*PXSIZE,4.5*PXSIZE);
 
-		for (var i = 0; i < 1; i++) {
-			let newPickable = pulserifle(56.5*PXSIZE, 21.5*PXSIZE);
-		}
+		let newPickable = autoriflePickable(3.5*PXSIZE, 38.5*PXSIZE);
+		newPickable = autoriflePickable(56.5*PXSIZE, 21.5*PXSIZE);
+		newPickable = shotgunPickable(19.5*PXSIZE, 27.5*PXSIZE);
 
-		var spawnPoints = [[36*PXSIZE,20*PXSIZE, -90], [48*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
-		[56*PXSIZE,27*PXSIZE, 180], [52*PXSIZE,24*PXSIZE, 180] ];
-		for (var i = 0; i < 7; i++) {
+		var spawnPoints = [ [28*PXSIZE,32*PXSIZE, -0], [21*PXSIZE,30*PXSIZE, 45], [16*PXSIZE,37*PXSIZE, -45] ];
+		for (var i = 0; i < spawnPoints.length; i++) {
 			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
 			newEnemy.gun = shotgun(newEnemy);
 			aigroup.add(newEnemy);
 		}
 
-		var spawnPoints = [ [11*PXSIZE, 52*PXSIZE, 90], [5*PXSIZE, 51*PXSIZE, 0], [12*PXSIZE,59*PXSIZE,-90], [4*PXSIZE,50*PXSIZE, 90], [27*PXSIZE,43*PXSIZE,10],
-		[35*PXSIZE,40*PXSIZE,0], [30*PXSIZE,46*PXSIZE,90],[35*PXSIZE,46*PXSIZE,180],  [27*PXSIZE,27*PXSIZE,0], [24*PXSIZE,28*PXSIZE,0] ];
-		for (var i = 0; i < 10; i++) {
+		var spawnPoints = [[60*PXSIZE,47*PXSIZE, -90] ];
+		for (var i = 0; i < spawnPoints.length; i++) {
+			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+			newEnemy.gun = autorifle(newEnemy);
+			aigroup.add(newEnemy);
+		}
+
+		var spawnPoints = [[13*PXSIZE,54*PXSIZE, -90], [6*PXSIZE,60*PXSIZE, -90], [19*PXSIZE,48*PXSIZE, 180], [19*PXSIZE,57*PXSIZE, -90] ];
+		for (var i = 0; i < spawnPoints.length; i++) {
+			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+			newEnemy.gun = sword(newEnemy);
+			aigroup.add(newEnemy);
+		}
+
+		var spawnPoints = [[36.5*PXSIZE,29.5*PXSIZE, -90], [34.5*PXSIZE,55.5*PXSIZE, 90], [50.5*PXSIZE,50.5*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
+		[56.5*PXSIZE,27.5*PXSIZE, 180] ];
+		for (var i = 0; i < spawnPoints.length; i++) {
+			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+			newEnemy.gun = pistol(newEnemy);
+			aigroup.add(newEnemy);
+		}
+
+		var spawnPoints = [ [21*PXSIZE, 33*PXSIZE, 90], [3*PXSIZE, 24*PXSIZE, 0], [7*PXSIZE,34*PXSIZE,-90], [53*PXSIZE,29*PXSIZE, 90] ];
+		for (var i = 0; i < spawnPoints.length; i++) {
 			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
 			aigroup.add(human);
 		}
@@ -490,6 +518,8 @@ var Level3 = {
 		trigger.triggered = false;
 		console.log(trigger.talker);
 		triggers.push(trigger);
+
+		checkInhuman();
 	},
 
 	update: function() {
@@ -532,8 +562,6 @@ var Level3 = {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
 					nextLevel = "Level4";
-					upgradeList.push("Punch of Death");
-					upgradeList.push("Bullet Explosion");
 					game.state.start("UpgradeScene", true, false);
 				}
 			}
@@ -558,33 +586,49 @@ var Level4 = {
 
 		map = makeLevel("Level4", "Sprite Map 2", "spritemap2");
 
-		createDefaults(14.5*PXSIZE,17.5*PXSIZE);
+		var trigger = new Phaser.Rectangle(3*PXSIZE, 26*PXSIZE, 32, 32);
+
+		createDefaults(3.5*PXSIZE,26.5*PXSIZE);
 
 		for (var i = 0; i < 1; i++) {
 			let newPickable = swordPickable(14.5*PXSIZE, 50.5*PXSIZE);
 		}
 
-		var spawnPoints = [ [29*PXSIZE,25*PXSIZE,90], [32*PXSIZE,26*PXSIZE,180] ];
-		for (var i = 0; i < 2; i++) {
-			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+		var spawnPoints = [ [20.5*PXSIZE, 16.5*PXSIZE, -180] ];
+		for (var i = 0; i < spawnPoints.length; i++) {
+			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1], spawnPoints[i][2]);
 			newEnemy.gun = pistol(newEnemy);
 			aigroup.add(newEnemy);
 		}
 
-		var spawnPoints = [[40*PXSIZE,61*PXSIZE, -90], [48*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
-		[56*PXSIZE,27*PXSIZE, 180], [52*PXSIZE,24*PXSIZE, 180] ];
-		for (var i = 0; i < 7; i++) {
-			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
-			newEnemy.gun = autorifle(newEnemy);
-			aigroup.add(newEnemy);
+		var spawnPoints = [[1,25],[3,23],[2,17],[4,14],[11,6],[21,20],[18,18],[17,21],[17,18],[14,12],[12,7],[13,3],[11,2],[9,1],[9,5],[6,3],[7,6],[5,4],[4,3],[3,1],[2,4],[1,8],[7,27],[10,28],[10,26],[9,25],[11,25],[9,22],[6,20],[5,19],[8,19],[13,17],[9,16],[17,22],[19,19],[14,28],[12,27],[11,29],[7,29],[8,27],[7,25],[7,20],[5,12],[7,9],[9,11],[5,17],[8,16],[6,11],[3,11],[22,18],[19,18],[12,19],[13,17],[13,20],[10,17]];
+		for (var i = 0; i < spawnPoints.length; i++) {
+			spawnPoints[i][0] = (spawnPoints[i][0] + 0.5)*PXSIZE;
+			spawnPoints[i][1] = (spawnPoints[i][1] + 0.5)*PXSIZE;
+			spawnPoints[i][2] = Math.random() * 360;
 		}
-
-		var spawnPoints = [ [11*PXSIZE, 52*PXSIZE, 90], [5*PXSIZE, 51*PXSIZE, 0], [12*PXSIZE,59*PXSIZE,-90], [4*PXSIZE,50*PXSIZE, 90], [27*PXSIZE,43*PXSIZE,10],
-		[35*PXSIZE,40*PXSIZE,0], [30*PXSIZE,46*PXSIZE,90],[35*PXSIZE,46*PXSIZE,180],  [27*PXSIZE,27*PXSIZE,0], [24*PXSIZE,28*PXSIZE,0] ];
-		for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < spawnPoints.length; i++) {
 			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
 			aigroup.add(human);
 		}
+
+		let questGiver = makeHuman(3.5*PXSIZE,25.5*PXSIZE, -90);
+		aigroup.add(questGiver);
+		trigger.talker = questGiver;
+
+		var diologue;
+		if(upgrades.inhumanity < MAX_HUMANITY) {
+			diologue = "The last one, and you're done.\nYou know the drill.";
+		} else {
+			diologue = "KILL, MAIME, TEAR!";
+		}
+
+		trigger.text = diologue;
+		trigger.triggered = false;
+		console.log(trigger.talker);
+		triggers.push(trigger);
+
+		checkInhuman();
 	},
 
 	update: function() {
@@ -626,9 +670,7 @@ var Level4 = {
 				else {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
-					nextLevel = "EndGame";
-					upgradeList.push("Punch of Death");
-					upgradeList.push("Bullet Explosion");
+					nextLevel = "closingScene";
 					game.state.start("UpgradeScene", true, false);
 				}
 			}

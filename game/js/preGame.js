@@ -6,6 +6,7 @@ var loadTextStyle = { font: "12px Arial", fill: "#0a8293", align: "left" };
 var BootScene = {
 	preload: function() {
 		game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+		game.load.script('gray', 'https://cdn.rawgit.com/photonstorm/phaser-ce/master/filters/Gray.js');
 	},
 
 	create: function() {
@@ -65,7 +66,7 @@ var Splashes = {
 	},
 
 	create: function() {
-		game.state.start("closingScene");
+		game.state.start("mainMenu");
 	},
 
 	update: function() {
