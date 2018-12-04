@@ -59,6 +59,7 @@ function loadDefaults() {
 	game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 	game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
 	game.load.image("parallax", "assets/Parallax.png");
+	game.load.image("parallax2", "assets/Parallax2.png");
 	game.load.spritesheet("pickables", "assets/pickables.png", 32, 32);
 	game.load.image("blackScreen", "assets/blackScreen.png");
 	game.load.spritesheet("upgradeIcons", "assets/Upgrades.png", 32, 32);
@@ -90,7 +91,7 @@ function createDefaults(x, y) {
 
 	pickables = game.add.group();
 	aigroup = game.add.group();
-	
+
 	player = new Player(game, x, y);
 	targeter = game.add.sprite(100, 100, 'reticle');
 
@@ -262,7 +263,7 @@ function collisionHandler(bullet, ai) {
 	ai.faceTowards(player.com);
 	ai.addForce(Math.sin(bullet.angle * (Math.PI/180)) * 150, Math.cos(bullet.angle * (Math.PI/180)) * 150);
 	if (ai.type == "Human") {
-		
+
 	}
 	else if (ai.type == "Enemy") {
 		if (ai.enemyType == "unprovoked") {
