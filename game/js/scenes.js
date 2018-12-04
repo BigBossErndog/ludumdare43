@@ -291,6 +291,8 @@ var Level1 = {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
 					nextLevel = "Level2";
+					upgradeList.push("Leg Enhancement");
+					upgradeList.push("Blink");
 					game.state.start("UpgradeScene", true, false);
 				}
 			}
@@ -383,6 +385,8 @@ var Level2 = {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
 					nextLevel = "testScene";
+					upgradeList.push("Punch of Death");
+					upgradeList.push("Bullet Explosion");
 					game.state.start("UpgradeScene", true, false);
 				}
 			}

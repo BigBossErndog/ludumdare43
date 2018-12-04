@@ -279,6 +279,7 @@ function collisionHandler(bullet, ai) {
 		}
 		else if (ai.type == "Enemy") {
 			createCorpse(ai, "enemyDead");
+			ai.dropWeapon();
 		}
 		ai.kill();
 	}
