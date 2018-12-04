@@ -185,7 +185,7 @@ var MainMenu = {
 					upgrades.restart();
 					upgradeList = [];
 					this.startBtn.alpha = 1;
-					this.targetScene = "Level0";
+					this.targetScene = "openingScene";
 					this.leaving = true;
 				}
 

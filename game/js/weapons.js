@@ -63,18 +63,15 @@ function pulserifle(owner) {
 	newgun.lastBurst = 0;
 	newgun.shoot = function () {
 		if (this.fireLimit - this.shots <= 0) {
+			this.shots = this.fireLimit;
 			return null;
 		}
-		if (Date.now() - this.lastBurst >= 800 && this.shots <= (this.fireLimit - 3)) {
+		if (Date.now() - this.lastBurst >= 800) {
 			this.lastBurst = Date.now();
-			game.time.events.add(50, function() {
+			for (var i = 0; i < 3; i++) {
 				this.fire();
 				this.shots++;
-			}, this, this);
-			game.time.events.add(100, function() {
-				this.fire();
-				// this.shots++;
-			}, this, this);
+			}
 			// game.time.events.add(150, function() {
 			// 	console.log("fire3");
 			// 	console.log(this.fire());
