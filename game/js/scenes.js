@@ -610,7 +610,6 @@ var Level4 = {
 			aigroup.add(human);
 		}
 		
-		upgrades.inhumanity = MAX_HUMANITY;
 		checkInhuman();
 	},
 
