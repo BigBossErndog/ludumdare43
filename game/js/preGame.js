@@ -1,7 +1,7 @@
 var loadbar;
 var logInTxt;
 
-var loadTextStyle = { font: "12px Arial", fill: "#ffffff", align: "left" };
+var loadTextStyle = { font: "12px Arial", fill: "#0a8293", align: "left" };
 
 var BootScene = {
 	preload: function() {
@@ -65,7 +65,7 @@ var Splashes = {
 	},
 
 	create: function() {
-		game.state.start("test");
+		game.state.start("closingScene");
 	},
 
 	update: function() {

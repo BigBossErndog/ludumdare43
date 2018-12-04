@@ -1,6 +1,8 @@
 function triggerQuest(trigger, input) {
     text = game.add.text(15, 15, '', { font: "13px Arial", fill: "#0a8293", tabs: 50, wordWrap: true, wordWrapWidth: 300 });
     text.fixedToCamera = true;
+    wordIndex = 0;
+    lineIndex = 0;
     dialogueArray = input;
     nextLine(trigger);
 }
@@ -103,3 +105,14 @@ var intro = [
     "Because you've got nothing left to lose,",
     "Right?"
 ];
+//
+// var outro = [
+//     "So you finished the contract.",
+//     "You've escaped from the pits of despair that is life under the corp's heel.",
+//     "You think you're out though? What bits of you are left that aren't chrome and silicon?",
+//     "",
+//     "Did you resist the temptation?",
+//     "",
+//     "Colt҉̵͜ę͡ŗ͏ą͞l̸͠l͏~ sons, daughters, mothers, fathers killed: " + totalDeadInnocents + "  ",
+//     "G̶̵̵Ó̵̧LEMS ret̴́́͝i̴͏͢͏r͟͝e̷͏̶d̢̨~ new lives extinguished: " + totalGolemsKilled + "  "
+// ];

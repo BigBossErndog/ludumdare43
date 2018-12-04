@@ -24,7 +24,7 @@ window.onload = function() {
 	game.state.add("loading", LoadScene);
 	game.state.add("splashes", Splashes);
 	game.state.add("mainMenu", MainMenu);
-	
+
 	game.state.add("credits", Credits);
 	game.state.add("howToPlay", HowToPlay);
 
@@ -36,6 +36,8 @@ window.onload = function() {
 	game.state.add("Level2", Level2);
 	game.state.add("Level3", Level3);
 	game.state.add("Level4", Level4);
+
+	game.state.add("closingScene", closingScene);
 
 	// game.state.start("openingScene");
 	game.state.start("boot");
@@ -121,7 +123,7 @@ function createDefaults(x, y) {
 	player.gun = defaultMelee(player);
 	if (upgrades.bulletBombActive) upgrades.bulletBomb = bulletBomb(player);
 	shotsFired = false;
-	
+
 	let style = { font: "12px Arial", fill: "#ffffff", align: "left" };
 	aiLeftTxt = game.add.text(10, 10, "G.O.L.E.M left: 0", style);
 	aiLeftTxt.fixedToCamera = true;
@@ -279,6 +281,8 @@ var recCam = {
     x:0,
     y:0
 }
+var totalDeadInnocents = 0;
+var totalGolemsKilled = 0;
 
 function collisionHandler(bullet, ai) {
 	bullet.kill();
@@ -296,9 +300,11 @@ function collisionHandler(bullet, ai) {
 	if (ai.health <= 0 || isNaN(ai.health)) {
 		ai.angle = bullet.angle + 180;
 		if (ai.type == "Human") {
+			totalDeadInnocents++;
 			createCorpse(ai, "humanDead");
 		}
 		else if (ai.type == "Enemy") {
+			totalGolemsKilled++;
 			createCorpse(ai, "enemyDead");
 			ai.dropWeapon();
 		}

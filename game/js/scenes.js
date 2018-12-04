@@ -57,7 +57,7 @@ var testScene = {
 			newEnemy.gun = autorifle(newEnemy);
 			aigroup.add(newEnemy);
 		}
-		
+
 		var spawnPoints = [ [67,45], [123,80], [346, 90], [456, 370], [190, 500] ];
 		for (var i = 0; i < 5; i++) {
 			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
@@ -631,6 +631,50 @@ var Level4 = {
 					upgradeList.push("Bullet Explosion");
 					game.state.start("UpgradeScene", true, false);
 				}
+			}
+		}
+	}
+}
+
+var closingScene = {
+	finished: false,
+
+	preload: function() {
+		game.load.image("blackScreen", "assets/blackScreen.png");
+		// game.camera.setSize(800, 600);
+		loadDefaults();
+	},
+
+	create: function() {
+		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		game.renderer.renderSession.roundPixels = true;
+		Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
+		// blackScreen = game.add.image(0, 0, "blackScreen");
+		// blackScreen.fixedToCamera = true;
+		// blackScreen.alpha = 1;
+		intro = [
+		    "So you finished the contract.",
+		    "You've escaped from the pits of despair that is life under the corp's heel.",
+		    "You think you're out though?",
+			"What bits of you are left that aren't chrome and silicon?",
+		    "",
+		    "Did you resist the temptation?",
+		    "",
+			"Enhanc̷̨é̢͏̨m̶͡e̴̛̕͢ņ͞҉̢t̢͢͜s̴̡͡~ humanity lost: " + upgrades.inhumanity + "%",
+		    "Colt҉̵͜ę͡ŗ͏ą͞l̸͠l͏ D̴͡a̶͢ḿ̨͝á̸̀g̕͝e̷̢~ sons, daughters, mothers, fathers killed: " + totalDeadInnocents + "  ",
+		    "G̶̵̵Ó̵̧LEMS ret̴́́͝i̴͏͢͏r͟͝e̷͏̶d̢̨~ new lives extinguished: " + totalGolemsKilled + "  ",
+			"                                                           "
+		];
+		triggerQuest(this, intro);
+		game.stage.backgroundColor = '#000';
+		this.counter = 0;
+	},
+
+	update: function() {
+		if (this.finished) {
+			this.counter += 1;
+			if (this.counter > 2 * 60) {
+				game.state.start("credits");
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-const MAX_HUMANITY = 50;
+const MAX_HUMANITY = 40;
 
 class UpgradesEquipped {
 	constructor() {
@@ -13,7 +13,7 @@ class UpgradesEquipped {
 		this.equipped = [];
 		this.inhumanity = 0;
 	}
-	
+
 	restart() {
 		this.scannerActive = false;
         this.ammoCountActive = false;
@@ -182,15 +182,15 @@ var UpgradeScene = {
 		targeter.fixedToCamera = true;
 
 		this.selectedUpgrade = null;
-		
+
 		this.humanityBmd = game.make.bitmapData(21, 50);
 		this.humanityImg = this.humanityBmd.addToWorld();
-		
+
 		this.humanityImg.x = 10;
 		this.humanityImg.y = 300 - 60;
-		
+
 		this.humanityLeft = MAX_HUMANITY - upgrades.inhumanity;
-		
+
 		this.humanityRect = new Phaser.Rectangle(0, 0, 21, 50*(this.humanityLeft/MAX_HUMANITY));
 	},
 
@@ -277,7 +277,7 @@ var UpgradeScene = {
 				}
 			}
 		}
-		
+
 		this.humanityBmd.clear();
 		this.humanityRect.height = 50 * (this.humanityLeft/MAX_HUMANITY);
 		if (this.humanityRect.height < 0) {
