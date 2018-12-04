@@ -130,6 +130,17 @@ function createDefaults(x, y) {
 	console.log(aiLeftTxt)
 }
 
+function checkInhuman() {
+	if (upgrades.inhumanity >= MAX_HUMANITY) {
+		aigroup.forEachExists(function(ai) {
+			ai.loadTexture("human");
+		});
+		
+		var gray = game.add.filter('Gray');
+		game.world.filters = [gray];
+	}
+}
+
 function updateDefaults() {
 	parallaxSprite.cameraOffset.x = game.width*0.5 + game.camera.x/15;
 	parallaxSprite.cameraOffset.y = game.height*0.5 + game.camera.y/15;

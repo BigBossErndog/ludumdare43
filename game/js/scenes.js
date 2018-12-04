@@ -79,6 +79,8 @@ var testScene = {
 		for (var i = 0; i < 5; i++) {
 			let newPickable = autoriflePickable(Math.random() * map.widthInPixels, Math.random() * map.heightInPixels);
 		}
+		
+		checkInhuman();
 	},
 
 	update: function() {
@@ -166,6 +168,8 @@ var Level0 = {
 		trigger.triggered = false;
 		console.log(trigger.talker);
 		triggers.push(trigger);
+		
+		checkInhuman();
 	},
 
 	update: function() {
@@ -264,16 +268,18 @@ var Level1 = {
 
 		var diologue1 = "There's  a  barkeep across town,\ndeal with it.";
 		var diologue2 = "Hey there sir,\ncan I  get you a drink?";
-
+		
 		trigger1.text = diologue1;
 		trigger1.triggered = false;
 		console.log(trigger1.talker);
 		triggers.push(trigger1);
-
+		
 		trigger2.text = diologue2;
 		trigger2.triggered = false;
 		console.log(trigger2.talker);
 		triggers.push(trigger2);
+		
+		checkInhuman();
 	},
 
 	update: function() {
@@ -384,11 +390,13 @@ var Level2 = {
 		trigger.talker = questGiver;
 
 		var diologue = "There's a couple of Golems working here,\nfile their notice for them.";
-
+		
 		trigger.text = diologue;
 		trigger.triggered = false;
 		console.log(trigger.talker);
 		triggers.push(trigger);
+		
+		checkInhuman();
 	},
 
 	update: function() {
@@ -490,6 +498,8 @@ var Level3 = {
 		trigger.triggered = false;
 		console.log(trigger.talker);
 		triggers.push(trigger);
+		
+		checkInhuman();
 	},
 
 	update: function() {
@@ -532,8 +542,6 @@ var Level3 = {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
 					nextLevel = "Level4";
-					upgradeList.push("Punch of Death");
-					upgradeList.push("Bullet Explosion");
 					game.state.start("UpgradeScene", true, false);
 				}
 			}
@@ -558,33 +566,32 @@ var Level4 = {
 
 		map = makeLevel("Level4", "Sprite Map 2", "spritemap2");
 
-		createDefaults(14.5*PXSIZE,17.5*PXSIZE);
-
+		createDefaults(3.5*PXSIZE,26.5*PXSIZE);
+		
 		for (var i = 0; i < 1; i++) {
 			let newPickable = swordPickable(14.5*PXSIZE, 50.5*PXSIZE);
 		}
 
-		var spawnPoints = [ [29*PXSIZE,25*PXSIZE,90], [32*PXSIZE,26*PXSIZE,180] ];
-		for (var i = 0; i < 2; i++) {
-			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+		var spawnPoints = [ [20.5*PXSIZE, 16.5*PXSIZE, -180] ];
+		for (var i = 0; i < spawnPoints.length; i++) {
+			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1], spawnPoints[i][2]);
 			newEnemy.gun = pistol(newEnemy);
 			aigroup.add(newEnemy);
 		}
-
-		var spawnPoints = [[40*PXSIZE,61*PXSIZE, -90], [48*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
-		[56*PXSIZE,27*PXSIZE, 180], [52*PXSIZE,24*PXSIZE, 180] ];
-		for (var i = 0; i < 7; i++) {
-			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
-			newEnemy.gun = autorifle(newEnemy);
-			aigroup.add(newEnemy);
+		
+		var spawnPoints = [[1,25],[3,23],[2,17],[4,14],[11,6],[21,20],[18,18],[17,21],[17,18],[14,12],[12,7],[13,3],[11,2],[9,1],[9,5],[6,3],[7,6],[5,4],[4,3],[3,1],[2,4],[1,8],[7,27],[10,28],[10,26],[9,25],[11,25],[9,22],[6,20],[5,19],[8,19],[13,17],[9,16],[17,22],[19,19],[14,28],[12,27],[11,29],[7,29],[8,27],[7,25],[7,20],[5,12],[7,9],[9,11],[5,17],[8,16],[6,11],[3,11],[22,18],[19,18],[12,19],[13,17],[13,20],[10,17]];
+		for (var i = 0; i < spawnPoints.length; i++) {
+			spawnPoints[i][0] = (spawnPoints[i][0] + 0.5)*PXSIZE;
+			spawnPoints[i][1] = (spawnPoints[i][1] + 0.5)*PXSIZE;
+			spawnPoints[i][2] = Math.random() * 360;
 		}
-
-		var spawnPoints = [ [11*PXSIZE, 52*PXSIZE, 90], [5*PXSIZE, 51*PXSIZE, 0], [12*PXSIZE,59*PXSIZE,-90], [4*PXSIZE,50*PXSIZE, 90], [27*PXSIZE,43*PXSIZE,10],
-		[35*PXSIZE,40*PXSIZE,0], [30*PXSIZE,46*PXSIZE,90],[35*PXSIZE,46*PXSIZE,180],  [27*PXSIZE,27*PXSIZE,0], [24*PXSIZE,28*PXSIZE,0] ];
-		for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < spawnPoints.length; i++) {
 			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
 			aigroup.add(human);
 		}
+		
+		upgrades.inhumanity = MAX_HUMANITY;
+		checkInhuman();
 	},
 
 	update: function() {
@@ -626,9 +633,7 @@ var Level4 = {
 				else {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
-					nextLevel = "EndGame";
-					upgradeList.push("Punch of Death");
-					upgradeList.push("Bullet Explosion");
+					nextLevel = "closingScene";
 					game.state.start("UpgradeScene", true, false);
 				}
 			}
