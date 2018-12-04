@@ -384,7 +384,7 @@ var Level2 = {
 				else {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
-					nextLevel = "testScene";
+					nextLevel = "Level3";
 					upgradeList.push("Punch of Death");
 					upgradeList.push("Bullet Explosion");
 					game.state.start("UpgradeScene", true, false);
@@ -478,7 +478,7 @@ var Level3 = {
 				else {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
-					nextLevel = "testScene";
+					nextLevel = "Level4";
 					upgradeList.push("Punch of Death");
 					upgradeList.push("Bullet Explosion");
 					game.state.start("UpgradeScene", true, false);
@@ -572,7 +572,7 @@ var Level4 = {
 				else {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
-					nextLevel = "testScene";
+					nextLevel = "EndGame";
 					upgradeList.push("Punch of Death");
 					upgradeList.push("Bullet Explosion");
 					game.state.start("UpgradeScene", true, false);
@@ -581,4 +581,3 @@ var Level4 = {
 		}
 	}
 }
-
