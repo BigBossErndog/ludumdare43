@@ -433,6 +433,7 @@ function makeUnprovokedEnemy(x, y, angle) {
 		enemy.angle = angle;
 	}
 	else {
+		console.log("Someone has a random rotation.");
 		enemy.angle = Math.random() * 360;
 	}
 
