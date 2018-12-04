@@ -53,9 +53,9 @@ addUpgradeConf({
 	name: "Optics",
 	desc: "See information about people.",
 	frame:0,
+	inhumanity:6,
 	action:function() {
 		upgrades.scannerActive = true;
-		upgrades.inhumanity += 6;
 	}
 });
 addUpgradeConf({
@@ -183,11 +183,11 @@ var UpgradeScene = {
 
 		this.selectedUpgrade = null;
 		
-		this.humanityBmd = game.add.bitmapdata(21, 50);
+		this.humanityBmd = game.make.bitmapData(21, 50);
 		this.humanityImg = this.humanityBmd.addToWorld();
 		
-		this.humanityImg.x = 2;
-		this.humanityImg.y = 300 - 52;
+		this.humanityImg.x = 10;
+		this.humanityImg.y = 300 - 60;
 		
 		this.humanityLeft = MAX_HUMANITY - upgrades.inhumanity;
 		
@@ -230,6 +230,10 @@ var UpgradeScene = {
 
 					if (upgrades.has(this.selectedUpgrade.conf.name)) {
 						this.getUpgrade.alpha = 0.3;
+						this.humanityLeft = MAX_HUMANITY - upgrades.inhumanity;
+					}
+					else {
+						this.humanityLeft = MAX_HUMANITY - upgrades.inhumanity - this.selectedUpgrade.conf.inhumanity;
 					}
 				}
 			}, this);
@@ -253,6 +257,7 @@ var UpgradeScene = {
 				if (this.skipUpgrades.input.justPressed(0, 1000)) {
 					this.leaving = true;
 					this.skipUpgrades.alpha = 0.3;
+					this.humanityLeft = MAX_HUMANITY - upgrades.inhumanity;
 				}
 			}
 		}
@@ -273,14 +278,13 @@ var UpgradeScene = {
 			}
 		}
 		
-		if (this.selectedUpgrade != null) {
-			this.humanityLeft = MAX_HUMANITY - upgrades.inhumanity - this.selectedUpgrade.conf.inhumanity;
-			this.humanityRect.height = 50 * (this.humanityLeft/MAX_HUMANITY);
-		}
+		this.humanityBmd.clear();
+		this.humanityRect.height = 50 * (this.humanityLeft/MAX_HUMANITY);
 		if (this.humanityRect.height < 0) {
 			this.humanityRect.height = 0;
 		}
-		bmd.copyRect("humanity", this.humanityRect, 21, 50 - this.humanityRect.height);
+		this.humanityRect.y = 50 - this.humanityRect.height;
+		this.humanityBmd.copyRect("humanity", this.humanityRect, 0, 50 - this.humanityRect.height);
 
 		targeter.cameraOffset.x = game.input.activePointer.x;
 		targeter.cameraOffset.y = game.input.activePointer.y;

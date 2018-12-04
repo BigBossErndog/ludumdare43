@@ -23,6 +23,9 @@ window.onload = function() {
 	game.state.add("loading", LoadScene);
 	game.state.add("splashes", Splashes);
 	game.state.add("mainMenu", MainMenu);
+	
+	game.state.add("credits", Credits);
+	game.state.add("howToPlay", HowToPlay);
 
 	game.state.add("UpgradeScene", UpgradeScene);
 
@@ -56,7 +59,6 @@ function createControls() {
 }
 
 function loadDefaults() {
-	game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 	game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
 	game.load.image("parallax", "assets/Parallax.png");
 	game.load.spritesheet("pickables", "assets/pickables.png", 32, 32);

@@ -193,6 +193,8 @@ var Level0 = {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
 					nextLevel = "Level1";
+					upgradeList.push("Optics");
+					upgradeList.push("Ammo Count");
 					game.state.start("UpgradeScene", true, false);
 				}
 			}
