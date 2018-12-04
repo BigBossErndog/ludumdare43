@@ -5,6 +5,7 @@ WebFontConfig = {
 	active: function() { game.time.events.add(Phaser.Timer.SECOND, function () {
 		longStyle = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10/* wordWrap: true, wordWrapWidth: 50 */};
 		shortStyle = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10 };
+		dialogueStyle = { font: "9px Press Start 2P", stroke: '#000000', strokeThickness: 1, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 500 };
 	}, this); },
 
     google: {
@@ -77,6 +78,7 @@ function loadDefaults() {
 var parallaxSprite;
 var longStyle;
 var shortStyle;
+var dialogueStyle;
 var curAI;
 function createDefaults(x, y) {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -202,10 +204,12 @@ function updateDefaults() {
 	}
 
 	triggers.forEach(function (trigger) {
-		if (Phaser.Rectangle.intersects(trigger.getBounds(), player.com.getBounds())) {
-			triggerDialogue(trigger, trigger.talker, trigger.text);
+		if (!trigger.triggered && Phaser.Rectangle.intersects(trigger, player.com.getBounds())) {
+			// trigger.destroy();
+			trigger.triggered = true;
+			triggerDialogue(trigger.talker, trigger.text);
 		}
-	}
+	});
 
 	player.drawHealth();
 
