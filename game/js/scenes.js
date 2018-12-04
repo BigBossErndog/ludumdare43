@@ -453,24 +453,19 @@ var Level3 = {
 
 		map = makeLevel("Level3", "Sprite Map 2", "spritemap2");
 
-		createDefaults(14.5*PXSIZE,17.5*PXSIZE);
+		var trigger = new Phaser.Rectangle(44*PXSIZE, 4*PXSIZE, 32, 32);
+
+		createDefaults(44.5*PXSIZE,4.5*PXSIZE);
 
 		for (var i = 0; i < 1; i++) {
-			let newPickable = swordPickable(14.5*PXSIZE, 50.5*PXSIZE);
+			let newPickable = pulserifle(56.5*PXSIZE, 21.5*PXSIZE);
 		}
 
-		var spawnPoints = [ [29*PXSIZE,25*PXSIZE,90], [32*PXSIZE,26*PXSIZE,180] ];
-		for (var i = 0; i < 2; i++) {
-			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1]);
-			newEnemy.gun = pistol(newEnemy);
-			aigroup.add(newEnemy);
-		}
-
-		var spawnPoints = [[40*PXSIZE,61*PXSIZE, -90], [48*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
+		var spawnPoints = [[36*PXSIZE,20*PXSIZE, -90], [48*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
 		[56*PXSIZE,27*PXSIZE, 180], [52*PXSIZE,24*PXSIZE, 180] ];
 		for (var i = 0; i < 7; i++) {
 			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
-			newEnemy.gun = autorifle(newEnemy);
+			newEnemy.gun = shotgun(newEnemy);
 			aigroup.add(newEnemy);
 		}
 
@@ -480,6 +475,17 @@ var Level3 = {
 			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
 			aigroup.add(human);
 		}
+
+		let questGiver = makeHuman(42.5*PXSIZE,5.5*PXSIZE, 0);
+		aigroup.add(questGiver);
+		trigger.talker = questGiver;
+
+		var diologue = "A whole neighbourhood have\nset up shop here.";
+
+		trigger.text = diologue;
+		trigger.triggered = false;
+		console.log(trigger.talker);
+		triggers.push(trigger);
 	},
 
 	update: function() {
