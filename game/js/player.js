@@ -432,10 +432,14 @@ class Player {
     		if (Phaser.Rectangle.intersects(targeterBounds, entityBounds)) {
                 closest = arguments[0];
                 if (tag.tagged !== arguments[0]) {
-                    if (closest.type == "Enemy" || (Math.random() * 100) <= (upgrades.inhumanity)) {
-                        tag.text = /*Add random percentage*/" AI: " + ((Math.random() * upgrades.inhumanity) + (100 - upgrades.inhumanity)).toFixed(1) + "% CONFIDENCE  ";
+                    if (closest.type == "Enemy") {
+                        if ((Math.random() * 100) <= (upgrades.inhumanity)) tag.text = /*Add random percentage*/" CIVILIAN: " + (Math.random() * upgrades.inhumanity).toFixed(1) + "% CONFIDENCE  ";
+                        else tag.text = " AI: 100% CONFIDENCE  ";
                     }
-                    else tag.text = "CIVILIAN  ";
+                    else {
+                        if ((Math.random() * 100) <= (upgrades.inhumanity)) tag.text = /*Add random percentage*/" AI: " + (Math.random() * upgrades.inhumanity).toFixed(1) + "% CONFIDENCE  ";
+                        else tag.text = "CIVILIAN: 100% CONFIDENCE  ";
+                    }
                 }
             }
     	}, this, [ null ]);
