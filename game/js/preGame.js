@@ -65,7 +65,7 @@ var Splashes = {
 	},
 
 	create: function() {
-		game.state.start("Level0");
+		game.state.start("mainMenu");
 	},
 
 	update: function() {
