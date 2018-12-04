@@ -24,6 +24,9 @@ window.onload = function() {
 	game.state.add("loading", LoadScene);
 	game.state.add("splashes", Splashes);
 	game.state.add("mainMenu", MainMenu);
+	
+	game.state.add("credits", Credits);
+	game.state.add("howToPlay", HowToPlay);
 
 	game.state.add("UpgradeScene", UpgradeScene);
 
@@ -31,6 +34,8 @@ window.onload = function() {
 	game.state.add("Level0", Level0);
 	game.state.add("Level1", Level1);
 	game.state.add("Level2", Level2);
+	game.state.add("Level3", Level3);
+	game.state.add("Level4", Level4);
 
 	// game.state.start("openingScene");
 	game.state.start("boot");
@@ -57,9 +62,9 @@ function createControls() {
 }
 
 function loadDefaults() {
-	game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 	game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
 	game.load.image("parallax", "assets/Parallax.png");
+	game.load.image("parallax2", "assets/Parallax2.png");
 	game.load.spritesheet("pickables", "assets/pickables.png", 32, 32);
 	game.load.image("blackScreen", "assets/blackScreen.png");
 	game.load.spritesheet("upgradeIcons", "assets/Upgrades.png", 32, 32);
@@ -69,6 +74,7 @@ function loadDefaults() {
 	game.load.spritesheet("deathAnim", "assets/deathAnim.png", 64, 32);
 	game.load.spritesheet("humanDead", "assets/humanDead.png", 64, 32);
 	game.load.spritesheet("enemyDead", "assets/enemyDead.png", 64, 32);
+	game.load.image("humanity", "assets/humanity.png");
 	loadWeapons();
 	loadEnemies();
 	loadLevels();
@@ -286,6 +292,7 @@ function collisionHandler(bullet, ai) {
 		}
 		else if (ai.type == "Enemy") {
 			createCorpse(ai, "enemyDead");
+			ai.dropWeapon();
 		}
 		ai.kill();
 	}

@@ -206,6 +206,8 @@ var Level0 = {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
 					nextLevel = "Level1";
+					upgradeList.push("Optics");
+					upgradeList.push("Ammo Count");
 					game.state.start("UpgradeScene", true, false);
 				}
 			}
@@ -232,7 +234,7 @@ var Level1 = {
 
 		createDefaults(8*PXSIZE,2*PXSIZE);
 
-		var spawnPoints = [ [7*PXSIZE,48*PXSIZE, 0] ];
+		var spawnPoints = [ [7*PXSIZE,48*PXSIZE, 45] ];
 		for (var i = 0; i < 1; i++) {
 			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1]);
 			newEnemy.gun = defaultMelee(newEnemy);
@@ -241,7 +243,7 @@ var Level1 = {
 
 		var spawnPoints = [ [3*PXSIZE, 6*PXSIZE, 0], [11*PXSIZE,6*PXSIZE,0], [19*PXSIZE, 4*PXSIZE, -45], [14*PXSIZE, 12*PXSIZE, 180], [6*PXSIZE,12*PXSIZE,180],
 		[28*PXSIZE,10*PXSIZE,-90], [18*PXSIZE, 7*PXSIZE, 0], [ 24*PXSIZE, 17*PXSIZE, 90],  [25*PXSIZE, 4*PXSIZE, 90], [21*PXSIZE,9*PXSIZE],
-		[9*PXSIZE,24*PXSIZE,90], [11.5*PXSIZE,47.5*PXSIZE,180], [8.5*PXSIZE,44.5*PXSIZE], [6.5*PXSIZE,44.5*PXSIZE], [22*PXSIZE,37*PXSIZE,-90] ];
+		[9*PXSIZE,24*PXSIZE,90], [11.5*PXSIZE,47.5*PXSIZE,180], [8.5*PXSIZE,44.5*PXSIZE, 60], [6.5*PXSIZE,44.5*PXSIZE], [22*PXSIZE,37*PXSIZE,-90] ];
 		for (var i = 0; i < 15; i++) {
 			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
 			aigroup.add(human);
@@ -290,6 +292,8 @@ var Level1 = {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
 					nextLevel = "Level2";
+					upgradeList.push("Leg Enhancement");
+					upgradeList.push("Blink");
 					game.state.start("UpgradeScene", true, false);
 				}
 			}
@@ -307,7 +311,7 @@ var Level2 = {
 		this.justStarted = true;
 
 		createControls();
-		parallaxSprite = game.add.sprite(0, 0, "parallax");
+		parallaxSprite = game.add.sprite(0, 0, "parallax2");
 		parallaxSprite.fixedToCamera = true;
 		parallaxSprite.anchor.x = 0.5;
 		parallaxSprite.anchor.y = 0.5;
@@ -327,9 +331,9 @@ var Level2 = {
 			aigroup.add(newEnemy);
 		}
 
-		var spawnPoints = [[38*PXSIZE,61*PXSIZE, -90], [42*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
-		[56*PXSIZE,27*PXSIZE, 180] ];
-		for (var i = 0; i < 6; i++) {
+		var spawnPoints = [[40*PXSIZE,61*PXSIZE, -90], [48*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
+		[56*PXSIZE,27*PXSIZE, 180], [52*PXSIZE,24*PXSIZE, 180] ];
+		for (var i = 0; i < 7; i++) {
 			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
 			newEnemy.gun = autorifle(newEnemy);
 			aigroup.add(newEnemy);
@@ -382,9 +386,200 @@ var Level2 = {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
 					nextLevel = "testScene";
+					upgradeList.push("Punch of Death");
+					upgradeList.push("Bullet Explosion");
 					game.state.start("UpgradeScene", true, false);
 				}
 			}
 		}
 	}
 }
+
+var Level3 = {
+	preload: function() {
+		game.load.tilemap("Level3", "assets/tilemaps/Level3.json", null, Phaser.Tilemap.TILED_JSON);
+		loadDefaults();
+	},
+
+	create: function() {
+		this.justStarted = true;
+
+		createControls();
+		parallaxSprite = game.add.sprite(0, 0, "parallax2");
+		parallaxSprite.fixedToCamera = true;
+		parallaxSprite.anchor.x = 0.5;
+		parallaxSprite.anchor.y = 0.5;
+
+		map = makeLevel("Level3", "Sprite Map 2", "spritemap2");
+
+		createDefaults(14.5*PXSIZE,17.5*PXSIZE);
+
+		for (var i = 0; i < 1; i++) {
+			let newPickable = swordPickable(14.5*PXSIZE, 50.5*PXSIZE);
+		}
+
+		var spawnPoints = [ [29*PXSIZE,25*PXSIZE,90], [32*PXSIZE,26*PXSIZE,180] ];
+		for (var i = 0; i < 2; i++) {
+			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+			newEnemy.gun = pistol(newEnemy);
+			aigroup.add(newEnemy);
+		}
+
+		var spawnPoints = [[40*PXSIZE,61*PXSIZE, -90], [48*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
+		[56*PXSIZE,27*PXSIZE, 180], [52*PXSIZE,24*PXSIZE, 180] ];
+		for (var i = 0; i < 7; i++) {
+			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+			newEnemy.gun = autorifle(newEnemy);
+			aigroup.add(newEnemy);
+		}
+
+		var spawnPoints = [ [11*PXSIZE, 52*PXSIZE, 90], [5*PXSIZE, 51*PXSIZE, 0], [12*PXSIZE,59*PXSIZE,-90], [4*PXSIZE,50*PXSIZE, 90], [27*PXSIZE,43*PXSIZE,10],
+		[35*PXSIZE,40*PXSIZE,0], [30*PXSIZE,46*PXSIZE,90],[35*PXSIZE,46*PXSIZE,180],  [27*PXSIZE,27*PXSIZE,0], [24*PXSIZE,28*PXSIZE,0] ];
+		for (var i = 0; i < 10; i++) {
+			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
+			aigroup.add(human);
+		}
+	},
+
+	update: function() {
+		if (this.justStarted) {
+			if (blackScreen == undefined || blackScreen == null) {
+				blackScreen = game.add.image(0, 0, "blackScreen");
+				blackScreen.fixedToCamera = true;
+				blackScreen.alpha = 1;
+			}
+			else {
+				if (blackScreen.alpha > 0) {
+					blackScreen.alpha -= 0.02;
+				}
+				else {
+					blackScreen.destroy();
+					blackScreen = null;
+					this.justStarted = false;
+				}
+			}
+		}
+
+		updateDefaults();
+
+		let aiCount = 0;
+		aigroup.forEachExists(function(ai) {
+			if (ai.type == "Enemy") aiCount += 1;
+		});
+		if (aiCount == 0 && !player.dead) {
+			if (blackScreen == undefined || blackScreen == null) {
+				blackScreen = game.add.image(0, 0, "blackScreen");
+				blackScreen.alpha = 0;
+				blackScreen.fixedToCamera = true;
+			}
+			else {
+				if (blackScreen.alpha < 1) {
+					blackScreen.alpha += 0.01;
+				}
+				else {
+					blackScreen = null;
+					game.stage.backgroundColor = "#000000";
+					nextLevel = "testScene";
+					upgradeList.push("Punch of Death");
+					upgradeList.push("Bullet Explosion");
+					game.state.start("UpgradeScene", true, false);
+				}
+			}
+		}
+	}
+}
+
+var Level4 = {
+	preload: function() {
+		game.load.tilemap("Level4", "assets/tilemaps/Level4.json", null, Phaser.Tilemap.TILED_JSON);
+		loadDefaults();
+	},
+
+	create: function() {
+		this.justStarted = true;
+
+		createControls();
+		parallaxSprite = game.add.sprite(0, 0, "parallax2");
+		parallaxSprite.fixedToCamera = true;
+		parallaxSprite.anchor.x = 0.5;
+		parallaxSprite.anchor.y = 0.5;
+
+		map = makeLevel("Level4", "Sprite Map 2", "spritemap2");
+
+		createDefaults(14.5*PXSIZE,17.5*PXSIZE);
+
+		for (var i = 0; i < 1; i++) {
+			let newPickable = swordPickable(14.5*PXSIZE, 50.5*PXSIZE);
+		}
+
+		var spawnPoints = [ [29*PXSIZE,25*PXSIZE,90], [32*PXSIZE,26*PXSIZE,180] ];
+		for (var i = 0; i < 2; i++) {
+			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+			newEnemy.gun = pistol(newEnemy);
+			aigroup.add(newEnemy);
+		}
+
+		var spawnPoints = [[40*PXSIZE,61*PXSIZE, -90], [48*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
+		[56*PXSIZE,27*PXSIZE, 180], [52*PXSIZE,24*PXSIZE, 180] ];
+		for (var i = 0; i < 7; i++) {
+			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+			newEnemy.gun = autorifle(newEnemy);
+			aigroup.add(newEnemy);
+		}
+
+		var spawnPoints = [ [11*PXSIZE, 52*PXSIZE, 90], [5*PXSIZE, 51*PXSIZE, 0], [12*PXSIZE,59*PXSIZE,-90], [4*PXSIZE,50*PXSIZE, 90], [27*PXSIZE,43*PXSIZE,10],
+		[35*PXSIZE,40*PXSIZE,0], [30*PXSIZE,46*PXSIZE,90],[35*PXSIZE,46*PXSIZE,180],  [27*PXSIZE,27*PXSIZE,0], [24*PXSIZE,28*PXSIZE,0] ];
+		for (var i = 0; i < 10; i++) {
+			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
+			aigroup.add(human);
+		}
+	},
+
+	update: function() {
+		if (this.justStarted) {
+			if (blackScreen == undefined || blackScreen == null) {
+				blackScreen = game.add.image(0, 0, "blackScreen");
+				blackScreen.fixedToCamera = true;
+				blackScreen.alpha = 1;
+			}
+			else {
+				if (blackScreen.alpha > 0) {
+					blackScreen.alpha -= 0.02;
+				}
+				else {
+					blackScreen.destroy();
+					blackScreen = null;
+					this.justStarted = false;
+				}
+			}
+		}
+
+		updateDefaults();
+
+		let aiCount = 0;
+		aigroup.forEachExists(function(ai) {
+			if (ai.type == "Enemy") aiCount += 1;
+		});
+		if (aiCount == 0 && !player.dead) {
+			if (blackScreen == undefined || blackScreen == null) {
+				blackScreen = game.add.image(0, 0, "blackScreen");
+				blackScreen.alpha = 0;
+				blackScreen.fixedToCamera = true;
+			}
+			else {
+				if (blackScreen.alpha < 1) {
+					blackScreen.alpha += 0.01;
+				}
+				else {
+					blackScreen = null;
+					game.stage.backgroundColor = "#000000";
+					nextLevel = "testScene";
+					upgradeList.push("Punch of Death");
+					upgradeList.push("Bullet Explosion");
+					game.state.start("UpgradeScene", true, false);
+				}
+			}
+		}
+	}
+}
+
