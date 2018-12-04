@@ -55,37 +55,51 @@ function nextLine(trigger) {
     lineIndex++;
 }
 
-function triggerDialogue(trigger, talker, input) {
+var index;
+function triggerDialogue(talker, line) {
+    console.log(talker);
+    var textBox = game.add.text(0, 0, "", dialogueStyle);
     var x, y;
-    x = talker.head === undefined ? talker.body.x : talker.com.x;
-    y = talker.head === undefined ? talker.body.y : talker.com.y;
+    player.locked = true;
+    x = talker.head === undefined ? talker.x : talker.com.x;
+    y = talker.head === undefined ? talker.y : talker.com.y;
+    var index = 0;
+    console.log(index);
 
-    game.time.events.add(lineDelay, printLine, this, lineArray, index++, x, y, textBox, trigger);
+    // game.time.events.repeat(lineDelay, lineArray.length, printLine, this, lineArray, index, x, y, textBox);
+    // for (var i = 0; i < lineArray.length; i++) {
+    //     game.time.events.add(lineDelay * (i + 1), function() {
+    //         console.log("printing");
+    //         if (i === lineArray.length) {
+    //             console.log("print over");
+    //             // trigger.destroy();
+    //             return;
+    //         }
+    //
+    //         console.log(index);
+    //         textBox.text = lineArray[i];
+    //         //add a repeat in here to continually update the textBox position if the speaker moves when talking
+    //         // game.time.events.add(lineDelay, printLine, this, lineArray, index++, x, y, textBox, trigger);
+    //     });
+    // }
+    textBox.x = x - 30;
+    textBox.y = y + 20;
+    textBox.text = line;
+    game.time.events.add(lineDelay, function () {
+        player.locked = false;
+    });
+
 }
 
-function printLine(lineArray, index, x, y, textBox, trigger) {
-    if (index === lineArray.length) {
-        trigger.destroy();
-        return;
-    }
-
-    textBox.text = lineArray[lineIndex];
-    textBox.x = x;
-    textBox.y = y;
-    //add a repeat in here to continually update the textBox position if the speaker moves when talking
-    game.time.events.add(lineDelay, printLine, this, lineArray, index++, x, y, textBox, trigger);
-}
-
-function triggerSceneChange(trigger, player, game) {
-
+function printLine(lineArray, index, x, y, textBox) {
 }
 
 var intro = [
     "You are a wage slave for a megacorp.",
     "Each day the corporation bleeds you of your humanity in the name of profit, and gives you a pittance in return.",
     "You've been given an opportunity however...",
-    "The corp needs someone to volunteer as a G.O.L.E.M. hunter, an  individual  who  finds  and \"recalls\" these G.O.L.E.M.s, artifical intelligence built  for human convenience.",
-    "Its not pretty work, but if the pay is half as much as they say, then it's worth it.",
+    "The 'corp needs someone to volunteer as a G.O.L.E.M. hunter, an  individual  who  finds  and \"recalls\" these G.O.L.E.M.s, artifical intelligence built  for human convenience.",
+    "It's not pretty work, but if the pay is half as much as they say, then it's worth it.",
     "Because you've got nothing left to lose,",
-    "                                        right?"
+    "Right?"
 ];
