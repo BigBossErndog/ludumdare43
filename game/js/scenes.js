@@ -156,11 +156,11 @@ var Level0 = {
 			aigroup.add(newEnemy);
 		}
 
-		let questGiver = makeHuman(10*PXSIZE,10*PXSIZE, 180);
+		let questGiver = makeHuman(4.5*PXSIZE,9.5*PXSIZE, -90);
 		aigroup.add(questGiver);
 		trigger.talker = questGiver;
 
-		var diologue = ["Some edgy shit.", "more edginess"];
+		var diologue = "There's a golem across the way.\nEverything is quiet.\nIt should be easy.";
 
 		trigger.text = diologue;
 		trigger.triggered = false;
@@ -226,6 +226,9 @@ var Level1 = {
 	create: function() {
 		this.justStarted = true;
 
+		var trigger1 = new Phaser.Rectangle(8*PXSIZE, 2*PXSIZE, 32, 32);
+		var trigger2 = new Phaser.Rectangle(8*PXSIZE, 2*PXSIZE, 32, 32);
+
 		createControls();
 		parallaxSprite = game.add.sprite(0, 0, "parallax");
 		parallaxSprite.fixedToCamera = true;
@@ -241,6 +244,7 @@ var Level1 = {
 			let newEnemy = makeUnprovokedEnemy(spawnPoints[i][0], spawnPoints[i][1]);
 			newEnemy.gun = defaultMelee(newEnemy);
 			aigroup.add(newEnemy);
+			trigger2.talker = newEnemy;
 		}
 
 		var spawnPoints = [ [3*PXSIZE, 6*PXSIZE, 0], [11*PXSIZE,6*PXSIZE,0], [19*PXSIZE, 4*PXSIZE, -45], [14*PXSIZE, 12*PXSIZE, 180], [6*PXSIZE,12*PXSIZE,180],
@@ -253,6 +257,23 @@ var Level1 = {
 		for (var i = 0; i < 1; i++) {
 			let newPickable = pistolPickable(9*PXSIZE, 4*PXSIZE);
 		}
+
+		let questGiver = makeHuman(7.5*PXSIZE,3.5*PXSIZE, -90);
+		aigroup.add(questGiver);
+		trigger1.talker = questGiver;
+
+		var diologue1 = "There's  a  barkeep across town,\ndeal with it.";
+		var diologue2 = "Hey there sir,\ncan I  get you a drink?";
+
+		trigger1.text = diologue1;
+		trigger1.triggered = false;
+		console.log(trigger1.talker);
+		triggers.push(trigger1);
+
+		trigger2.text = diologue2;
+		trigger2.triggered = false;
+		console.log(trigger2.talker);
+		triggers.push(trigger2);
 	},
 
 	update: function() {
@@ -321,6 +342,8 @@ var Level2 = {
 
 		map = makeLevel("Level2", "Sprite Map 2", "spritemap2");
 
+		var trigger = new Phaser.Rectangle(14*PXSIZE, 17*PXSIZE, 32, 32);
+
 		createDefaults(14.5*PXSIZE,17.5*PXSIZE);
 
 		for (var i = 0; i < 1; i++) {
@@ -334,11 +357,18 @@ var Level2 = {
 			aigroup.add(newEnemy);
 		}
 
-		var spawnPoints = [[40*PXSIZE,61*PXSIZE, -90], [48*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
-		[56*PXSIZE,27*PXSIZE, 180], [52*PXSIZE,24*PXSIZE, 180] ];
-		for (var i = 0; i < 7; i++) {
+		var spawnPoints = [ [48*PXSIZE,61*PXSIZE, -90], [52*PXSIZE,24*PXSIZE, 180] ];
+		for (var i = 0; i < 2; i++) {
 			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
-			newEnemy.gun = autorifle(newEnemy);
+			newEnemy.gun = pistol(newEnemy);
+			aigroup.add(newEnemy);
+		}
+
+		var spawnPoints = [[40*PXSIZE,61*PXSIZE, -90], [59*PXSIZE,49*PXSIZE, 90], [50*PXSIZE,50*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
+		[56*PXSIZE,27*PXSIZE, 180] ];
+		for (var i = 0; i < 5; i++) {
+			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
+			newEnemy.gun = pulserifle(newEnemy);
 			aigroup.add(newEnemy);
 		}
 
@@ -348,6 +378,17 @@ var Level2 = {
 			let human = makeHuman(spawnPoints[i][0], spawnPoints[i][1]);
 			aigroup.add(human);
 		}
+
+		let questGiver = makeHuman(13.5*PXSIZE,17.5*PXSIZE, 0);
+		aigroup.add(questGiver);
+		trigger.talker = questGiver;
+
+		var diologue = "There's a couple of Golems working here,\nfile their notice for them.";
+
+		trigger.text = diologue;
+		trigger.triggered = false;
+		console.log(trigger.talker);
+		triggers.push(trigger);
 	},
 
 	update: function() {
