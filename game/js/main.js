@@ -137,7 +137,7 @@ function checkInhuman() {
 		aigroup.forEachExists(function(ai) {
 			ai.loadTexture("human");
 		});
-		
+
 		var gray = game.add.filter('Gray');
 		game.world.filters = [gray];
 	}
@@ -222,13 +222,6 @@ function updateDefaults() {
     recCam.y = (oldcam.y - newcam.y) * 0.9 + newcam.y;
 
     game.camera.focusOnXY(recCam.x, recCam.y);
-
-	if (game.input.keyboard.isDown(Phaser.Keyboard.DELETE)) {
-		console.log("DELETE ALL AI");
-		aigroup.forEachExists(function(ai) {
-			ai.kill();
-		});
-	}
 
 	triggers.forEach(function (trigger) {
 		if (!trigger.triggered && Phaser.Rectangle.intersects(trigger, player.com.getBounds())) {

@@ -66,7 +66,7 @@ class Player {
 		this.shooting = false;
 
 		this.recSpace = false;
-		
+
 		this.notifTxt = null;
 		this.notifCounter = 0;
     }
@@ -150,8 +150,8 @@ class Player {
 			if (this.gun != null && (clicked === false || this.gun.automatic) && !upgrades.blinkRunning) {
 				if (this.gun.type === 'special') {
 					var fireResult = this.gun.shoot(player);
-					
-					
+
+
 					if (fireResult) {
 						console.log(this.gun.weaponName)
 						this.playShootAnimation();
@@ -164,11 +164,11 @@ class Player {
 					} else if (this.gun.type !== 'melee' && this.gun.fireLimit <= this.gun.shots && !upgrades.ammoCountActive) {
                         this.noAmmo(ammoCount);
                     }
-					
+
 				}
 				else {
 					var fireResult = this.gun.fire();
-					
+
 					if (fireResult) {
 						console.log(this.gun.weaponName)
 						this.playShootAnimation();
@@ -188,9 +188,9 @@ class Player {
 		if (game.input.activePointer.isUp) {
 			if (clicked === true) clicked = false;
 		}
-		if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
-			if (this.gun !== null) this.gun.resetShots();
-		}
+		// if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
+		// 	if (this.gun !== null) this.gun.resetShots();
+		// }
 
 		if (game.input.keyboard.isDown(Phaser.Keyboard.E) || game.input.keyboard.isDown(Phaser.Keyboard.CONTROL)) {
 			if (!this.weaponPickUpButton) {
@@ -264,7 +264,7 @@ class Player {
         	ammoCount.x = this.com.x - 10;
         	ammoCount.y = this.com.y + 20;
         }
-		
+
 		if (this.notifTxt != null) {
 			this.notifCounter += 1;
 			if (this.notifCounter < 1 * 60) {
