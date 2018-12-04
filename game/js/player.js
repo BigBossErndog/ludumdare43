@@ -66,6 +66,9 @@ class Player {
 		this.shooting = false;
 
 		this.recSpace = false;
+		
+		this.notifTxt = null;
+		this.notifCounter = 0;
     }
 
     logic() {
@@ -146,7 +149,10 @@ class Player {
 		{
 			if (this.gun != null && (clicked === false || this.gun.automatic) && !upgrades.blinkRunning) {
 				if (this.gun.type === 'special') {
-					if (this.gun.shoot(player)) {
+					var fireResult = this.gun.shoot(player);
+					
+					
+					if (fireResult) {
 						console.log(this.gun.weaponName)
 						this.playShootAnimation();
 						this.shooting = true;
@@ -158,9 +164,12 @@ class Player {
 					} else if (this.gun.type !== 'melee' && this.gun.fireLimit <= this.gun.shots && !upgrades.ammoCountActive) {
                         this.noAmmo(ammoCount);
                     }
+					
 				}
 				else {
-					if (this.gun.fire()) {
+					var fireResult = this.gun.fire();
+					
+					if (fireResult) {
 						console.log(this.gun.weaponName)
 						this.playShootAnimation();
 						this.shooting = true;
@@ -231,7 +240,16 @@ class Player {
 				upgrades.blinkRunning = false;
 				game.time.slowMotion = 1;
 				game.time.desiredFps = 60;
-            } else /*flash cooldown somehow*/ console.log("blink on cooldown");
+            } else {
+				/*flash cooldown somehow*/ console.log("blink on cooldown");
+				if (this.notifTxt == null) {
+					let style = { font: "12px Arial", fill: "#ffffff", align: "left" };
+					this.notifTxt = game.add.text(10, 25, "Blink is still cooling", style);
+					this.notifTxt.fixedToCamera = true;
+					this.notifTxt.stroke = '#000000';
+					this.notifTxt.strokeThickness = 3;
+				}
+			}
         }
 
 		if (upgrades.blinkActive && upgrades.blinkRunning && game.input.activePointer.justPressed(1000)) {
@@ -246,6 +264,18 @@ class Player {
         	ammoCount.x = this.com.x - 10;
         	ammoCount.y = this.com.y + 20;
         }
+		
+		if (this.notifTxt != null) {
+			this.notifCounter += 1;
+			if (this.notifCounter < 1 * 60) {
+				this.notifCounter += 1;
+			}
+			else {
+				this.notifCounter = 0;
+				this.notifTxt.destroy();
+				this.notifTxt = null;
+			}
+		}
     }
 
 	dropWeapon() {

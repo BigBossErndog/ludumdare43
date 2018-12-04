@@ -98,7 +98,7 @@ var intro = [
     "You are a wage slave for a megacorp.",
     "Each day the corporation bleeds you of your humanity in the name of profit, and gives you a pittance in return.",
     "You've been given an opportunity however...",
-    "The 'corp needs someone to volunteer as a G.O.L.E.M. hunter, an  individual  who  finds  and \"recalls\" these G.O.L.E.M.s, artifical intelligence built  for human convenience.",
+    "The corp needs someone to volunteer as a G.O.L.E.M. hunter, an individual who finds and \"recalls\" these G.O.L.E.M.s, artifical intelligence built for human convenience.",
     "It's not pretty work, but if the pay is half as much as they say, then it's worth it.",
     "Because you've got nothing left to lose,",
     "Right?"

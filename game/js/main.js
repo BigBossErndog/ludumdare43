@@ -86,6 +86,7 @@ var longStyle;
 var shortStyle;
 var dialogueStyle;
 var curAI;
+var aiLeftTxt;
 function createDefaults(x, y) {
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 	game.renderer.renderSession.roundPixels = true;
@@ -120,6 +121,13 @@ function createDefaults(x, y) {
 	player.gun = defaultMelee(player);
 	if (upgrades.bulletBombActive) upgrades.bulletBomb = bulletBomb(player);
 	shotsFired = false;
+	
+	let style = { font: "12px Arial", fill: "#ffffff", align: "left" };
+	aiLeftTxt = game.add.text(10, 10, "G.O.L.E.M left: 0", style);
+	aiLeftTxt.fixedToCamera = true;
+	aiLeftTxt.stroke = '#000000';
+    aiLeftTxt.strokeThickness = 3;
+	console.log(aiLeftTxt)
 }
 
 function updateDefaults() {
