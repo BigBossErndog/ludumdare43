@@ -469,9 +469,9 @@ var Level3 = {
 
 		createDefaults(44.5*PXSIZE,4.5*PXSIZE);
 
+		let newPickable = autoriflePickable(56.5*PXSIZE, 21.5*PXSIZE);
 		let newPickable = autoriflePickable(3.5*PXSIZE, 38.5*PXSIZE);
-		newPickable = autoriflePickable(56.5*PXSIZE, 21.5*PXSIZE);
-		newPickable = shotgunPickable(19.5*PXSIZE, 27.5*PXSIZE);
+		let newPickable = shotgunPickable(19.5*PXSIZE, 27.5*PXSIZE);
 
 		var spawnPoints = [ [28*PXSIZE,32*PXSIZE, -0], [21*PXSIZE,30*PXSIZE, 45], [16*PXSIZE,37*PXSIZE, -45] ];
 		for (var i = 0; i < spawnPoints.length; i++) {
@@ -494,7 +494,7 @@ var Level3 = {
 			aigroup.add(newEnemy);
 		}
 
-		var spawnPoints = [[36.5*PXSIZE,29.5*PXSIZE, -90], [34.5*PXSIZE,55.5*PXSIZE, 90], [50.5*PXSIZE,50.5*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
+		var spawnPoints = [[36.5*PXSIZE,29.5*PXSIZE, -90], [21.5*PXSIZE,61.5*PXSIZE, 0], [34.5*PXSIZE,55.5*PXSIZE, 90], [50.5*PXSIZE,50.5*PXSIZE, 0], [52*PXSIZE,36*PXSIZE,180],
 		[56.5*PXSIZE,27.5*PXSIZE, 180] ];
 		for (var i = 0; i < spawnPoints.length; i++) {
 			let newEnemy = makeDefaultEnemy(spawnPoints[i][0], spawnPoints[i][1]);
@@ -610,7 +610,6 @@ var Level4 = {
 			aigroup.add(human);
 		}
 		
-		upgrades.inhumanity = MAX_HUMANITY;
 		checkInhuman();
 	},
 
