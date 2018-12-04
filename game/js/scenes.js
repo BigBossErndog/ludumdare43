@@ -137,8 +137,7 @@ var Level0 = {
 	create: function() {
 		this.justStarted = true;
 
-		var trigger = Phaser.Rectangle(5*PXSIZE, 7*PXSIZE, 32, 32);
-		triggers.push(trigger);
+		var trigger = new Phaser.Rectangle(5*PXSIZE, 7*PXSIZE, 32, 32);
 
 		createControls();
 		parallaxSprite = game.add.sprite(0, 0, "parallax");
@@ -161,10 +160,12 @@ var Level0 = {
 		aigroup.add(questGiver);
 		trigger.talker = questGiver;
 
-		var diologue = ["Some edgy shit."];
+		var diologue = ["Some edgy shit.", "more edginess"];
 
 		trigger.text = diologue;
-
+		trigger.triggered = false;
+		console.log(trigger.talker);
+		triggers.push(trigger);
 	},
 
 	update: function() {
@@ -388,7 +389,7 @@ var Level2 = {
 				else {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
-					nextLevel = "testScene";
+					nextLevel = "Level3";
 					upgradeList.push("Punch of Death");
 					upgradeList.push("Bullet Explosion");
 					game.state.start("UpgradeScene", true, false);
@@ -483,7 +484,7 @@ var Level3 = {
 				else {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
-					nextLevel = "testScene";
+					nextLevel = "Level4";
 					upgradeList.push("Punch of Death");
 					upgradeList.push("Bullet Explosion");
 					game.state.start("UpgradeScene", true, false);
@@ -578,7 +579,7 @@ var Level4 = {
 				else {
 					blackScreen = null;
 					game.stage.backgroundColor = "#000000";
-					nextLevel = "testScene";
+					nextLevel = "EndGame";
 					upgradeList.push("Punch of Death");
 					upgradeList.push("Bullet Explosion");
 					game.state.start("UpgradeScene", true, false);
@@ -587,4 +588,3 @@ var Level4 = {
 		}
 	}
 }
-

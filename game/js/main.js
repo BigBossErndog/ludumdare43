@@ -5,6 +5,7 @@ WebFontConfig = {
 	active: function() { game.time.events.add(Phaser.Timer.SECOND, function () {
 		longStyle = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10/* wordWrap: true, wordWrapWidth: 50 */};
 		shortStyle = { font: "6px Press Start 2P", stroke: '#000000', strokeThickness: 0, fill: "#fff", tabs: 10 };
+		dialogueStyle = { font: "9px Press Start 2P", stroke: '#000000', strokeThickness: 1, fill: "#fff", tabs: 10, wordWrap: true, wordWrapWidth: 500 };
 	}, this); },
 
     google: {
@@ -63,6 +64,7 @@ function createControls() {
 function loadDefaults() {
 	game.load.spritesheet('reticle', 'assets/reticle.png', 15, 15);
 	game.load.image("parallax", "assets/Parallax.png");
+	game.load.image("parallax2", "assets/Parallax2.png");
 	game.load.spritesheet("pickables", "assets/pickables.png", 32, 32);
 	game.load.image("blackScreen", "assets/blackScreen.png");
 	game.load.spritesheet("upgradeIcons", "assets/Upgrades.png", 32, 32);
@@ -82,6 +84,7 @@ function loadDefaults() {
 var parallaxSprite;
 var longStyle;
 var shortStyle;
+var dialogueStyle;
 var curAI;
 var aiLeftTxt;
 function createDefaults(x, y) {
@@ -96,7 +99,7 @@ function createDefaults(x, y) {
 
 	pickables = game.add.group();
 	aigroup = game.add.group();
-	
+
 	player = new Player(game, x, y);
 	targeter = game.add.sprite(100, 100, 'reticle');
 
@@ -214,6 +217,14 @@ function updateDefaults() {
 		});
 	}
 
+	triggers.forEach(function (trigger) {
+		if (!trigger.triggered && Phaser.Rectangle.intersects(trigger, player.com.getBounds())) {
+			// trigger.destroy();
+			trigger.triggered = true;
+			triggerDialogue(trigger.talker, trigger.text);
+		}
+	});
+
 	player.drawHealth();
 
 	if (player.dead) {
@@ -275,7 +286,7 @@ function collisionHandler(bullet, ai) {
 	ai.faceTowards(player.com);
 	ai.addForce(Math.sin(bullet.angle * (Math.PI/180)) * 150, Math.cos(bullet.angle * (Math.PI/180)) * 150);
 	if (ai.type == "Human") {
-		
+
 	}
 	else if (ai.type == "Enemy") {
 		if (ai.enemyType == "unprovoked") {
