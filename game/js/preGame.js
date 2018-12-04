@@ -65,7 +65,7 @@ var Splashes = {
 	},
 
 	create: function() {
-		game.state.start("Level2");
+		game.state.start("test");
 	},
 
 	update: function() {
