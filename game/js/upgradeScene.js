@@ -1,3 +1,5 @@
+const MAX_HUMANITY = 50;
+
 class UpgradesEquipped {
 	constructor() {
 		this.scannerActive = false;
@@ -11,9 +13,24 @@ class UpgradesEquipped {
 		this.equipped = [];
 		this.inhumanity = 0;
 	}
+	
+	restart() {
+		this.scannerActive = false;
+        this.ammoCountActive = false;
+        this.speedActive = false;
+        this.blinkActive = false;
+		this.blinkRunning = false;
+		this.lastBlink = 0;
+        this.bulletBombActive = false;
+        this.superPunchActive = false;
+		this.equipped = [];
+		this.inhumanity = 0;
+	}
 
 	get(up) {
-		this.equipped.push(up);
+		if (!this.has(up)) {
+			this.equipped.push(up);
+		}
 	}
 
 	has(up) {
@@ -36,57 +53,57 @@ addUpgradeConf({
 	name: "Optics",
 	desc: "See information about people.",
 	frame:0,
+	inhumanity:6,
 	action:function() {
 		upgrades.scannerActive = true;
-		upgrades.inhumanity += 6;
 	}
 });
 addUpgradeConf({
 	name: "Ammo Count",
 	desc: "See ammo.",
 	frame:1,
+	inhumanity:3,
 	action:function() {
 		upgrades.ammoCountActive = true;
-		upgrades.inhumanity += 3;
 	}
 });
 addUpgradeConf({
 	name: "Leg Enhancement",
 	desc: "Run faster.",
 	frame:2,
+	inhumanity:10,
 	action:function() {
 		upgrades.speedActive = true;
-		upgrades.inhumanity += 10;
 	}
 });
 addUpgradeConf({
 	name: "Blink",
 	desc: "Teleport a short distance.",
 	frame:3,
+	inhumanity:20,
 	action:function() {
 		upgrades.blinkActive = true;
-		upgrades.inhumanity += 20;
 	}
 });
 addUpgradeConf({
 	name: "Punch of Death",
 	desc: "Punches instantly kill.",
 	frame:4,
+	inhumanity:20,
 	action:function() {
 		upgrades.superPunchActive = true;
 		meleeDamage = 1000;
-		upgrades.inhumanity += 20;
 	}
 });
 addUpgradeConf({
 	name: "Bullet Explosion",
 	desc: "Powerful bullets are fired in every direction.",
 	frame:6,
+	inhumanity:15,
 	action:function() {
 		upgrades.bulletBombActive = true;
 		upgrades.bulletBomb = null;
 		meleeDamage = 1000;
-		upgrades.inhumanity += 15;
 	}
 });
 
@@ -165,6 +182,16 @@ var UpgradeScene = {
 		targeter.fixedToCamera = true;
 
 		this.selectedUpgrade = null;
+		
+		this.humanityBmd = game.make.bitmapData(21, 50);
+		this.humanityImg = this.humanityBmd.addToWorld();
+		
+		this.humanityImg.x = 10;
+		this.humanityImg.y = 300 - 60;
+		
+		this.humanityLeft = MAX_HUMANITY - upgrades.inhumanity;
+		
+		this.humanityRect = new Phaser.Rectangle(0, 0, 21, 50*(this.humanityLeft/MAX_HUMANITY));
 	},
 
 	update: function() {
@@ -203,6 +230,10 @@ var UpgradeScene = {
 
 					if (upgrades.has(this.selectedUpgrade.conf.name)) {
 						this.getUpgrade.alpha = 0.3;
+						this.humanityLeft = MAX_HUMANITY - upgrades.inhumanity;
+					}
+					else {
+						this.humanityLeft = MAX_HUMANITY - upgrades.inhumanity - this.selectedUpgrade.conf.inhumanity;
 					}
 				}
 			}, this);
@@ -216,6 +247,7 @@ var UpgradeScene = {
 					this.selectedUpgrade.conf.action();
 					this.selectedUpgrade.alpha = 0.5;
 					upgrades.get(this.selectedUpgrade.conf.name);
+					upgrades.inhumanity += this.selectedUpgrade.conf.inhumanity;
 					this.getUpgrade.alpha = 0.3;
 					this.leaving = true;
 				}
@@ -225,6 +257,7 @@ var UpgradeScene = {
 				if (this.skipUpgrades.input.justPressed(0, 1000)) {
 					this.leaving = true;
 					this.skipUpgrades.alpha = 0.3;
+					this.humanityLeft = MAX_HUMANITY - upgrades.inhumanity;
 				}
 			}
 		}
@@ -244,6 +277,14 @@ var UpgradeScene = {
 				}
 			}
 		}
+		
+		this.humanityBmd.clear();
+		this.humanityRect.height = 50 * (this.humanityLeft/MAX_HUMANITY);
+		if (this.humanityRect.height < 0) {
+			this.humanityRect.height = 0;
+		}
+		this.humanityRect.y = 50 - this.humanityRect.height;
+		this.humanityBmd.copyRect("humanity", this.humanityRect, 0, 50 - this.humanityRect.height);
 
 		targeter.cameraOffset.x = game.input.activePointer.x;
 		targeter.cameraOffset.y = game.input.activePointer.y;

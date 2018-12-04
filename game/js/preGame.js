@@ -1,8 +1,11 @@
 var loadbar;
+var logInTxt;
+
+var loadTextStyle = { font: "12px Arial", fill: "#ffffff", align: "left" };
 
 var BootScene = {
 	preload: function() {
-		
+		game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 	},
 	
 	create: function() {
@@ -12,6 +15,8 @@ var BootScene = {
 		game.stage.backgroundColor = "#000000";
 		
 		loadBar = game.add.graphics();
+		
+		logInTxt = game.add.text(25, 260, "Logging into Humanity.", loadTextStyle);
 	},
 	
 	update: function() {
@@ -176,8 +181,10 @@ var MainMenu = {
 			
 			if (!this.justStarted) {
 				if (this.startBtn.input.justPressed(0, 500)) {
+					upgrades.restart();
+					upgradeList = [];
 					this.startBtn.alpha = 1;
-					this.targetScene = "openingScene";
+					this.targetScene = "Level0";
 					this.leaving = true;
 				}
 				
@@ -209,6 +216,45 @@ var MainMenu = {
 					game.state.start(this.targetScene, true, false);
 				}
 			}
+		}
+	}
+}
+
+var Credits = {
+	preload:function() {
+		
+	},
+	
+	create:function() {
+		logInTxt = game.add.text(10, 10, "Made By:\n\tErnest Placido\n\tSandy Steele\n\tIain Laird", loadTextStyle);
+		logInTxt.text += "\n\nClick to return.";
+	},
+	
+	update: function() {
+		if (game.input.activePointer.justPressed(1000)) {
+			game.state.start("mainMenu", true, false);
+		}
+	}
+}
+
+var HowToPlay = {
+	preload:function() {
+		
+	},
+	
+	create:function() {
+		logInTxt = game.add.text(10, 10, "Instructions", loadTextStyle);
+		logInTxt.text += "\n\tWASD / Arrow Keys - Move";
+		logInTxt.text += "\n\tMouse Left Click - Shoot / Attack";
+		logInTxt.text += "\n\tE - Drop currently equipped weapon / Pick up weapon.";
+		logInTxt.text += "\n\tSpace - Blink (When Blink upgrade is equipped.)";
+		logInTxt.text += "\n\tQ - Bullet Explosion (When Bullet Explosion upgrade is equipped.)";
+		logInTxt.text += "\n\nClick to return.";
+	},
+	
+	update: function() {
+		if (game.input.activePointer.justPressed(1000)) {
+			game.state.start("mainMenu", true, false);
 		}
 	}
 }
