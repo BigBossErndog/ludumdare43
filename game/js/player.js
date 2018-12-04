@@ -21,7 +21,7 @@ class Player {
         this.bulletBombActive = false;
         this.superPunchActive = false;
 
-        this.maxHealth = 400;
+        this.maxHealth = 500;
 		this.health = this.maxHealth;
 
 		this.dead = false;

@@ -71,6 +71,11 @@ function pulserifle(owner) {
 			for (var i = 0; i < 3; i++) {
 				this.fire();
 				this.shots++;
+				
+				if (this.shots >= this.fireLimit) {
+					this.shots = this.fireLimit;
+					break;
+				}
 			}
 			// game.time.events.add(150, function() {
 			// 	console.log("fire3");
@@ -259,7 +264,7 @@ function bulletBomb(owner) {
 				});
 			}, this, aigroup);
 		}, this, bulletBomb);
-
+		
 		//insert check for enough bullets to fire full spread
 
 		game.time.events.add(250, function() {

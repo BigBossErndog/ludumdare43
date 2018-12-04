@@ -247,8 +247,8 @@ var HowToPlay = {
 		logInTxt = game.add.text(10, 10, "Instructions", loadTextStyle);
 		logInTxt.text += "\n\tWASD / Arrow Keys - Move";
 		logInTxt.text += "\n\tMouse Left Click - Shoot / Attack";
-		logInTxt.text += "\n\tE - Drop currently equipped weapon / Pick up weapon.";
-		logInTxt.text += "\n\tSpace - Blink (When Blink upgrade is equipped.)";
+		logInTxt.text += "\n\tE / Ctrl - Drop currently equipped weapon / Pick up weapon.";
+		logInTxt.text += "\n\tSpace then click - Blink \n\t\t(When Blink upgrade is equipped.)";
 		logInTxt.text += "\n\tQ - Bullet Explosion (When Bullet Explosion upgrade is equipped.)";
 		logInTxt.text += "\n\nClick to return.";
 	},
